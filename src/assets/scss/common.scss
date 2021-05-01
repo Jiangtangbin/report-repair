@@ -1,0 +1,590 @@
+// 全局 html，body，#app 样式
+html, body, #app {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: "Source Han Sans CN",
+        "noto sans",
+        "Helvetica Neue",
+        "PingFang SC",
+        "Hiragino Sans GB",
+        "Microsoft YaHei",
+        "微软雅黑",
+        Arial,
+        sans-serif;
+}
+li {
+    list-style: none;
+}
+
+// 浏览器滚动条宽度
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+// 浏览器滚动条轨道颜色、圆角
+::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0);
+	border-radius: 8px;
+}
+// 浏览器滚动条颜色、圆角
+::-webkit-scrollbar-thumb {
+	background-color: #50afff;
+	border-radius: 8px;
+}
+
+// better-scroll 组件滚动条颜色、圆角
+.bscroll-indicator {
+    background-color: #50afff !important;
+    border-color: transparent !important;
+}
+
+// display 方式垂直居中
+.d-v-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// 水平居中
+.t-a {
+    text-align: center;
+}
+
+// 文字超出显示省略号
+.t-o-e {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 光标手势
+.c-p {
+    cursor: pointer;
+}
+
+// 撑满整个容器
+.f-c-i {
+    flex: auto;
+    width: 100% !important;
+}
+
+// 自适应与超出隐藏
+.a-w {
+    overflow: hidden;
+    flex: auto;
+}
+// 保持自身大小
+.k-w {
+    flex: none;
+}
+
+// 禁止元素事件
+.prohibit-event {
+    pointer-events: none;
+}
+
+// 最大权重隐藏，不占位
+.hide {
+    display: none !important;
+}
+  
+// 最大权重隐藏，占位
+.hide-site {
+    visibility: hidden !important;
+}
+
+// 容器
+.col {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 1.22px;
+    > .col2:first-child {
+        margin-right: 10px;
+    }
+    // 容器里的内容二分
+    .col2 {
+        width: 50%;
+        flex: auto;
+    }
+}
+// 容器里的内容三分
+.col-3 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .col3 {
+        width: 33.3%;
+        flex: auto;
+        margin-right: 10px;
+        &:nth-child(3) {
+            margin-right: 0;
+        }
+    }
+}
+// 容器里的内容四分
+.col-4 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    .col4 {
+        width: 25%;
+        flex: auto;
+        margin-right: 10px;
+        &:nth-child(4) {
+            margin-right: 0;
+        }
+    }
+}
+
+// table 列表中操作按钮的样式
+.table-operation {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-btn-control {
+        display: inherit;
+    }
+}
+// tree 中操作按钮的样式
+.tree-operation {
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    &:hover {
+        .table-operation {
+            opacity: 1;
+        }
+    }
+    .table-operation {
+        opacity: 0;
+        margin-left: 10px;
+        &-btn-control {
+            margin-right: 4px;
+        }
+        .ivu-poptip {
+            margin-right: 4px;
+        }
+    }
+}
+
+// 模仿 input 框样式
+.simulate-input {
+    &:empty::before {
+        content: attr(placeholder);
+        max-height: 30px;
+    }
+    width: 100%; max-height: 34px;
+    padding: 0 7px;
+    border-radius: 5px;
+    border: 1px solid #dddee1;
+    cursor: text;
+    transition: border .2s ease-in-out;
+    flex: auto;
+    &:hover {
+        border-color: #2d8cf0;
+    }
+}
+// 模仿 a 标签样式
+.simulate-a {
+    cursor: pointer;
+    transition: $--color-transition-base;
+    text-decoration: underline;
+}
+// 模仿 a 标签样式
+.simulate-a-dark {
+    cursor: pointer;
+    transition: $--color-transition-base;
+    text-decoration: underline;
+}
+
+// 伪类替代元素上的 label 属性并加入颜色
+.pseudo-prefix-empty {
+    &:empty::before {
+        content: attr(label);
+        color: $--btn-disable-color-1;
+        flex: none;
+    }
+}
+// 伪类替代元素上的 label 属性
+.pseudo-prefix {
+    &::before {
+        content: attr(label);
+    }
+}
+
+// 选择框
+.receive-wrapper {
+    overflow: hidden; // 选择框用远为单选
+    flex: auto;
+    display: flex;
+    flex-flow: row wrap;
+    .receive-item {
+        $receive_item-height: 30px;
+        height: $receive_item-height;
+        line-height: $receive_item-height;
+        padding: 0 5px;
+        font-size: 12px;
+        vertical-align: middle;
+        overflow: hidden;
+        background-color: #f7f7f7;
+        display: inline-flex;
+        align-items: center;
+        &-close {
+            height: 10px;
+            margin: 2px 0 0 5px;
+            flex: none;
+        }
+    }
+}
+
+// 图片上传
+.upload-item {
+    width: 50px; height: 50px;
+    margin-right: 8px;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        .upload-item-mask {
+            opacity: 1;
+        }
+    }
+    img {
+        cursor: pointer;
+        max-width: 100%;
+        max-height: 100%;
+    }
+    &-mask {
+        color: white;
+        background-color: rgba(black, .8);
+        pointer-events: none;
+        opacity: 0;
+        position: absolute;
+        top: 0; left: 0;
+        right: 0; bottom: 0;
+        transition: $--fade-transition;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &-trash {
+            pointer-events: auto;
+            margin-left: 4px;
+        }
+    }
+}
+// 文件上传
+.file-item {
+    &-name {
+        margin: 0 5px;
+    }
+}
+
+// 处理小屏或手机的样式
+@media screen and (max-width: 1000px) {
+    .col {
+        flex-flow: column;
+        & > .col2:first-child {
+            margin-right: 0;
+        }
+        .col2 {
+            width: 100%;
+            flex: auto;
+        }
+    }
+    // 定位按钮
+    .ivu-form-item-content .col {
+        flex-flow: inherit;
+    }
+}
+
+// 设置 pc 端 better-scroll 高度，防止超出屏幕
+.popup-scroller {
+    max-height: 100%;
+}
+@media screen and (min-width: 1001px) {
+    .popup-scroller {
+        max-height: calc(80vh - 140px);
+        overflow: hidden;
+    }
+}
+
+// 树形结构组件高度收缩动画 <collapse-transition appear></collapse-transition> appear 为节点渲染完成的初始过渡效果
+.collapse-transition {
+    transition: .2s height ease-in-out, .2s padding-top ease-in-out, .2s padding-bottom ease-in-out;
+}
+
+// 贝塞曲线缓慢显示 <transition name="fade-cubic-bezier"></transition>
+.fade-cubic-bezier-leave-active,
+.fade-enter-active {
+    transition: opacity 0.5s cubic-bezier(0, 1.05, 1, 1);
+}
+.fade-cubic-bezier-enter,
+.fade-cubic-bezier-leave-to {
+    opacity: 0;
+}
+
+// 由右向左缓慢进入，缓慢向右离开 <transition-group name="fade-transform-r-l"></transition-group>
+.fade-transform-r-l-enter-active,
+.fade-transform-r-l-leave-active {
+    transition: all .5s;
+}
+.fade-transform-r-l-enter,
+.fade-transform-r-l-leave-active {
+    opacity: 0;
+    transform: translateX(20px);
+}
+.fade-transform-r-l-move {
+    transition: all .5s;
+}
+.fade-transform-r-l-leave-active {
+    position: absolute;
+}
+
+// 由左向右缓慢进入，缓慢向右离开 <transition name="fade-transform-l-r"></transition>
+.fade-transform-l-r-leave-active,
+.fade-transform-l-r-enter-active {
+  transition: all .5s;
+}
+.fade-transform-l-r-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.fade-transform-l-r-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+// 由上向下缓慢进入，缓慢向上离开 <transition name="slide-u-d"></transition>
+.slide-u-d-enter-active,
+.slide-u-d-leave-active {
+    transition: transform 1s $--ease-out-function,
+        opacity 1s $--ease-out-function;
+    transform: translate(0, 0);
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+.slide-u-d-enter {
+    transform: translate(0, -100%);
+    opacity: 0;
+}
+.slide-u-d-leave-to {
+    transform: translate(0, -100%);
+    opacity: 0;
+}
+
+// 由下向上缓慢进入，缓慢向下离开 <transition name="slide-d-u"></transition>
+.slide-d-u-enter-active,
+.slide-d-u-leave-active {
+    transition: transform 1s $--ease-out-function,
+    opacity 1s $--ease-out-function;
+    transform: translate(0, 0);
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    overflow: hidden;
+}
+.slide-d-u-enter {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+.slide-d-u-leave-to {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+
+// 由下缓慢离开，向上缓慢进入 <transition name="slide-dl-ue"></transition>
+.slide-dl-ue-leave-active,
+.slide-dl-ue-enter-active {
+    transition: all .5s;
+}
+.slide-dl-ue-enter {
+    opacity: 0;
+  transform: translateY(200px);
+}
+.slide-dl-ue-leave-to {
+    opacity: 0;
+  transform: translateY(200px);
+}
+
+// 由右向左缓慢进入，缓慢向下离开 <transition name="slide-r-l"></transition>
+.slide-r-l-enter-active,
+.slide-r-l-leave-active {
+    transition: transform 1s $--ease-out-function, opacity 1s $--ease-out-function;
+    transform: translate(0, 0);
+    opacity: 1;
+    position: absolute;
+    top: 0;
+}
+.slide-r-l-enter {
+    transform: translate(100%, 0);
+    opacity: 0;
+}
+.slide-r-l-leave-to {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+
+// 由左向右缓慢进入，缓慢向下离开 <transition name="slide-l-r"></transition>
+.slide-l-r-enter-active,
+.slide-l-r-leave-active {
+    transition: transform 1s $--ease-out-function, opacity 1s $--ease-out-function;
+    transform: translate(0, 0);
+    opacity: 1;
+    position: absolute;
+    top: 0;
+}
+.slide-l-r-enter {
+    transform: translate(-100%, 0);
+    opacity: 0;
+}
+.slide-l-r-leave-to {
+    transform: translate(0, 100%);
+    opacity: 0;
+}
+
+// 重置 vue-photo-preview 组件的层级，防止被 view-design 组件中弹窗覆盖
+.pswp {
+    z-index: 9999;
+}
+
+// 重置 view-design button 组件的 focus
+.ivu-btn:focus {
+    box-shadow: none;
+}
+
+// // 重置 view-design poptip 组件中样式
+// .ivu-poptip-inner {
+//     color: $--white;
+//     background: rgba(32, 59, 132, 0.9);
+//     .ivu-btn-text {
+//         color: $--white;
+//         &:hover {
+//             background-color: #4E6197;
+//         }
+//     }
+// }
+// .ivu-poptip-popper[x-placement^=bottom] .ivu-poptip-arrow:after {          
+//     border-bottom-color: rgba(32, 59, 132, 0.9);  
+// }
+// .ivu-poptip-popper[x-placement^=left] .ivu-poptip-arrow:after {          
+//     border-left-color: rgba(32, 59, 132, 0.9);  
+// }
+
+// // 重置 view-design dropdown 组件中样式
+// .ivu-select-dropdown {
+//     background: $--background-form-box-color;
+//     .ivu-dropdown-menu {
+//         .ivu-dropdown-item {
+//             color: $--white;
+//             text-align: center;
+//             &:hover {
+//                 background: $--background-select-hover-color;
+//             }
+//         }
+//         .ivu-dropdown-item-selected {
+//             background: $--background-select-hover-color;
+//         }
+//     }
+//     &-list {
+//         .ivu-select-item {
+//             color: $--white;
+//             &:hover {
+//                 background: $--background-select-hover-color;
+//             }
+//             &-focus {
+//                 background: $--background-select-hover-color;
+//             }
+//         }
+//         .ivu-select-item-selected {
+//             background: $--background-select-hover-color;
+//         }
+//         .ivu-tree-children {
+//             li {
+//                 .ivu-icon {
+//                     color: $--white;
+//                 }
+//                 .ivu-checkbox-inner {
+//                     background: none;
+//                 }
+//                 .ivu-tree-title {
+//                     color: $--white;
+//                     &:hover {
+//                         background: $--background-select-hover-color;
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     .ivu-cascader-menu {
+//         .ivu-cascader-menu-item {
+//             color: $--white;
+//             &:hover {
+//                 background: $--background-select-hover-color;
+//             }
+//         }
+//         .ivu-cascader-menu-item-active {
+//             background: $--background-select-hover-color;
+//         }
+//     }
+//     .ivu-picker-panel-body-wrapper {
+//         color: $--white;
+//         .ivu-date-picker-cells-cell {
+//             em:hover {
+//                 background-color: $--background-select-disable-color;
+//             }
+//         }
+//         .ivu-date-picker-cells-cell-disabled {
+//             background: $--background-select-disable-color;
+//             &:hover {
+//                 background: $--background-select-disable-color;
+//             }
+//         }
+//     }
+//     .ivu-cascader-not-found-tip {
+//         padding: 5px 10px;
+//     }
+// }
+
+// // 重置 view-design 组件中表单样式
+// .ivu-form {
+//     @include utils-inputPlaceholder($--btn-disable-color-2);
+//     .ivu-checkbox-checked {
+//         .ivu-checkbox-inner {
+//             background-color: transparent;
+//             border-color: inherit;
+//         }
+//     }
+//     .ivu-input {
+//         padding-left: 10px;
+//         background: none;
+//         color: $--white;
+//         border: $--border-form-popup-color;
+//     }
+//     .ivu-icon {
+//         color: $--white;
+//     }
+// }
+
+// // 重置 view-design tree 组件中样式
+// .ivu-tree {
+//     .ivu-tree-title {
+//         color: $--white;
+//         &:hover {
+//             background-color: $--background-tree-color;
+//         }
+//         &-selected {
+//             background-color: $--background-tree-color;
+//         }
+//     }
+// }

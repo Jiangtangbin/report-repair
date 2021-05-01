@@ -1,0 +1,312 @@
+<template>
+    <aside :class="{'sidebar-mobile-wrapper': isMobile}" :collapse="collapse" class="sidebar-wrapper">
+        <div v-show="!isMobile" @click="handle" :class="{'sidebar-toggle-right': controlStretch}" class="sidebar-toggle c-p">
+            <span class="sidebar-toggle-list"></span>
+            <svg-icon class="sidebar-toggle-icon" :icon-class="controlStretch || isMobile ? 'angle-right' : 'angle-left'" />
+        </div>
+        <!-- animate 动画库 -->
+        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+            <div v-show="isPopup" @click="mobileHandle(false)" class="menu-mask"></div>
+        </transition>
+        <transition enter-active-class="animated slideInLeft" leave-active-class="animated slideOutLeft">
+            <div v-show="!isMobile || isPopup" class="sidebar-body">
+                <div v-if="isShowLogo" class="sidebar-body-logo">logo</div>
+                <scroll :observeDOM="true" preventDefault>
+                    <my-menu @selected="selected" :active-name="$route.name" :collapse="collapse" :data="menuData" :trigger="trigger" :class="{'menu-wrapper-full': !isShowLogo}" class="menu-wrapper" ref="menuWrapper" />
+                </scroll>
+            </div>
+        </transition>
+    </aside>
+</template>
+
+<script lang="ts">
+import { Prop, Watch, Component, Vue } from 'vue-property-decorator';
+import MyMenu from '@/components/menu/index.vue';
+import { appModule, userModule } from '@/store/index';
+import AnyTouch from 'any-touch';
+import { Computed } from 'any-touch/lib/interface';
+
+// 首页
+const home = [{ title: 'h.other.home', icon: 'resource', value: 'home', path: '/home' }];
+
+@Component({
+    components: {
+        MyMenu,
+    },
+})
+export default class LayoutSideBar extends Vue {
+    // 需要独立的菜单源
+    @Prop(String)
+    free?: string;
+
+    private touch: null | AnyTouch = null;
+    private popup = false;
+    private isShowLogo = false;
+
+    // 数据源
+    get menuData() {
+        const { free, appHome } = this;
+        return free
+            ? home.concat(appHome, this.freeModule(free, userModule.menus))
+            : home.concat(userModule.menus.filter(v => v.value !== 'govern'));
+    }
+    // 子应用首页，如果等于 zh 则不需要首页的图标，所有跳转路由的地方如果传了 plat 的地方，则主平台跳转时 plat 为 undefined 时 则传 zh
+    get appHome() {
+        const { free } = this;
+        return free !== 'zh' ? [{ title: 'h.other.home', icon: 'home', value: 'govern-home', path: `/home/${free}` }] : [];
+    }
+    // 是否开启子级菜单弹出模式
+    get collapse() {
+        return !this.isMobile && appModule.sidebarToggle;
+    }
+    // 控制器的方向
+    get controlStretch() {
+        return this.isMobile || this.collapse;
+    }
+    // 触发方式
+    get trigger() {
+        return this.collapse ? 'hover' : 'click';
+    }
+    // 是否处于手机模式
+    get isMobile() {
+        return appModule.isMobile;
+    }
+    // 是否进行弹窗显示
+    get isPopup() {
+        return this.isMobile && this.popup;
+    }
+
+    mounted() {
+        console.log('123asd');
+        this.isMobile && this.initTouch();
+    }
+
+    @Watch('isMobile')
+    platformChange(val: boolean) {
+        val ? this.initTouch() : this.destroyTouch();
+    }
+    
+    // 电脑模式的点击事件
+    handle() {
+        const { mobileHandle, isMobile } = this;
+        isMobile
+            ? mobileHandle(true)
+            : appModule.alterState({ key: 'sidebarToggle', value: !this.collapse });
+    }
+    /**
+     * @description: 手机模式的点击事件，展开菜单列表
+     * @param {Boolean} status: 状态
+     */
+    mobileHandle(status?: boolean) {
+        this.popup = status === undefined ? !this.popup : status;
+    }
+    // 生成手势
+    initTouch() {
+        this.destroyTouch();
+        this.touch = new AnyTouch(document.body);
+        this.touch!.on('swipe', (ev: Computed) => {
+            if (ev.direction === 'right' && !this.popup) {
+                this.mobileHandle(true);
+            }
+        });
+    }
+    // 销毁手势
+    destroyTouch() {
+        this.touch && this.touch.destroy();
+    }
+    /**
+     * @description: 需要独立出来的模块
+     * @param {String} type: 需要独立出来的模块
+     * @param {Array} data: 数据源
+     */
+    freeModule(type: string, data: ResponseLogin.Auth[]): ResponseLogin.Auth[] {
+        const lastModule = data.find(v => v.value === 'govern');
+        if (!(lastModule && lastModule.children)) return [];
+        const result = lastModule.children.find(v => v.value === type);
+        return result && result.children ? result.children : [];
+    }
+    /**
+     * @description: 菜单跳转
+     * @param {Object} data: 待跳转菜单的信息
+     */
+    selected(data: ResponseLogin.Auth) {
+        const _cacheRoute = appModule.cacheRoute.find(v => v.path === data.path);
+        let path = '';
+        if (_cacheRoute) {
+            path = _cacheRoute.fullPath;
+        } else {
+            if (data.url_value && data.url_value.includes('http', 0)) {
+                this.$getDynamicComponent('publicIframe', () => {
+                    this.$createPublicIframeHandle({
+                        title: data.title,
+                        // url: data.url_value,
+                    }).show();
+                });
+                return false;
+            } else {
+                path = data.path;
+            }
+        }
+        this.$router.push(path);
+        this.mobileHandle(false);
+    }
+}
+</script>
+
+<style scoped lang="scss">
+    $sidebar-width: 270px; // 侧边栏宽度 -> 展开
+    $sidebar-width--fold: 58px; // 侧边栏宽度 -> 收缩
+    $control-width: 36px; // 控制器宽度
+
+    // 显示设置 animate.css 动画过渡时间
+    .animated {
+        @include utils-animate-duration();
+    }
+    .sidebar-wrapper[collapse]:not(.sidebar-mobile-wrapper) {
+        width: $sidebar-width--fold;
+    }
+    .sidebar-body {
+        background-color: $--menu-color;
+        width: 100%; height: 100%;
+        position: relative;
+    }
+    // 侧边栏
+    @include utils-b(sidebar-wrapper) {
+        width: $sidebar-width; height: 100%;
+        transition: width .2s ease-in-out;
+        position: relative;
+        &:hover {
+            .sidebar-toggle {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .sidebar-body-logo {
+            height: 50px;
+        }
+        .menu-wrapper {
+            width: 100%;
+            height: calc(100% - 50px);
+            overflow: hidden;
+            &-full {
+                height: 100%;
+            }
+        }
+    }
+    // 控制器
+    @include utils-b(sidebar-toggle) {
+        width: $control-width;
+        padding: 15px 8px;
+        color: $--white;
+        border-radius: 0 4px 4px 0;
+        opacity: 0;
+        transform: translateX(-100%);
+        position: absolute;
+        z-index: 1;
+        top: 20px; left: 100%;
+        background: #444857;
+        transition: background-color .2s ease, transform .2s ease, opacity .2s ease;
+        // 控制器的横线
+        @include utils-e(list) {
+            width: 10px; height: 2px;
+            display: block;
+            background: currentColor;
+            border-radius: 6px;
+            position: relative;
+            &::before, &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                height: inherit;
+                background: inherit;
+                border-radius: inherit;
+                transition: inherit;
+            }
+            &::before {
+                width: 12px;
+                top: -6px;
+            }
+            &::after {
+                width: 13px;
+                bottom: -6px;
+            }
+        }
+        // 控制器的图标
+        @include utils-e(icon) {
+            font-size: 16px;
+            position: absolute;
+            top: 7px; right: 2px;
+            transition: transform .2s ease;
+            transform: scaleY(-1);
+        }
+        // 控制器往箭头往外时的样式
+        @include utils-m(right) {
+            @include utils-e(list) {
+                width: 13px;
+                &::before, &::after {
+                    width: 10px;
+                }
+            }
+            @include utils-e(icon) {
+                top: 6px; right: 3px;
+            }
+        }
+    }
+    // 手机模式
+    .sidebar-mobile-wrapper {
+        width: 0;
+        .sidebar-toggle {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .menu-mask {
+            background-color: rgba(0, 0, 0, .6);
+            margin: auto;
+            z-index: 666;
+            position: fixed;
+            left: 0; right: 0;
+            top: 0; bottom: 0;
+        }
+        .sidebar-body {
+            width: $sidebar-width; max-width: 60vw;
+            position: fixed;
+            z-index: 667;
+        }
+    }
+
+</style>
+
+<style lang="scss">
+    // 菜单样式
+    @include utils-b(sub-menu) {
+        // 设置菜单背景
+        @include utils-e(title) {
+            // 设置激活样式
+            @include utils-m(active) {
+                color: $--menu-active-color;
+            }
+            &:hover {
+                background-color: $--menu-active-hover-color;
+            }
+            // 设置顶层菜单样式
+            @include utils-m(first) {
+                background-color: $--menu-color;
+                border: 1px solid transparent;
+                position: relative;
+                z-index: 0;
+                &::after {
+                    content: '';
+                    border-radius: inherit;
+                    position: absolute;
+                    left: 0; right: 0;
+                    top: 0; bottom: 0;
+                    z-index: -1;
+                }
+                // 激活样式
+                &.sub-menu__title--active {
+                    color: $--menu-active-color;
+                }
+            }
+        }
+    }
+</style>

@@ -1,0 +1,351 @@
+$image: '~@/assets/images/map/background.png';
+$aside-control-url: '~@/assets/images/map/menu-control.png';
+$main-margin-bar: 6px;
+$main-margin-aside: 6px;
+$aside-width: 480px;
+$aside-chart-space: 0.05rem;
+$aside-control-width: 30px;
+$aside-control-height: 50px;
+
+.map-container {
+    display: flex;
+    flex-flow: column;
+    // 页面标题
+    .map-title {
+        border-bottom: $--border-dark-base;
+    }
+    // 主体内容
+    .map-main {
+        width: calc(100% - #{$main-margin-aside * 2});
+        height: calc(100% - 0.6rem - 46px);
+        color: $--text-color;
+        margin: $main-margin-bar $main-margin-aside;
+        position: relative;
+        flex: auto;
+        display: flex;
+        flex-flow: column;
+        .loading {
+            z-index: 22;
+        }
+        &__scope {
+            width: 100%;
+            height: calc(100% - 46px - #{$main-margin-bar});
+            margin-top: $main-margin-bar;
+            position: relative;
+            flex: auto;
+            display: flex;
+            flex-flow: row nowrap;
+        }
+        // 两侧的图表
+        .aside-chart {
+            &:first-of-type {
+                margin-right: 7px;
+            }
+            &:nth-last-of-type(1) {
+                margin-left: 7px;
+            }
+            min-width: $aside-width;
+            max-width: $aside-width;
+            height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-flow: column;
+            justify-content: space-between;
+            &__widget {
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                // 占据多的空间
+                &--multi {
+                    height: calc(40% - #{$aside-chart-space});
+                    max-height: initial;
+                    &~.aside-chart__widget {
+                        height: calc(30% - #{$aside-chart-space});
+                        min-height: initial;
+                    }
+                }
+                // 占据少的空间
+                &--less {
+                    height: 26%;
+                    min-height: initial;
+                    &~.aside-chart__widget {
+                        height: calc(37% - #{$aside-chart-space});
+                        max-height: initial;
+                    }
+                }
+            }
+        }
+        // 头部的统计
+        .nav-count {
+            pointer-events: none;
+            position: absolute;
+            top: 10px;
+            left: calc(#{$aside-width} + 20px);
+            right: calc(#{$aside-width} + 20px);
+            z-index: 1;
+            display: flex;
+            flex-flow: row wrap;
+            // 图标的样式
+            &__icon {
+                font-size: 30px;
+                flex: none;
+            }
+            &__item {
+                width: 120px;
+                height: 50px;
+                background-image: linear-gradient(45deg, #003e73, transparent);
+                padding: 4px 9px;
+                margin-right: 6px;
+                margin-bottom: 6px;
+                border-radius: 2px;
+                cursor: pointer;
+                pointer-events: auto;
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                // 不同状态下数字的颜色
+                &--total {
+                    .nav-count__text--numeric {
+                        color: white;
+                    }
+                }
+                &--normal {
+                    .nav-count__text--numeric {
+                        color: $--text-dark-color-active;
+                    }
+                }
+                &--online {
+                    .nav-count__text--numeric {
+                        color: #10F678;
+                    }
+                }
+                &--offline {
+                    .nav-count__text--numeric {
+                        color: #A9AAAF;
+                    }
+                }
+                &--alarm {
+                    .nav-count__text--numeric {
+                        color: #F21236;
+                    }
+                }
+            }
+            // 文字的样式
+            &__text {
+                font-weight: 600;
+                &--numeric {
+                    font-size: 16px;
+                    color: $--text-dark-color-active2;
+                }
+            }
+        }
+        // 顶部的控制栏
+        .map-controls {
+            display: inline-flex;
+            align-items: center;
+            &__control {
+                &:first-child {
+                    margin-left: 0;
+                }
+                cursor: pointer;
+                margin-left: 6px;
+            }
+            .full-screen-icon {
+                font-size: 20px;
+                flex: none;
+            }
+            // 限制 input 与 select 的宽度
+            .lucency-select,
+            .lucency-input {
+                width: 110px;
+            }
+        }
+        .map-operations {
+            position: absolute;
+            top: 10px;
+            right: 580px;
+            z-index: 1;
+            &__control {
+                margin: 0 5px;
+                font-size: 0.18rem;
+                cursor: pointer;
+                @include input_placeholder($--btn-disable-color-list);
+                @include utils-pierce(ivu-select-placeholder) {
+                    color: $--btn-disable-color-list;
+                }
+                @include utils-pierce(ivu-input) {
+                    line-height: 32px;
+                    background-color: $--background-form-box-color;
+                    border: $--border-form-box-color;
+                    color: $--text-color;
+                    box-shadow: $--shadow-form-box-inset;
+                }
+                @include utils-pierce(ivu-select-selection) {
+                    height: 32px;
+                    background-color: $--background-form-box-color;
+                    border: $--border-form-box-color;
+                    color: $--text-color;
+                    box-shadow: $--shadow-form-box-inset;
+                    border-radius: 4px;
+                }
+                @include utils-pierce(ivu-icon) {
+                    color: $--text-color;
+                }
+            }
+            &__box {
+                width: 150px;
+            }
+        }
+    }
+    // 半圆控件
+    .aside-control {
+        width: $aside-control-width;
+        height: $aside-control-height;
+        cursor: pointer;
+        position: absolute;
+        top: 0.7rem;
+        left: calc(#{$aside-width} + 7px);
+        background-image: url($aside-control-url);
+        z-index: 1;
+        &--active {
+            background-position-x: $aside-control-width;
+        }
+        &--full-screen {
+            left: 0;
+        }
+    }
+    // 为半圆控件后的控制菜单调整间距
+    .aside-control + .map__control-menu--top {
+        left: calc(#{$aside-width} + 37px);
+    }
+    .aside-control + .map__control-menu--full-screen {
+        left: 30px;
+    }
+    // 分组控制按钮
+    .aside-control-group {
+        top: 2.4rem;
+        background-position-y: $aside-control-height;
+    }
+    // 分组按钮
+    .map-device-group {
+        width: 240px;
+        max-height: calc(100% - 300px);
+        overflow: auto;
+        z-index: 1;
+        position: absolute;
+        top: 23vh;
+        left: calc(#{$aside-width} + 37px);
+        &--full-screen {
+            left: calc(30px);
+        }
+    }
+    //平面图
+    .aside-control-plan {
+        top:3.5rem;
+        background-position-y: $aside-control-height;
+    }
+    // 平面图分组按钮
+    .map-plan-group {
+        width: 240px;
+        max-height: 50%;
+        overflow: auto;
+        z-index: 1;
+        position: absolute;
+        top: 35vh;
+        left: calc(#{$aside-width} + 37px);
+        &--full-screen {
+            left: calc(30px);
+        }
+    }
+    // 报警记录业务时间线
+    .map__control-alarmTimeLine {
+        width: 320px;
+        max-height: 340px;
+        overflow: auto;
+        position: absolute;
+        z-index: 1;
+        left: calc(50% - 160px);
+        top: calc(50% - 170px);
+    }
+    // 控制按钮
+    .map__control-menu {
+        position: absolute;
+        z-index: 1;
+        left: calc(#{$aside-width} + 21px);
+        top: 14px;
+        &--full-screen {
+            left: 20px;
+        }
+    }
+    // 平面图菜单列表
+    .map__trees-container {
+        width: 250px;
+        .map__control-plan-title {
+            width: 100%;
+            height: 38px;
+            line-height: 38px;
+            color: #fff;
+            padding-left: 16px;
+            border-bottom: 1px solid #00a5ff;
+            background-color: rgba(72, 144, 219, 0.8);
+        }
+        @include utils-pierce(map__control-plan-menu) {
+            width: 240px;
+            max-height: calc(100% - 43px);
+            margin: 5px 5px 0 5px;
+            overflow: auto;
+            background-color: rgba(7, 78, 152, 0.8);
+            .ivu-tree-title {
+                color: #fff;
+                width: calc(100% - 16px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                &:hover {
+                    background-color: rgba(72, 144, 219, 0.8);
+                }
+            }
+            .ivu-tree-title-selected, .ivu-tree-title-selected:hover {
+                background-color: rgba(72, 144, 219, 0.8);
+            }
+        }
+    }
+    .map__control-menu--top {
+        width: 280px;
+        max-width: calc(100vw - #{$aside-width} + 20px);
+        top: 10px;
+        bottom: initial;
+        left: calc(#{$aside-width} + 37px + 60px);
+        right: initial !important;
+    }
+    // 地图搜索
+    @include utils-pierce(bm-local-search) {
+        $title-height: 32px;
+        
+        width: 240px;
+        max-height: 100%;
+        color: $--text-dark-color;
+        border-radius: 5px;
+        position: absolute;
+        right: 0;
+        top: 51px;
+        z-index: 1;
+        overflow: auto;
+        background-color: white;
+        &__title {
+            height: $title-height;
+            padding-left: 6px;
+            display: flex;
+            align-items: center;
+            color: #221f1f;
+        }
+        .bm-local-search__section {
+            & > div:first-child {
+                border: {
+                    left: none !important;
+                    right: none !important;
+                }
+            }
+        }
+    }
+}

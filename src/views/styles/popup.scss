@@ -1,0 +1,35 @@
+@include utils-pierce(form) {
+    padding: 0 20px;
+    .ivu-form-item {
+        margin-bottom: 15px;
+        overflow: hidden;
+        &-label {
+            position: relative;
+            bottom: 2px;
+            float: none;
+        }
+        &-error-tip {
+            top: -20px;
+            left: auto;
+            right: 0;
+            padding-top: 2px;
+            color: #ff7552;
+        }
+    }
+}
+@media screen and (min-width: 1001px) {
+    // pc 端时设置最大高度
+    .form {
+        overflow: auto;
+    }
+    .form, .datum-info, .astrict-height {
+        max-height: calc(80vh - 140px);
+        overflow: auto;
+    }
+}
+@media screen and (max-width: 1000px) {
+    // mobile 端时强制设置滚动条
+    .form {
+        overflow: auto;
+    }
+}

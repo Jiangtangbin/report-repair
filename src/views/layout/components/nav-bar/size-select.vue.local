@@ -1,0 +1,34 @@
+<template>
+    <dropdown @on-click="handle" trigger="click">
+        <svg-icon class="c-p" icon-class="font-size" />
+        <dropdown-menu slot="list">
+            <dropdown-item v-for="item of sizer" :key="item.value" :disabled="item.value === checkedSize" :name="item.value">{{$te(item.title) ? $t(item.title) : item.title}}</dropdown-item>
+        </dropdown-menu>
+    </dropdown>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { Dropdown, DropdownMenu, DropdownItem } from 'view-design';
+import { appModule } from '@/store/index';
+
+@Component({
+    components: {
+        Dropdown,
+        DropdownMenu,
+        DropdownItem,
+    },
+})
+export default class SizeSelect extends Vue {
+    get sizer() {
+        return appModule.sizer;
+    }
+    get checkedSize() {
+        return appModule.checkedSize;
+    }
+
+    handle(value: string) {
+        appModule.alterState({ key: 'checkedSize', value });
+    }
+}
+</script>

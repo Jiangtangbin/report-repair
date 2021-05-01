@@ -1,0 +1,71 @@
+
+// 过渡
+$--ease-in-out: all .2s ease-in-out;
+$--ease-in-out-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+$--ease-out-function: cubic-bezier(0.23, 1, 0.32, 1);
+$--fade-transition: opacity 300ms #{$--ease-out-function} !default;
+$--fade-linear-transition: opacity 200ms linear !default;
+$--transition-time: .2s;
+$--color-transition-base: color .2s cubic-bezier(0.645, 0.045, 0.355, 1) !default;
+$--box-shadow-transition-base: box-shadow .2s #{$--ease-out-function} !default;
+$--border-transition-base: border-color .2s cubic-bezier(0.645, 0.045, 0.355, 1) !default;
+
+// 菜单类名的间隔符
+$element-separator: '__';
+$modifier-separator: '--';
+
+// 基本颜色
+$--white: #FFFFFF;
+$--gray: #515a6e;
+$--black1: #000000;
+$--black2: #444444;
+$--black3: #666666;
+$--black4: #777777;
+$--borderColor: #03A9F3;
+$--text-active-color: #57a3f3;
+
+// 菜单颜色
+$--menu-color: #0646A7;
+$--menu-active-color: #68ffd6;
+$--menu-sub-color: #dfe7e9;
+$--menu-active-hover-color: #3660B7;
+
+// 按钮颜色
+$--primary-color: #2A80FF;
+$--info-color: #2db7f5;
+$--warn-color: #f90;
+$--success-color: #47cb89;
+$--disabled-color: #c5c8ce;
+$--btn-disable-color-1: #BBBEC4;
+$--btn-disable-color-2: #A0CEFF;
+
+// 背景颜色
+$--background-dark-color: #102857;
+$--background-color: #1F3D7B;
+$--background-form-box-color: #163080;
+$--background-select-hover-color: #3382e0;
+$--background-select-disable-color: #315989;
+$--background-dark-active-color: #397eff;
+$--background-tree-color: #0A899F;
+$--background-option-box-color: #193785;
+$--background-folder-color: #f9fafc;
+$--background-selection-color: #3156B6;
+$--background-tooltip-color: rgba(70, 76, 91, .9);
+
+// 边框颜色
+$--border-base-dashed-color: 1px dashed #dddee1;
+$--border-base-color: 1px solid #dddee1;
+$--border-base-active-color: 1px solid #ff8888;
+$--border-form-popup-color: 1px solid #A0CEFF;
+$--border-form-box-color: 1px solid #5FDCFF;
+$--border-base-dark-color: #2096D6;
+
+// 阴影颜色
+$--shadow-form-box-inset-color: rgba(0, 198, 255, 1) 0px 0px 10px 1px inset;
+
+// 表格颜色
+$--table-main-color: #A0CEFF;
+$--table-header-color1: #06265E;
+$--table-header-color2: rgba(1, 61, 113, 0.3);
+$--table-border-color: #365279;
+$--table-row-hover-color: rgba(1, 61, 113, 0.6);;

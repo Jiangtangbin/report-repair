@@ -1,0 +1,146 @@
+/**
+ *  < utils 文件函数名与 description 集合 >
+ *  < utils-pierce -> 穿透 ui 组件，覆盖 ui 组件样式 >
+ *  < utils-clearfix -> 清除浮动 >
+ *  < utils-animate-duration -> 设置 animate.css 动画持续时间 >
+ *  < utils-animate-hover-shadow -> 鼠标进入模块，模块下移并且阴影收缩 >
+ *  < utils-block-shape -> 块状上下左右的 radius 不同 >
+ *  < utils-inputPlaceholder -> 修改 input placeholder 的颜色 >
+ *  < utils-b、utils-e、utils-m -> 菜单栏样式 >
+ */
+
+/**
+ * description：穿透 ui 组件，覆盖 ui 组件样式
+ * use mode：@include utils-pierce(class) {}
+ * params：$class -> 类名
+ */
+@mixin utils-pierce ($class) {
+    ::v-deep .#{$class} {
+        @content
+    }
+}
+
+/**
+ * description：清除浮动
+ * use mode：@include utils-clearfix;
+ */
+ @mixin utils-clearfix {
+    $selector: &;
+    @at-root {
+        #{$selector}::before,
+        #{$selector}::after {
+        display: table;
+        content: "";
+        }
+        #{$selector}::after {
+        clear: both
+        }
+    }
+}
+
+/**
+ * description：设置 animate.css 动画持续时间
+ * use mode：@include utils-animate-duration(.4s);
+ * params：$duration -> 秒
+ */
+@mixin utils-animate-duration ($duration: .4s) {
+    animation-duration: $duration;
+    animation-fill-mode: both;
+}
+
+/**
+ * description：鼠标进入模块，模块下移并且阴影收缩
+ * use mode：@include utils-animate-hover-shadow(class);
+ * params：$class -> 类名
+ */
+ @mixin utils-animate-hover-shadow ($class) {
+    .#{$class} {
+        transition: all 235ms ease 0s;
+        &:hover {
+            transform: translate3d(0, 2px, 0);
+            box-shadow: 2px 8px 8px -5px rgba(0, 0, 0, 0.3);
+        }
+    }
+}
+
+/**
+ * description：块状上下左右的 radius 不同
+ * use mode：@include utils-block-shape(class);
+ * params：$class -> 类名
+ */
+@mixin utils-block-shape ($class) {
+    border-bottom-left-radius: 15px 255px;
+    border-bottom-right-radius: 225px 15px;
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+}
+
+/**
+ * description：修改 input-placeholder 的颜色
+ * use mode：@include utils-inputPlaceholder(#A0CEFF);
+ * params：$color -> 颜色
+ */
+@mixin utils-inputPlaceholder($color) {
+    ::-webkit-input-placeholder {
+        color: $color;
+    }
+    :-ms-input-placeholder {
+        color: $color;
+    }
+    ::-moz-placeholder {
+        color: $color;
+    }
+    :-moz-placeholder {
+        color: $color;
+    }
+}
+
+/**
+ * description：头部菜单栏样式
+ * use mode：@include utils-b(sub-menu) { @include utils-e(title) { @include utils-m(icon) {} } };
+ * params：$block -> 所有的该类
+ * params：$element -> 所有的该类
+ * params：$modifier -> 所有的该类
+ */
+@mixin utils-b($block) {
+    $B: $block !global;
+    .#{$B} {
+        @content;
+    }
+}
+@mixin utils-e($element) {
+    $E: $element !global;
+    $selector: &;
+    $currentSelector: "";
+    @each $unit in $element {
+        $currentSelector: #{$currentSelector + "." + $B + $element-separator + $unit + ","};
+    }
+    @if hitAllSpecialNestRule($selector) {
+        @at-root {
+            #{$selector} {
+                #{$currentSelector} {
+                    @content;
+                }
+            }
+        }
+    } @else {
+        @at-root {
+            #{$currentSelector} {
+                @content;
+            }
+        }
+    }
+}
+@mixin utils-m($modifier) {
+    $selector: &;
+    $currentSelector: "";
+    @each $unit in $modifier {
+        $currentSelector: #{$currentSelector + & + $modifier-separator + $unit + ","};
+    }
+  
+    @at-root {
+        #{$currentSelector} {
+            @content;
+        }
+    }
+}

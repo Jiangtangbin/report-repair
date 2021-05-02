@@ -215,13 +215,13 @@ export default class LoginBox extends Vue {
                     z-index: 1;
                     top: 50%; left: 10px;
                     transform: translateY(-50%);
-                    // color: $--white;
+                    color: $--white;
                 }
-                // &-input {
-                //     @include utils-pierce(ivu-icon) {
-                //         color: $--white;
-                //     }
-                // }
+                &-input {
+                    @include utils-pierce(ivu-icon) {
+                        color: $--white;
+                    }
+                }
             }
             &-control {
                 color: $--white;

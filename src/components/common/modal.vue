@@ -95,15 +95,42 @@ export default class MyModal extends Vue {
     // 拖动背景
     .h-modal[theme=draggable] {
         @include utils-pierce(ivu-modal) {
-            // 弹出窗口拖动时
-            .popup-table-wrapper {
-                height: auto; max-height: calc(80vh - 153px);
-            }
-            .basic-list-main-table-page {
-                text-align: right;
-                margin-top: 5px;
-                .ivu-page-options {
-                    margin-top: 5px;
+            box-shadow: rgba(0, 234, 255, 1) 0px 0px 6px 6px inset;
+            border-radius: 8px;
+            border: 1px solid #297fff;
+            top: 68px;
+            .ivu-modal-content {
+                background: rgba(0, 28, 92, 0.8);
+                .ivu-modal-body {
+                    color: $--white;
+                    // placeholder 颜色
+                    @include input_placeholder($--btn-disable-color-list);
+                    .ivu-select-selection .ivu-select-placeholder {
+                        color: $--btn-disable-color-list;
+                    }
+                }
+                .ivu-btn-text {
+                    color: $--white;
+                    &:hover {
+                        background-color: #4E6197;
+                    }
+                }
+                .ivu-modal-header {
+                    border-bottom: 1px solid #1C45A6;
+                }
+                // 文字
+                .ivu-modal-header-inner {
+                    color: $--white;
+                }
+                // 关闭按钮
+                .ivu-modal-close .ivu-icon {
+                    color: $--white;
+                }
+                .ivu-modal-footer {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    border-top: none;
                 }
             }
         }
@@ -114,8 +141,45 @@ export default class MyModal extends Vue {
             display: flex;
             justify-content: center;
             align-items: center;
-            .ivu-modal {
-                top: 0;
+        }
+        @include utils-pierce(ivu-modal) {
+            box-shadow: rgba(0, 234, 255, 1) 0px 0px 6px 6px inset;
+            border-radius: 8px;
+            border: 1px solid #297fff;
+            top: 0;
+            .ivu-modal-content {
+                background: rgba(0, 28, 92, 0.8);
+                .ivu-modal-body {
+                    color: $--white;
+                    // placeholder 颜色
+                    @include input_placeholder($--btn-disable-color-list);
+                    .ivu-select-selection .ivu-select-placeholder {
+                        color: $--btn-disable-color-list;
+                    }
+                }
+                .ivu-btn-text {
+                    color: $--white;
+                    &:hover {
+                        background-color: #4E6197;
+                    }
+                }
+                .ivu-modal-header {
+                    border-bottom: 1px solid #1C45A6;
+                }
+                // 文字
+                .ivu-modal-header-inner {
+                    color: $--white;
+                }
+                // 关闭按钮
+                .ivu-modal-close .ivu-icon {
+                    color: $--white;
+                }
+                .ivu-modal-footer {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                    border-top: none;
+                }
             }
         }
     }

@@ -51,17 +51,17 @@ export default class Layout extends Vue {
 </script>
 
 <style scoped lang="scss">
-    // $page-bg: '~@/assets/images/page-bg.png';
+    $page-bg: '~@/assets/images/page-bg.png';
 
     .layout-wrapper {
         width: 100%; height: 100%;
         display: flex;
         background-color: #f1f5f7;
-        // background: {
-        //     image: url($page-bg);
-        //     size: 100% 100%;
-        //     repeat: no-repeat;
-        // }
+        background: {
+            image: url($page-bg);
+            size: 100% 100%;
+            repeat: no-repeat;
+        }
         // 主体内容
         .layout-main {
             width: 100%; height: inherit;
@@ -76,7 +76,7 @@ export default class Layout extends Vue {
                 width: 100%; height: calc(100% - 93px); // 面包屑 + header 的高度 93 px
                 flex: auto;
                 z-index: 0;
-                // color: $--white;
+                color: $--white;
             }
         }
     }

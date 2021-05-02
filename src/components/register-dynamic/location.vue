@@ -160,6 +160,15 @@ export default class LocationHandle extends BasePopup {
                 max-width: 200px;
                 top: 60px;
                 right: 10px;
+                .ivu-input {
+                    background-color: $--background-form-box-color;
+                    border: $--border-form-box-color;
+                    color: $--white;
+                    box-shadow: $--shadow-form-box-inset;
+                }
+                .ivu-icon {
+                    color: $--white;
+                }
             }
             .bm-map {
                 height: 100%; min-height: 70vh;

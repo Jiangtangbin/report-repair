@@ -51,7 +51,7 @@
             </i-select>
         </i-input>
         <slot v-if="showSearchBtn" :search="search">
-            <my-button @click="$emit('search', search())" class="condition__option">{{getI18nValue('h.tableButton.search')}}</my-button>
+            <my-button @click="$emit('search', search())" class="condition-option">{{getI18nValue('h.tableButton.search')}}</my-button>
         </slot>
     </component>
 </template>

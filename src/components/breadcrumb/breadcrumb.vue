@@ -24,6 +24,7 @@ export default class Breadcrumb extends Vue {
 
 <style scoped lang="scss">
     .breadcrumb-wrapper {
+        color: $--white;
         padding: 10px 20px 0 20px;
         @include utils-clearfix;
     }

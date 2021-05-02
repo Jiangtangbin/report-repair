@@ -47,7 +47,7 @@ export default class BreadcrumbItem extends Vue {
     float: left;
     &-inner {
         &.is-link, & a {
-            color: var(--black2);
+            color: var(--white);
             text-decoration: none;
             transition: $--color-transition-base;
             &:hover {
@@ -68,7 +68,7 @@ export default class BreadcrumbItem extends Vue {
         &-inner a {
             &, &:hover {
                 font-weight: normal;
-                color: var(--black2);
+                color: var(--white);
                 cursor: text;
             }
         }

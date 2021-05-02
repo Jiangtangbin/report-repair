@@ -1,5 +1,172 @@
-// 列表操作按钮
+// 列表 condition
+@include utils-pierce(basic-list-condition) {
+    background: none;
+}
+// 列表 body
+@include utils-pierce(basic-list-body) {
+    background-color: $--background-color;
+}
 .basic-list-wrapper {
+    // 列表输入框、选择框 placeholder 颜色
+    @include input_placeholder($--btn-disable-color-list);
+    @include utils-pierce(basic-list-page) {
+        padding-left: 10px;
+    }
+    @include utils-pierce(ivu-input) {
+        background-color: $--background-form-box-color;
+        border: $--border-form-box-color;
+        color: $--white;
+        box-shadow: $--shadow-form-box-inset;
+    }
+    @include utils-pierce(ivu-select-input) {
+        background-color: $--background-form-box-color;
+        border: $--border-form-box-color;
+        color: $--white;
+        box-shadow: $--shadow-form-box-inset;
+        border-radius: 4px;
+    }
+    @include utils-pierce(ivu-select-selection) {
+        height: 32px;
+        background-color: $--background-form-box-color;
+        border: none;
+        color: $--white;
+        box-shadow: $--shadow-form-box-inset;
+        border-radius: 4px;
+    }
+    @include utils-pierce(ivu-select-selected-value) {
+        height: 32px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border: $--border-form-box-color;
+    }
+    @include utils-pierce(ivu-icon) {
+        cursor: pointer;
+        color: $--white;
+    }
+    // list 辅助选项
+    @include utils-pierce(folder) {
+        border: none;
+        background: $--background-option-box-color;
+        &-title {
+            background-color: $--head-bg-list;
+            border: none;
+        }
+        &-conditions {
+            border: none;
+        }
+        &-list {
+            border: none;
+            &-item {
+                border: 1px solid #1F3D7A;
+                background-color: #05255e;
+                &-active {
+                    color: #00FFEA;
+                    border: none;
+                    box-shadow: rgba(0, 175, 211, 1) 0px 0px 10px inset;
+                }
+            }
+        }
+        .ivu-tree-title {
+            color: $--white;
+            &:hover {
+                background-color: $--background-tree-color;
+            }
+        }
+        .ivu-tree-title-selected {
+            background-color: $--background-tree-color;
+        }
+    }
+    @include utils-pierce(folder-wrapper) {
+        color: $--white;
+    }
+    @include utils-pierce(folder-icon) {
+        background-color: #25A2FE;
+        border: none;
+    }
+    // table 样式，应用与所有 list
+    @include utils-pierce(basic-list-main-table) {
+        color: $--white;
+        .fresh-table {
+            .ivu-table {
+                color: $--table-main-color;
+                background: none;
+                &:before {
+                    height: 0;
+                }
+                .ivu-btn-text {
+                    color: $--table-main-color;
+                    &:hover {
+                        background-color: #295fa2;
+                    }
+                }
+                th, td {
+                    background: none;
+                    border-bottom: none;
+                }
+            }
+            // table 头部颜色
+            .ivu-table th {
+                background-color: $--table-header-bg-fresh-list;
+                color: $--white;
+            }
+            // 隔行色
+            .ivu-table-stripe .ivu-table-body tr:nth-child(1n) td {
+                background: $--background-color;
+            }
+            // 隔行色
+            .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td {
+                background: $--table-header-bg-fresh-list;
+            }
+            // 激活色
+            .ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td {
+                background: $--table-header-bg-fresh-list;
+            }
+        }
+        .ivu-page-next, .ivu-page-prev, .ivu-page-item, .ivu-page-options-elevator input, .ivu-page-item a, .ivu-checkbox-inner {
+            background: none;
+            color: $--white;
+        }
+    }
+    @include utils-pierce(ivu-page) {
+        &-item {
+            &:hover {
+                box-shadow: $--shadow-form-box-inset;
+                border: $--border-form-box-color;
+            }
+            &-active {
+                box-shadow: $--shadow-form-box-inset;
+                border: $--border-form-box-color;
+            }
+        }
+        &-next {
+            &:hover {
+                box-shadow: $--shadow-form-box-inset;
+                border: $--border-form-box-color;
+            }
+        }
+        &-prev {
+            &:hover {
+                box-shadow: $--shadow-form-box-inset;
+                border: $--border-form-box-color;
+            }
+        }
+        &-disabled {
+            &:hover {
+                box-shadow: none;
+                border-color: #dcdee2;
+            }
+        }
+        &-options {
+            .ivu-select-selection {
+                border: $--border-form-box-color;
+                .ivu-select-selected-value {
+                    border: none;
+                    border-radius: 4px;
+                }
+            }
+        }
+    }
+    // 列表操作按钮
     .control-btn {
         margin-right: 5px;
     }

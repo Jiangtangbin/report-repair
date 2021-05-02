@@ -89,7 +89,7 @@ export default class PersonalAvatar extends Vue {
                     font-size: 0.24rem;
                     margin: 0 5px;
                     min-width: 24px;
-                    color: $--black3;
+                    color: $--white;
                 }
                 &-angle-down {
                     font-size: 0.14rem;

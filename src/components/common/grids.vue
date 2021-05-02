@@ -397,8 +397,8 @@ export default class Grids extends Vue {
             &-close, &-left, &-right {
                 position: absolute;
                 z-index: 1;
-                background: $--white;
-                box-shadow: 0 0 20px 0 $--white;
+                background-color: $--gray;
+                box-shadow: 0 0 20px 0 $--gray;
                 padding: 6px;
                 font-size: 26px;
                 border-radius: 50%;

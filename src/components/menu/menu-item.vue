@@ -268,11 +268,11 @@ export default class MenuItem extends Vue {
 
 <style scoped lang="scss">
     @include utils-b(sub-menu) {
-        background-color: $--menu-sub-color;
+        background-color: $--menu-sub-bg;
         // 标题
         @include utils-e(title) {
+        color: $--white;
             height: 50px;
-            color: $--black2;
             cursor: pointer;
             padding-right: 10px;
             border-right: {

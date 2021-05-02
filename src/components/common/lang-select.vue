@@ -52,7 +52,6 @@ export default class LangSelect extends Vue {
 
 <style scoped lang="scss">
     .lang-select-wrapper {
-        color: $--black3;
         margin: 1px 5px 0 5px;
         .lang-svg {
             font-size: 0.22rem;

@@ -16,16 +16,16 @@ $modifier-separator: '--';
 
 // 基本颜色
 $--white: #FFFFFF;
+$--black: #000000;
 $--gray: #515a6e;
-$--black1: #000000;
-$--black2: #444444;
-$--black3: #666666;
-$--black4: #777777;
 $--borderColor: #03A9F3;
 $--text-active-color: #57a3f3;
+$--gray-active2: #00F9E7; // 偏亮
+$--gray-active3: #17dbeb; // 偏淡
 
 // 菜单颜色
 $--menu-color: #0646A7;
+$--menu-sub-bg: #043887;
 $--menu-active-color: #68ffd6;
 $--menu-sub-color: #dfe7e9;
 $--menu-active-hover-color: #3660B7;
@@ -38,6 +38,7 @@ $--success-color: #47cb89;
 $--disabled-color: #c5c8ce;
 $--btn-disable-color-1: #BBBEC4;
 $--btn-disable-color-2: #A0CEFF;
+$--btn-disable-color-list: #A0CEFF;
 
 // 背景颜色
 $--background-dark-color: #102857;
@@ -51,8 +52,11 @@ $--background-option-box-color: #193785;
 $--background-folder-color: #f9fafc;
 $--background-selection-color: #3156B6;
 $--background-tooltip-color: rgba(70, 76, 91, .9);
+$--head-bg-list: #3156B6;
 
 // 边框颜色
+$--border-color-base: #dddee1;  // outside
+$--border-color-split: #e9eaec;  // inside
 $--border-base-dashed-color: 1px dashed #dddee1;
 $--border-base-color: 1px solid #dddee1;
 $--border-base-active-color: 1px solid #ff8888;
@@ -62,6 +66,7 @@ $--border-base-dark-color: #2096D6;
 
 // 阴影颜色
 $--shadow-form-box-inset-color: rgba(0, 198, 255, 1) 0px 0px 10px 1px inset;
+$--shadow-form-box-inset: rgba(0, 198, 255, 1) 0px 0px 10px 1px inset;
 
 // 表格颜色
 $--table-main-color: #A0CEFF;
@@ -69,3 +74,28 @@ $--table-header-color1: #06265E;
 $--table-header-color2: rgba(1, 61, 113, 0.3);
 $--table-border-color: #365279;
 $--table-row-hover-color: rgba(1, 61, 113, 0.6);;
+$--table-header-bg-fresh-list: #06265E;
+
+// 修改 input-placeholder 的颜色
+@mixin input_placeholder($color) {
+    :-moz-placeholder {
+        color: $color;
+    }
+    ::-moz-placeholder {
+        color: $color;
+    }
+    :-ms-input-placeholder {
+        color: $color;
+    }
+    ::-webkit-input-placeholder {
+        color: $color;
+    }
+}
+
+:export {
+    border-color-base: $--border-color-base;
+    border-color-split: $--border-color-split;
+    text-dark-color: $--gray;
+    text-dark-color-active2: $--gray-active2;
+    text-dark-color-active3: $--gray-active3;
+}

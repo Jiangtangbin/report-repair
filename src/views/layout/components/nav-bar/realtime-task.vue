@@ -163,7 +163,6 @@ export default class RealtimeTask extends Vue {
 
 <style scoped lang="scss">
     .realtime-task-wrapper {
-        color: $--black3;
         margin: 2px 5px 0 5px;
         .realtime-task-svg {
             font-size: 0.22rem;
@@ -172,12 +171,12 @@ export default class RealtimeTask extends Vue {
     // 任务列表
     .realtime-task-list {
         width: 600px;
-        // color: $--white;
+        color: $--white;
         &-item {
             margin: 4px 10px 0 0;
             display: flex;
             align-items: center;
-            &__time {
+            &-time {
                 margin-right: 8px;
                 flex: none;
             }

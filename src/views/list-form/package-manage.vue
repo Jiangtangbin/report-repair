@@ -126,9 +126,8 @@ export default class PackageManage extends Vue {
         }
         .package-main {
             width: 100%; height: 100%;
-            // background-color: $--background-color;
-            background-color: #fff;
-            // color: $--white;
+            background-color: $--background-color;
+            color: $--white;
             padding: 12px 20px;
             display: flex;
             flex-flow: row wrap;

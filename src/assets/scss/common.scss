@@ -156,6 +156,7 @@ li {
     vertical-align: middle;
     display: inline-flex;
     align-items: center;
+    color: $--btn-disable-color-list;
     &:hover {
         .table-operation {
             opacity: 1;
@@ -207,7 +208,7 @@ li {
 .pseudo-prefix-empty {
     &:empty::before {
         content: attr(label);
-        color: $--btn-disable-color-1;
+        color: $--btn-disable-color-2;
         flex: none;
     }
 }
@@ -232,7 +233,6 @@ li {
         font-size: 12px;
         vertical-align: middle;
         overflow: hidden;
-        background-color: #f7f7f7;
         display: inline-flex;
         align-items: center;
         &-close {
@@ -463,128 +463,150 @@ li {
     box-shadow: none;
 }
 
-// // 重置 view-design poptip 组件中样式
-// .ivu-poptip-inner {
-//     color: $--white;
-//     background: rgba(32, 59, 132, 0.9);
-//     .ivu-btn-text {
-//         color: $--white;
-//         &:hover {
-//             background-color: #4E6197;
-//         }
-//     }
-// }
-// .ivu-poptip-popper[x-placement^=bottom] .ivu-poptip-arrow:after {          
-//     border-bottom-color: rgba(32, 59, 132, 0.9);  
-// }
-// .ivu-poptip-popper[x-placement^=left] .ivu-poptip-arrow:after {          
-//     border-left-color: rgba(32, 59, 132, 0.9);  
-// }
+// 重置 view-design poptip 组件中样式
+.ivu-poptip-inner {
+    color: $--white;
+    background: rgba(32, 59, 132, 0.9);
+    .ivu-btn-text {
+        color: $--white;
+        &:hover {
+            background-color: #4E6197;
+        }
+    }
+}
+.ivu-poptip-popper[x-placement^=bottom] .ivu-poptip-arrow:after {          
+    border-bottom-color: rgba(32, 59, 132, 0.9);  
+}
+.ivu-poptip-popper[x-placement^=left] .ivu-poptip-arrow:after {          
+    border-left-color: rgba(32, 59, 132, 0.9);  
+}
 
-// // 重置 view-design dropdown 组件中样式
-// .ivu-select-dropdown {
-//     background: $--background-form-box-color;
-//     .ivu-dropdown-menu {
-//         .ivu-dropdown-item {
-//             color: $--white;
-//             text-align: center;
-//             &:hover {
-//                 background: $--background-select-hover-color;
-//             }
-//         }
-//         .ivu-dropdown-item-selected {
-//             background: $--background-select-hover-color;
-//         }
-//     }
-//     &-list {
-//         .ivu-select-item {
-//             color: $--white;
-//             &:hover {
-//                 background: $--background-select-hover-color;
-//             }
-//             &-focus {
-//                 background: $--background-select-hover-color;
-//             }
-//         }
-//         .ivu-select-item-selected {
-//             background: $--background-select-hover-color;
-//         }
-//         .ivu-tree-children {
-//             li {
-//                 .ivu-icon {
-//                     color: $--white;
-//                 }
-//                 .ivu-checkbox-inner {
-//                     background: none;
-//                 }
-//                 .ivu-tree-title {
-//                     color: $--white;
-//                     &:hover {
-//                         background: $--background-select-hover-color;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     .ivu-cascader-menu {
-//         .ivu-cascader-menu-item {
-//             color: $--white;
-//             &:hover {
-//                 background: $--background-select-hover-color;
-//             }
-//         }
-//         .ivu-cascader-menu-item-active {
-//             background: $--background-select-hover-color;
-//         }
-//     }
-//     .ivu-picker-panel-body-wrapper {
-//         color: $--white;
-//         .ivu-date-picker-cells-cell {
-//             em:hover {
-//                 background-color: $--background-select-disable-color;
-//             }
-//         }
-//         .ivu-date-picker-cells-cell-disabled {
-//             background: $--background-select-disable-color;
-//             &:hover {
-//                 background: $--background-select-disable-color;
-//             }
-//         }
-//     }
-//     .ivu-cascader-not-found-tip {
-//         padding: 5px 10px;
-//     }
-// }
+// 重置 view-design dropdown 组件中样式
+.ivu-select-dropdown {
+    background: $--background-form-box-color;
+    .ivu-dropdown-menu {
+        .ivu-dropdown-item {
+            color: $--white;
+            text-align: center;
+            &:hover {
+                background: $--background-select-hover-color;
+            }
+        }
+        .ivu-dropdown-item-selected {
+            background: $--background-select-hover-color;
+        }
+    }
+    &-list {
+        .ivu-select-item {
+            color: $--white;
+            &:hover {
+                background: $--background-select-hover-color;
+            }
+            &-focus {
+                background: $--background-select-hover-color;
+            }
+        }
+        .ivu-select-item-selected {
+            background: $--background-select-hover-color;
+        }
+        .ivu-tree-children {
+            li {
+                .ivu-icon {
+                    color: $--white;
+                }
+                .ivu-checkbox-inner {
+                    background: none;
+                }
+                .ivu-tree-title {
+                    color: $--white;
+                    &:hover {
+                        background: $--background-select-hover-color;
+                    }
+                }
+            }
+        }
+    }
+    .ivu-cascader-menu {
+        .ivu-cascader-menu-item {
+            color: $--white;
+            &:hover {
+                background: $--background-select-hover-color;
+            }
+        }
+        .ivu-cascader-menu-item-active {
+            background: $--background-select-hover-color;
+        }
+    }
+    .ivu-picker-panel-body-wrapper {
+        color: $--white;
+        .ivu-date-picker-cells-cell {
+            em:hover {
+                background-color: $--background-select-disable-color;
+            }
+            &-range:before {
+                background-color: #2376c3;
+            }
+        }
+        .ivu-date-picker-cells-cell-disabled {
+            background: $--background-select-disable-color;
+            &:hover {
+                background: $--background-select-disable-color;
+            }
+        }
+        .ivu-picker-confirm {
+            .ivu-picker-confirm-time {
+                color: $--white;
+                background-color: #2d8cf0;
+                &:hover {
+                    background-color: $--text-active-color;
+                    color: $--white;
+                }
+            }
+        }
+    }
+    .ivu-cascader-not-found-tip {
+        padding: 5px 10px;
+    }
+}
 
-// // 重置 view-design 组件中表单样式
-// .ivu-form {
-//     @include utils-inputPlaceholder($--btn-disable-color-2);
-//     .ivu-checkbox-checked {
-//         .ivu-checkbox-inner {
-//             background-color: transparent;
-//             border-color: inherit;
-//         }
-//     }
-//     .ivu-input {
-//         padding-left: 10px;
-//         background: none;
-//         color: $--white;
-//         border: $--border-form-popup-color;
-//     }
-//     .ivu-icon {
-//         color: $--white;
-//     }
-// }
+// 重置 view-design 组件中表单样式
+.ivu-form {
+    @include utils-inputPlaceholder($--btn-disable-color-2);
+    .ivu-checkbox-checked {
+        .ivu-checkbox-inner {
+            background-color: transparent;
+            border-color: inherit;
+        }
+    }
+    .ivu-input {
+        padding-left: 10px;
+        background: none;
+        color: $--white;
+        border: $--border-form-popup-color;
+    }
+    .ivu-icon {
+        color: $--white;
+    }
+}
 
-// // 重置 view-design tree 组件中样式
-// .ivu-tree {
-//     .ivu-tree-title {
-//         color: $--white;
-//         &:hover {
-//             background-color: $--background-tree-color;
-//         }
-//         &-selected {
-//             background-color: $--background-tree-color;
-//         }
-//     }
-// }
+// 重置 view-design tree 组件中样式
+.ivu-tree {
+    .ivu-tree-title {
+        color: $--white;
+        &:hover {
+            background-color: $--background-tree-color;
+        }
+        &-selected {
+            background-color: $--background-tree-color;
+        }
+    }
+}
+
+// 重置 view switch 组件中样式
+.ivu-switch {
+    background: none;
+    border: $--border-form-popup-color;
+    &::after {
+        background-color: $--btn-disable-color-list;
+    }
+}

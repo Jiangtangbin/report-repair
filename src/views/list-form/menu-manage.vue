@@ -126,12 +126,12 @@ export default class MenuManage extends GroupTree<'menu-manage'> {
     .menu-wrapper {
         .menu-card {
             width: 100%; height: 100%;
-            // background: $--background-color;
+            background: $--background-color;
             border: none;
-            // color: $--table-main-color;
+            color: $--table-main-color;
             overflow: auto;
             @include utils-pierce(ivu-tabs) {
-                // color: $--table-main-color;
+                color: $--table-main-color;
                 .ivu-tabs-bar {
                     border-bottom: 1px solid #01c8eb;
                 }

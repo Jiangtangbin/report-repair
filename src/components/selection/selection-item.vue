@@ -153,7 +153,7 @@ export default class SelectBoxItem extends Vue {
         flex: auto;
         display: flex;
         flex-flow: column;
-        // background-color: $--background-option-box-color;
+        background-color: $--background-option-box-color;
         transition: $--ease-in-out;
         &:hover {
             box-shadow: 0 1px 6px rgba(0,0,0,.2);
@@ -163,18 +163,18 @@ export default class SelectBoxItem extends Vue {
         .selection-header {
             padding: 8px 16px;
             line-height: initial;
-            border: $--border-base-color;
+            // border: $--border-base-color;
             border-radius: 6px 6px 0 0;
             flex: none;
             display: flex;
             justify-content: space-between;
-            // background-color: $--background-selection-color;
-            // color: $--white;
-            // border: none;
+            background-color: $--background-selection-color;
+            color: $--white;
+            border: none;
         }
         // 主体
         .selection-section {
-            border: $--border-base-color;
+            // border: $--border-base-color;
             border-top: none;
             border-radius: 0 0 6px 6px;
             position: relative;
@@ -182,21 +182,21 @@ export default class SelectBoxItem extends Vue {
             flex: auto;
             display: flex;
             flex-flow: column;
-            // color: $--white;
+            color: $--white;
             // 搜索框
             &-search {
                 width: auto;
                 margin: 8px 8px 0;
                 flex: none;
-                // @include utils-pierce(ivu-input) {
-                //     background-color: $--background-form-box-color;
-                //     border: $--border-form-box-color;
-                //     color: $--white;
-                //     box-shadow: $--shadow-form-box-inset-color;
-                // }
-                // @include utils-pierce(ivu-icon) {
-                //     color: $--white;
-                // }
+                @include utils-pierce(ivu-input) {
+                    background-color: $--background-form-box-color;
+                    border: $--border-form-box-color;
+                    color: $--white;
+                    box-shadow: $--shadow-form-box-inset-color;
+                }
+                @include utils-pierce(ivu-icon) {
+                    color: $--white;
+                }
             }
             // 选项列表
             &-list {
@@ -210,7 +210,7 @@ export default class SelectBoxItem extends Vue {
                     clear: both;
                     position: relative;
                     transition: background-color #{$--transition-time} #{$--ease-out-function};
-                    &__checked {
+                    &-checked {
                         position: absolute;
                         &-desc {
                             padding-left: 22px;

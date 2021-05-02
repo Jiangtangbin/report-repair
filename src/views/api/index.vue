@@ -301,7 +301,7 @@ export default class Api extends Vue {
     $code_color: #CB244E;
 
     .api-wrapper {
-        color: $--black1;
+        color: $--black;
         height: 100%;
         background: $bg;
         display: flex;

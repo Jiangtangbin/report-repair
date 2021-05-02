@@ -210,7 +210,7 @@ export default class basicList extends Vue {
         position: relative;
         display: flex;
         flex-flow: column;
-        // color: $--white;
+        color: $--white;
         .basic-list-condition {
             flex: none;
         }

@@ -1,22 +1,3 @@
-@include utils-pierce(form) {
-    padding: 0 20px;
-    .ivu-form-item {
-        margin-bottom: 15px;
-        overflow: hidden;
-        &-label {
-            position: relative;
-            bottom: 2px;
-            float: none;
-        }
-        &-error-tip {
-            top: -20px;
-            left: auto;
-            right: 0;
-            padding-top: 2px;
-            color: #ff7552;
-        }
-    }
-}
 @media screen and (min-width: 1001px) {
     // pc 端时设置最大高度
     .form {
@@ -31,5 +12,96 @@
     // mobile 端时强制设置滚动条
     .form {
         overflow: auto;
+    }
+}
+
+@include utils-pierce(form) {
+    color: $--white;
+    padding: 0 20px;
+    .ivu-form-item {
+        margin-bottom: 15px;
+        overflow: hidden;
+        &-label {
+            position: relative;
+            bottom: 2px;
+            float: none;
+            color: $--white;
+        }
+    }
+    .ivu-input, .ivu-select-selection, .ivu-select-input, .ivu-tag, .receive_item, .ivu-input-number-input, .ivu-input-number, .ivu-select-placeholder, .ivu-input-group-append, .ivu-input-number-handler-wrap, .ivu-checkbox-inner {
+        background: none;
+        color: $--white;
+        figcaption {
+            color: $--white;
+        }
+    }
+    .ivu-input, .ivu-select-selection, .ivu-input-number, .ivu-input-group-append, .simulate_input {
+        border: $--border-form-popup-color;
+    }
+    .ivu-icon, .ivu-tag-checked {
+        border: none;
+        cursor: pointer;
+        color: $--white;
+    }
+    .ivu-tag {
+        .ivu-tag-text {
+            color: $--white;
+            transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            text-decoration: underline;
+        }
+        .ivu-icon {
+            margin-top: 1px;
+            opacity: 1;
+        }
+    }
+    .ivu-tabs {
+        color: $--white;
+    }
+    .ivu-form-item-error-tip {
+        top: -20px;
+        left: auto;
+        right: 0;
+        padding-top: 2px;
+        color: #ff7552;
+    }
+    // 弹出窗口 form 中的表格
+    .table-wrapper {
+        .ivu-table {
+            color: $--table-main-color;
+            background: none;
+            &:before {
+                height: 0;
+            }
+            .ivu-btn-text {
+                color: $--table-main-color;
+                &:hover {
+                    background-color: #295fa2;
+                }
+            }
+            td {
+                background: none;
+                border-bottom: none;
+            }
+            th {
+                border-bottom: none;
+            }
+        }
+        // table 头部颜色
+        .ivu-table th {
+            background-color: $--table-header-bg-fresh-list;
+            color: $--white;
+        }
+        // 隔行色
+        .ivu-table-stripe .ivu-table-body tr:nth-child(1n) td {
+            background-color: $--background-color;
+        }
+        // 隔行色
+        .ivu-table-stripe .ivu-table-body tr:nth-child(2n) td {
+            background-color: $--table-header-bg-fresh-list;
+        }
+        // 激活色
+        .ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td {
+            background-color: $--table-header-bg-fresh-list;
+        }
     }
 }

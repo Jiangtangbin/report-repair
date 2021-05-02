@@ -269,6 +269,8 @@ export default class TableListHandle extends BasePopup {
 </script>
 
 <style scoped lang="scss">
+    @import '~@/views/styles/list.scss';
+    
     $aside-width: 200px;
     $space: 20px;
     

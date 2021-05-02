@@ -18,7 +18,7 @@ $aside-control-height: 50px;
     .map-main {
         width: calc(100% - #{$main-margin-aside * 2});
         height: calc(100% - 0.6rem - 46px);
-        color: $--text-color;
+        color: $-white;
         margin: $main-margin-bar $main-margin-aside;
         position: relative;
         flex: auto;
@@ -177,19 +177,19 @@ $aside-control-height: 50px;
                     line-height: 32px;
                     background-color: $--background-form-box-color;
                     border: $--border-form-box-color;
-                    color: $--text-color;
+                    color: $-white;
                     box-shadow: $--shadow-form-box-inset;
                 }
                 @include utils-pierce(ivu-select-selection) {
                     height: 32px;
                     background-color: $--background-form-box-color;
                     border: $--border-form-box-color;
-                    color: $--text-color;
+                    color: $-white;
                     box-shadow: $--shadow-form-box-inset;
                     border-radius: 4px;
                 }
                 @include utils-pierce(ivu-icon) {
-                    color: $--text-color;
+                    color: $-white;
                 }
             }
             &__box {

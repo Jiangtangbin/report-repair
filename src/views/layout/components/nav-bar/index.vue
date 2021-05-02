@@ -138,11 +138,11 @@ export default class LayoutNavBar extends Vue {
 
     .nav-bar-wrapper {
         width: 100%; height: 60px;
-        color: $--black2;
+        color: $--white;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0px 0px 2px 0px $--black3;
+        box-shadow: 0px 0px 5px 0px #01C8EB;
         .nav-bar-title {
             height: 100%;
             flex-flow: column nowrap;
@@ -153,7 +153,8 @@ export default class LayoutNavBar extends Vue {
                 height: 45px;
                 line-height: 45px;
                 font-size: 24px;
-                text-shadow: 1px 1px 3px $--black4;
+                color: #01C8EB;
+                text-shadow: 1px 1px 3px #01C8EB;
             }
         }
         .nav-bar-personal {
@@ -168,7 +169,7 @@ export default class LayoutNavBar extends Vue {
             @include utils-pierce(sub-menu) {
                 width: 120px;
                 background: none;
-                &__title-icon {
+                &__title--icon {
                     margin: 2px 5px 0 0;
                 }
                 &__icon-arrow {

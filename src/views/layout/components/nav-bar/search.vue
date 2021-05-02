@@ -151,7 +151,6 @@ export default class NavSearch extends Vue {
     .search-wrapper {
         padding: 0 5px;
         border-radius: $radius;
-        color: $--black3;
         .search-body {
             width: 0;
             overflow: hidden;
@@ -160,9 +159,11 @@ export default class NavSearch extends Vue {
             @include utils-inputPlaceholder($--btn-disable-color-2);
             @include utils-pierce (ivu-select-selection) {
                 border: none;
+                background: #1B325C;
                 .ivu-select-input {
                     color: $--white;
-                    background: rgba(68, 68, 68, 0.8);
+                    background: rgba(255, 255, 255, 0.2);
+                    opacity: 0.5;
                 }
             }
         }

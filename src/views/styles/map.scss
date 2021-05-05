@@ -18,7 +18,7 @@ $aside-control-height: 50px;
     .map-main {
         width: calc(100% - #{$main-margin-aside * 2});
         height: calc(100% - 0.6rem - 46px);
-        color: $-white;
+        color: $--white;
         margin: $main-margin-bar $main-margin-aside;
         position: relative;
         flex: auto;
@@ -135,7 +135,7 @@ $aside-control-height: 50px;
                 font-weight: 600;
                 &--numeric {
                     font-size: 16px;
-                    color: $--text-dark-color-active2;
+                    color: $--gray-active2;
                 }
             }
         }
@@ -163,7 +163,7 @@ $aside-control-height: 50px;
         .map-operations {
             position: absolute;
             top: 10px;
-            right: 580px;
+            right: 90px;
             z-index: 1;
             &__control {
                 margin: 0 5px;
@@ -177,19 +177,19 @@ $aside-control-height: 50px;
                     line-height: 32px;
                     background-color: $--background-form-box-color;
                     border: $--border-form-box-color;
-                    color: $-white;
+                    color: $--white;
                     box-shadow: $--shadow-form-box-inset;
                 }
                 @include utils-pierce(ivu-select-selection) {
                     height: 32px;
                     background-color: $--background-form-box-color;
                     border: $--border-form-box-color;
-                    color: $-white;
+                    color: $--white;
                     box-shadow: $--shadow-form-box-inset;
                     border-radius: 4px;
                 }
                 @include utils-pierce(ivu-icon) {
-                    color: $-white;
+                    color: $--white;
                 }
             }
             &__box {
@@ -324,7 +324,7 @@ $aside-control-height: 50px;
         
         width: 240px;
         max-height: 100%;
-        color: $--text-dark-color;
+        color: $--gray;
         border-radius: 5px;
         position: absolute;
         right: 0;

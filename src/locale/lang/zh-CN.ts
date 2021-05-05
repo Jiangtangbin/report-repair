@@ -428,6 +428,9 @@ export default {
             dragSuccess: '移动成功',
             dragFail: '移动失败，请重试',
             commonMenu: '常用菜单',
+            addressSearch: '地点搜索',
+            checkChart: '查看图表',
+            exitChart: '关闭图表',
             plat: {
                 zh: {
                     customer: '客户',

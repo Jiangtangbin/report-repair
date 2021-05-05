@@ -1,4 +1,3 @@
-
 // 百度地图密钥
 export const BMapAk = process.env.NODE_ENV === 'development' ? 'mbsF0g38k1KNfoUjFIjELtjLvCG46pul' : 'TwMZnwR2iMlevT7aolQZINTrMAkm5qoZ';
 

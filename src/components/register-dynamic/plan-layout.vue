@@ -112,7 +112,7 @@ const styleJson = customJSON();
         Tabs,
         TabPane,
         IInput,
-        ViewD: () => dynamicImport(() => import('@/components/point-views/device.vue')),
+        ViewO: () => dynamicImport(() => import('@/components/point-views/org.vue')),
     },
 })
 export default class PlanLayoutHandle extends BasePopup {

@@ -644,7 +644,7 @@ export const customJSON = (color = '#102158') => [
 /**
  * @description: 自定义在线地图样式
  */
-export const customOnJSON = () => [
+ export const customOnJSON = () => [
     {
         featureType: 'all',
         elementType: 'geometry',

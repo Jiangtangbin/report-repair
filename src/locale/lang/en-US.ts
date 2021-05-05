@@ -428,6 +428,9 @@ export default {
             dragSuccess: 'move successful',
             dragFail: 'Move failed, please try again',
             commonMenu: 'common menu',
+            addressSearch: 'location search',
+            checkChart: 'view chart',
+            exitChart: 'close chart',
             plat: {
                 zh: {
                     customer: 'customer',

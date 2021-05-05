@@ -1,10 +1,8 @@
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { appModule, userModule } from '@/store/index';
-// import { eraseAlarm, deletePlanPoint, getOfflineMarkers, getOffLineTree } from '@/config/api';
 import { getOfflineMarkers, getOffLineTree } from '@/config/api';
 import { mapStoragePrefix, pointType } from '@/config/index';
 import { isArray, isFunction, isObject, getMatch, getStorage, setStorage, cacheCalc } from '@/utils';
-// import { openList, deviceHandle, genMenu, IPointMenu, IPointMenuOption } from './index';
 import { openList, genMenu, IPointMenu, IPointMenuOption } from './index';
 import { markerRightMenu, senseAlias } from '@/config/map';
 import { autoViewport } from '@/config/environment';

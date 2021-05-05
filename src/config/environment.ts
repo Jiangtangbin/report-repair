@@ -12,3 +12,6 @@ export const getExemptionLoginAgreement = window.location.href.split('ak=')[1] ?
 
 // 是否自适应地图
 export const autoViewport = [''].includes(mode);
+
+// 百度地图版本
+export const mapVersion = [''].includes(mode) ? '3.0' : '2.0';

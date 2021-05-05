@@ -22,6 +22,7 @@ $--borderColor: #03A9F3;
 $--text-active-color: #57a3f3;
 $--gray-active2: #00F9E7; // 偏亮
 $--gray-active3: #17dbeb; // 偏淡
+$--text-dark-color-active: #ffc000;
 
 // 菜单颜色
 $--menu-color: #0646A7;
@@ -63,6 +64,7 @@ $--border-base-active-color: 1px solid #ff8888;
 $--border-form-popup-color: 1px solid #A0CEFF;
 $--border-form-box-color: 1px solid #5FDCFF;
 $--border-base-dark-color: #2096D6;
+$--border-dark-base: 1px solid $--border-base-dark-color;
 
 // 阴影颜色
 $--shadow-form-box-inset-color: rgba(0, 198, 255, 1) 0px 0px 10px 1px inset;

@@ -178,28 +178,28 @@ const dynamicRoutes: RouteConfig[] = [
             },
         ],
     },
-    // {
-    //     path: '/layout',
-    //     name: 'layout',
-    //     meta: {
-    //         title: '运维中心',
-    //     },
-    //     component: Layout,
-    //     redirect,
-    //     children: [
-    //         {
-    //             path: 'planLayout',
-    //             name: 'planLayout',
-    //             meta: {
-    //                 title: '地图运维',
-    //                 fullScreen: true,
-    //                 size: true, // 用于给地图运维中的地图类型增加偏移
-    //             },
-    //             props: route => ({ ...route.query, tagHide: true, authKey: route.name }),
-    //             component: () => import(/* webpackChunkName: 'map-operation' */'@/views/operations/map-operation.vue'),
-    //         },
-    //     ],
-    // },
+    {
+        path: '/layout',
+        name: 'layout',
+        meta: {
+            title: '运维中心',
+        },
+        component: Layout,
+        redirect,
+        children: [
+            {
+                path: 'planLayout',
+                name: 'planLayout',
+                meta: {
+                    title: '地图运维',
+                    fullScreen: true,
+                    size: true, // 用于给地图运维中的地图类型增加偏移
+                },
+                props: route => ({ ...route.query, tagHide: true, authKey: route.name }),
+                component: () => import(/* webpackChunkName: 'map-operation' */'@/views/operations/map-operation.vue'),
+            },
+        ],
+    },
 ];
 
 export default dynamicRoutes;

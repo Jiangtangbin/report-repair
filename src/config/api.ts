@@ -30,6 +30,21 @@ export function logout() {
     return axios('user/user/logout', { method: 'POST' });
 }
 
+// 获取图形验证码
+export function getGraphicCode(mobile: API.Parameter['GraphicCode']) {
+    return axios('common/common/getImgCode', { params: { mobile }});
+}
+
+// 发送短信验证码
+export function sendSMSCode(data: API.Parameter['SMSCode']) {
+    return axios('common/common/getSmsCode', { data, method: 'POST' });
+}
+
+// 修改密码
+export function updatePassword(data: API.Parameter['UpdatePassword']) {
+    return axios('common/common/modifyPassword', { data, method: 'POST' });
+}
+
 // api 列表
 export function getApiList() {
     return axios<API.Response['ApiList']>('api/index/index', { noTip: true });

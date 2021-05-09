@@ -148,6 +148,7 @@ module.exports = {
         // proxy: 'http://192.168.4.132:9851',
         // 生产环境
         proxy: 'http://122.112.176.222:8558/apis/',
+        // proxy: 'http://122.112.176.222:9605/api/',
         // 允许通过本地域名访问
         disableHostCheck: true,
     },

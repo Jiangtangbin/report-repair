@@ -31,7 +31,7 @@
         <form-item>
             <div class="login-form-control">
                 <checkbox v-model="formInline.remember">{{$t('h.login.rememberPassword')}}</checkbox>
-                <span class="c-p">{{$t('h.login.forgetPassword')}}?</span>
+                <span @click="$emit('forgot')" class="c-p">{{$t('h.login.forgetPassword')}}?</span>
             </div>
         </form-item>
         <form-item>
@@ -48,7 +48,6 @@ import { signModule } from '@/store/modules/sign';
 import { IUserInfo, getUser, setUser } from '@/utils/encrypt';
 import { passwordReg, userNameReg } from '@/utils/utils';
 import { i18n } from '@/locale/index';
-
 
 @Component({
     components: {

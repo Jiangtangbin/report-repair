@@ -50,7 +50,7 @@ export default class PersonalAvatar extends Vue {
         return username;
     }
     get personalList() {
-        return getExemptionLoginAgreement ? [{ name: 'logout' }] : [{ name: 'returnHome' }, { name: 'logout' }];
+        return getExemptionLoginAgreement ? [{ name: 'logout' }] : [{ name: 'personal' }, { name: 'returnHome' }, { name: 'logout' }];
     }
 
     /**
@@ -61,6 +61,9 @@ export default class PersonalAvatar extends Vue {
         switch (name) {
             case 'logout':
                 this.logouts();
+                break;
+            case 'personal':
+                this.$router.push('/person/setUser');
                 break;
             default:
                 this.$router.push({ name: 'home' });

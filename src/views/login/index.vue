@@ -1,7 +1,7 @@
 <template>
     <div class="login-wrapper d-v-c">
         <div class="login">
-            <component :is="currentComponent" :class="{'login-container-fill': isMobile}" class="login-container" />
+            <component :is="currentComponent" :class="{'login-container-fill': isMobile}" @forgot="currentComponent = 'forgot'" @on-back="currentComponent = 'signIn'" class="login-container" />
             <template v-if="!isMobile">
                 <div class="login-download-rail d-v-c">
                     <img src="~@/assets/images/login/download-rail.png" />
@@ -23,8 +23,9 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Tabs, TabPane } from 'view-design';
 import QR from 'vue-qr';
 import login from './components/login.vue';
+import forgot from './components/forgot.vue';
 import { appModule } from '@/store/index';
-import { getPackage } from '@/config/api';
+// import { getPackage } from '@/config/api';
 
 const logo = require('@/assets/images/logo.png'); // 防止 ts 报错
 const { location: { origin }} = window;
@@ -32,6 +33,7 @@ const { location: { origin }} = window;
 @Component({
     components: {
         signIn: login,
+        forgot: forgot,
         Tabs,
         TabPane,
         QR,

@@ -103,6 +103,18 @@ declare namespace API {
             type: number;
             force?: number;
         }
+        'GraphicCode': {
+            mobile: number | string;
+        }
+        'SMSCode': {
+            mobile: number | string;
+            code: number | string;
+        }
+        'UpdatePassword': {
+            mobile: number | string;
+            password: string;
+            verify: string;
+        }
         // 安装包
         'Package': {
             type?: 1 | 2 | 3 | 4;

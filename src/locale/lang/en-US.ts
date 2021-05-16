@@ -200,6 +200,11 @@ export default {
             time: 'time',
             result: 'result',
             reason: 'reason',
+            city: 'city',
+            area: 'area',
+            adminor: 'person charge',
+            adminorPhone: 'person charge phone',
+            weChat: 'we chat',
             operationLog: {
                 operationObj: 'operation object',
                 operationUser: 'operation user',
@@ -207,6 +212,8 @@ export default {
                 operationTime: 'operation time',
                 operationResult: 'operation results',
                 errorCause: 'reasons for failure',
+                startTime: 'start time',
+                endTime: 'end time',
             },
             deviceManage: {
                 signalIntensity: 'signal intensity',
@@ -233,24 +240,6 @@ export default {
         page: {
             result: 'A total of {msg} results',
         },
-        chart: {
-            easterly: 'east wind',
-            southeasterly: 'southeast wind',
-            southeastEasterly: 'east by southeast',
-            southeastSoutherly: 'southeast wind',
-            northeasterly: 'northeasterly wind',
-            northeastEasterly: 'east by northeast',
-            northeastNortherly: 'northerly wind',
-            southerly: 'south wind',
-            southwestSoutherly: 'southwesterly winds',
-            southwesterly: 'southwest wind',
-            southwestWesterly: 'west southwest wind',
-            westerly: 'westerly',
-            northwesterly: 'northwest wind',
-            northwestWesterly: 'westerly wind',
-            northwestNortherly: 'northerly wind',
-            northerly: 'north wind',
-        },
         login: {
             account: 'account',
             password: 'password',
@@ -260,10 +249,6 @@ export default {
         },
         menu: {
             addMenu: 'add menu',
-        },
-        dictionaries: {
-            requestType: 'the type passed on request',
-            dictionariesParamsList: 'dictionary parameter list',
         },
         package: {
             uploadPlugPackage: 'upload plug-ins and installation packages',
@@ -314,6 +299,11 @@ export default {
             device: 'device',
             distance: 'distance (m)',
             status: 'status',
+            city: 'city',
+            area: 'area',
+            adminArea: 'regulatory area',
+            sex: 'sex',
+            isNotice: 'receive work order notice',
             menu: {
                 menuTitle: 'menu title',
                 pageTitle: 'page title',
@@ -336,37 +326,6 @@ export default {
             customerManage: {
                 personInCharge: 'person in charge',
                 personInChargeTelephone: 'telephone number of responsible person',
-            },
-            deviceManage: {
-                personInCharge: 'person in charge',
-                personInChargeTelephone: 'telephone number of responsible person',
-                lastCommunicationTime: 'last communication time',
-                resolution: 'resolution',
-                remainingCapacity: 'remaining capacity',
-                signalIntensity: 'signal intensity',
-            },
-            fileManage: {
-                fileName: 'file name',
-                fileType: 'file type',
-                file: 'file',
-            },
-            configManage: {
-                config: 'config',
-                configName: 'config name',
-                configContent: 'config content',
-                audioOutput: 'audio output',
-                template1: 'template 1',
-                template2: 'template 2',
-                template3: 'template 3',
-                template4: 'template 4',
-                template5: 'template 5',
-                windowDisplay: 'window display',
-                duration: 'duration (s)',
-                selectDuration: 'select duration (s)',
-                enterDuration: 'enter duration (s)',
-                windowAudio: 'window audio',
-                windowNumber: '(window {msg})',
-                fileType: 'file type',
             },
         },
         placeholder: {
@@ -407,11 +366,6 @@ export default {
             get: 'get',
             searchResult: 'search result',
             titles: {
-                config: ' config',
-                usualAddress: ' usual address',
-                plan: ' plan',
-                deviceGroup: ' device group',
-                device: ' device',
                 location: ' location',
                 customer: ' customer',
                 auth: ' auth',
@@ -423,16 +377,8 @@ export default {
                 externalLinks: 'external links',
                 iconList: 'icon list',
                 queryCriteria: 'query criteria',
-                setGroupDevice: 'set up grouping device',
-                distributionConfigOrFile: 'distribution {msg} to device',
                 uploadFile: 'upload file',
-                playVideo: 'play video',
-                playAudio: 'play audio',
                 viewPicture: 'view picture',
-                configContent: 'config content',
-                devicePreview: 'device preview',
-                setDeviceConfigOrFile: 'set device config or file',
-                viewDistributeResult: 'view distribute result',
             },
         },
         map: {
@@ -446,10 +392,6 @@ export default {
                 zh: {
                     customer: 'customer',
                 },
-            },
-            rightMenu: {
-            },
-            marker: {
             },
         },
         other: {

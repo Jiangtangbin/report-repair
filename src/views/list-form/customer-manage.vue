@@ -22,7 +22,6 @@ import BasicList from '@/components/common/list.vue';
 import { getOrgList as getList, deleteOrg as del } from '@/config/api';
 import { CustomerColumns, PageAuth } from '@/base-class/list';
 import { customerCondition as searchCondition } from '@/config/conditions';
-import bus from '@/utils/bus';
 
 type PageType = 'OrgList';
 

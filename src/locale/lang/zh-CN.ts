@@ -200,6 +200,11 @@ export default {
             time: '时间',
             result: '结果',
             reason: '原因',
+            city: '市',
+            area: '区',
+            adminor: '负责人',
+            adminorPhone: '负责人电话',
+            weChat: '微信',
             operationLog: {
                 operationObj: '操作对象',
                 operationUser: '操作用户',
@@ -207,6 +212,8 @@ export default {
                 operationTime: '操作时间',
                 operationResult: '操作结果',
                 errorCause: '失败原因',
+                startTime: '开始时间',
+                endTime: '结束时间',
             },
             deviceManage: {
                 signalIntensity: '信号强度',
@@ -233,24 +240,6 @@ export default {
         page: {
             result: '共 {msg} 个结果',
         },
-        chart: {
-            easterly: '东风',
-            southeasterly: '东南风',
-            southeastEasterly: '东南偏东风',
-            southeastSoutherly: '东南偏南风',
-            northeasterly: '东北风',
-            northeastEasterly: '东北偏东风',
-            northeastNortherly: '东北偏北风',
-            southerly: '南风',
-            southwestSoutherly: '西南偏南风',
-            southwesterly: '西南风',
-            southwestWesterly: '西南偏西风',
-            westerly: '西风',
-            northwesterly: '西北风',
-            northwestWesterly: '西北偏西风',
-            northwestNortherly: '西北偏北风',
-            northerly: '北风',
-        },
         login: {
             account: '账号',
             password: '密码',
@@ -260,10 +249,6 @@ export default {
         },
         menu: {
             addMenu: '添加菜单',
-        },
-        dictionaries: {
-            requestType: '请求时传递的类型',
-            dictionariesParamsList: '字典参数列表',
         },
         package: {
             uploadPlugPackage: '上传插件和安装包',
@@ -314,6 +299,11 @@ export default {
             device: '设备',
             distance: '距离（米）',
             status: '状态',
+            city: '市',
+            area: '区',
+            adminArea: '监管区域',
+            sex: '性别',
+            isNotice: '接收工单通知',
             menu: {
                 menuTitle: '菜单标题',
                 pageTitle: '页面标题',
@@ -336,37 +326,6 @@ export default {
             customerManage: {
                 personInCharge: '负责人',
                 personInChargeTelephone: '负责人电话',
-            },
-            deviceManage: {
-                personInCharge: '负责人',
-                personInChargeTelephone: '负责人电话',
-                lastCommunicationTime: '上次通讯时间',
-                resolution: '分辨率',
-                remainingCapacity: '剩余电量',
-                signalIntensity: '信号强度',
-            },
-            fileManage: {
-                fileName: '文件名称',
-                fileType: '文件类型',
-                file: '文件',
-            },
-            configManage: {
-                config: '配置',
-                configName: '配置名称',
-                configContent: '配置内容',
-                audioOutput: '音频输出',
-                template1: '模板一',
-                template2: '模板二',
-                template3: '模板三',
-                template4: '模板四',
-                template5: '模板五',
-                windowDisplay: '窗口展示',
-                duration: '时长（秒）',
-                selectDuration: '选择时长（秒）',
-                enterDuration: '输入时长（秒）',
-                windowAudio: '窗口音频',
-                windowNumber: '（窗口 {msg}）',
-                fileType: '文件类型',
             },
         },
         placeholder: {
@@ -407,11 +366,6 @@ export default {
             get: '获取',
             searchResult: '搜索结果',
             titles: {
-                config: '配置',
-                usualAddress: '常用地址',
-                plan: '平面图',
-                deviceGroup: '设备分组',
-                device: '设备',
                 location: '定位',
                 customer: '客户',
                 auth: '权限',
@@ -423,16 +377,8 @@ export default {
                 externalLinks: '外部链接',
                 iconList: '图标列表',
                 queryCriteria: '查询条件',
-                setGroupDevice: '设置分组设备',
-                distributionConfigOrFile: '分配{msg}到设备',
                 uploadFile: '上传文件',
-                playVideo: '播放视频',
-                playAudio: '播放音频',
                 viewPicture: '查看图片',
-                configContent: '配置内容',
-                devicePreview: '设备预览',
-                setDeviceConfigOrFile: '设置设备配置或文件',
-                viewDistributeResult: '查看分配结果',
             },
         },
         map: {
@@ -446,10 +392,6 @@ export default {
                 zh: {
                     customer: '客户',
                 },
-            },
-            rightMenu: {
-            },
-            marker: {
             },
         },
         other: {

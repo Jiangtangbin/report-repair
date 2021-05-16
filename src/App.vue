@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <router-view />
+        <layout v-if="!isHomeOrLogin" />
+        <router-view v-else />
     </div>
 </template>
 
@@ -10,12 +11,14 @@ import { deviceType } from '@/store/modules/app';
 import { appModule } from '@/store/index';
 import { throttle } from 'lodash';
 import socket from '@/socket/index';
+import Layout from '@/views/layout/index'
 import { loadLanguageAsync } from '@/locale/index';
 
 const WIDTH = 992; // refer to Bootstrap's responsive design
 
 @Component({
     components: {
+        Layout
     },
 })
 export default class App extends Vue {
@@ -25,6 +28,9 @@ export default class App extends Vue {
 
     get isLogin() {
         return appModule.isLogin;
+    }
+    get isHomeOrLogin() {
+        return this.$route.name === 'home' || this.$route.name === 'login';
     }
 
     beforeCreate() {

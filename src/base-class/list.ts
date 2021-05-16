@@ -3,7 +3,7 @@ import { Vue, Prop } from 'vue-property-decorator';
 import { userModule, appModule } from '@/store/index';
 import { Poptip, TableColumnRenderParams } from 'view-design';
 import { getMatch, isNumber } from '@/utils/index';
-import { operationLog, roleManage, accountNumberManage, customerManage, deviceManage, deviceGroupManage, fileManage, configManage, distributeLogManage, planManage } from '@/config/columns';
+import { operationLog, accountNumberManage, customerManage } from '@/config/columns';
 import isEqualWith from 'lodash/isEqualWith';
 import { i18n } from '@/locale/index';
 
@@ -11,8 +11,6 @@ import { i18n } from '@/locale/index';
 // 拥有的控制权限字段
 type ReadonlyAuth = 'add' | 'edit' | 'details';
 type BaseAuth = ReadonlyAuth | 'delete';
-type DeviceAuth = 'edit' | 'delete';
-type FileAuth = 'add' | 'delete' | 'playVideo' | 'playAudio' | 'viewPicture';
 
 // 权限可能存在的字段类型
 type NormalFields = { name: string, alias?: string, title: string };
@@ -26,26 +24,13 @@ type AuthField = {
     edit: NormalFields;
     delete: TipsFields;
     details: NormalFields;
-    'set-group-device': NormalFields;
-    planLayout: NormalFields;
 }
 
 // 每个页面所对应的权限
 export type PageAuth = {
-    'menu-manage': BaseAuth | 'plus';
-    'device-manage': BaseAuth | DeviceAuth | 'view' | 'distributeContent';
-    'package-manage': 'add';
-    'operation-log': 'details';
-    'role-manage': BaseAuth;
     'account-number-manage': ReadonlyAuth | 'auth' | 'unable' | 'enable';
     'customer-manage': BaseAuth;
-    'device-group-manage': BaseAuth | 'set-group-device';
-    'files': 'add' | 'delete';
-    'file-manage': FileAuth | 'distributeContent' | 'viewDistributeLog';
-    'config-manage': BaseAuth | 'distributeContent' | 'viewDistributeLog';
-    'distribute-log-manage': 'view' | 'viewDistributeResult',
-    'plan-manage': BaseAuth | 'planLayout';
-    'maps': '';
+    'operation-log': 'details';
 }
 
 /**
@@ -93,56 +78,6 @@ const icons: AuthField = {
         alias: 'details',
         title: 'details',
     },
-    playVideo: {
-        name: 'play-video',
-        alias: 'playVideo',
-        title: 'playVideo',
-    },
-    playAudio: {
-        name: 'play-audio',
-        alias: 'playAudio',
-        title: 'playAudio',
-    },
-    viewPicture: {
-        name: 'view',
-        alias: 'viewPicture',
-        title: 'viewPicture',
-    },
-    view: {
-        name: 'view',
-        alias: 'view',
-        title: 'view',
-    },
-    viewDistributeResult: {
-        name: 'view-file',
-        alias: 'viewDistributeResult',
-        title: 'viewDistributeResult',
-    },
-    viewDistributeLog: {
-        name: 'view-file',
-        alias: 'viewDistributeLog',
-        title: 'viewDistributeLog',
-    },
-    'config-distribute': {
-        name: 'distribute-content',
-        alias: 'distributeContent',
-        title: 'distributeContent',
-    },
-    'device-config-distribute': {
-        name: 'distribute-content',
-        alias: 'distributeContent',
-        title: 'setDeviceContent',
-    },
-    'device-set-content': {
-        name: 'distribute-content',
-        alias: 'config-distribute',
-        title: 'setDeviceContent',
-    },
-    planLayout: {
-        name: 'plan-layout',
-        alias: 'planLayout',
-        title: 'distribution',
-    },
 };
 
 /**
@@ -158,41 +93,32 @@ function iconDispose<T extends PageAuth, K extends keyof PageAuth>(originAuth: T
     const a: keyof PageAuth | undefined = custom;
     // 此处匹配可以使用正则，防止不同平台加了前缀导致匹配失败
     switch (a) {
-        case /deviceList$/.test(a!) ? a : '':  {
-            const { preview, isonline } = data!;
-            isonline && preview && auth.push('view' as any);
-            auth.filter((key: string, index: number) => !isonline && key === 'device-config-distribute' && auth.splice(index, 1));
+        case /orgList$/.test(a!) ? a : '':  {
+            console.log('客户管理');
             break;
         }
-        case /unitManage$/.test(a!) ? a : '':  {
+        case /userList$/.test(a!) ? a : '':  {
+            console.log('账号管理');
             break;
         }
-        case /group$/.test(a!) ? a : '': {
+        case /knowLedgeList$/.test(a!) ? a : '':  {
+            console.log('知识库管理');
             break;
         }
-        case /role$/.test(a!) ? a : '': {
-            const { issystem } = data!;
-            auth = auth.filter(k => !(issystem && k === 'delete'));
+        case /noticeList$/.test(a!) ? a : '':  {
+            console.log('公告管理');
             break;
         }
-        case /files$/.test(a!) ? a : '': {
-            const { t } = data!;
-            t === 'video' ? auth.push('playVideo' as any) : t === 'audio' ? auth.push('playAudio' as any) : auth.push('viewPicture' as any);
-            auth.push('viewDistributeLog' as any);
+        case /poolList$/.test(a!) ? a : '':  {
+            console.log('工单池管理');
             break;
         }
-        case /configs$/.test(a!) ? a : '': {
-            auth.push('viewDistributeLog' as any);
+        case /workList$/.test(a!) ? a : '':  {
+            console.log('工单管理');
             break;
         }
-        case /distribute-log$/.test(a!) ? a : '': {
-            auth.push('view' as any);
-            auth.push('viewDistributeResult' as any);
-            break;
-        }
-        case 'maps': {
-            // 平面图管理加入布点按钮
-            auth.push('planLayout' as any);
+        case /map$/.test(a!) ? a : '':  {
+            console.log('地图运维');
             break;
         }
         default:
@@ -338,19 +264,6 @@ export abstract class OperationLogColumns extends BasicList<'operation-log'> {
     }
 }
 
-// 角色管理列表
-export abstract class RoleColumns extends BasicList<'role-manage'> {
-    auth: PageAuth['role-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'role-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(roleManage(), authKey)(this);
-    }
-}
-
 // 账号管理列表
 export abstract class AccountColumns extends BasicList<'account-number-manage'> {
     auth: PageAuth['account-number-manage'][] = [];
@@ -375,97 +288,4 @@ export abstract class CustomerColumns extends BasicList<'customer-manage'> {
         const { authKey } = this;
         return genListOperations(customerManage(), authKey)(this);
     }
-}
-
-// 设备列表
-export abstract class DeviceColumns extends BasicList<'device-manage'> {
-    auth: PageAuth['device-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'device-manage';
-
-    batchOperationStatus = false;
-
-    get columns() {
-        const { authKey, batchOperationStatus } = this;
-        const _columns = deviceManage();
-        if (batchOperationStatus) {
-            _columns.splice(0, 0, { type: 'selection', width: 60 });
-        }
-
-        return genListOperations(_columns, authKey, 130)(this);
-    }
-}
-
-// 设备分组列表
-export abstract class DeviceGroupColumns extends BasicList<'device-group-manage'> {
-    auth: PageAuth['device-group-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'device-group-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(deviceGroupManage(), authKey)(this);
-    }
-}
-
-// 文件仓库列表
-export abstract class FileColumns extends BasicList<'file-manage'> {
-    auth: PageAuth['file-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'file-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(fileManage(), authKey)(this);
-    }
-}
-
-// 配置列表
-export abstract class ConfigColumns extends BasicList<'config-manage'> {
-    auth: PageAuth['config-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'config-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(configManage(), authKey, 130)(this);
-    }
-}
-
-// 下发记录列表
-export abstract class DistributeLogColumns extends BasicList<'distribute-log-manage'> {
-    auth: PageAuth['distribute-log-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'distribute-log-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(distributeLogManage(), authKey)(this);
-    }
-}
-
-// 平面图列表
-export abstract class PlanColumns extends BasicList<'plan-manage'> {
-    auth: PageAuth['plan-manage'][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: 'plan-manage';
-
-    get columns() {
-        const { authKey } = this;
-        return genListOperations(planManage(), authKey)(this);
-    }
-}
-
-// 分组树形列表
-export abstract class GroupTree<T extends 'menu-manage'> extends BasicAuth<T> {
-    auth: PageAuth[T][] = [];
-    // 外部提供的权限字段
-    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
-    authKey!: T;
 }

@@ -26,7 +26,7 @@ const request = {
 };
 // 打开的列表类型
 const OpenListType = {
-    d: () => dynamicImport(() => import('@/views/list-form/device-manage.vue')),
+    // d: () => dynamicImport(() => import('@/views/list-form/device-manage.vue')),
 };
 
 export type OpenListType = keyof typeof OpenListType;

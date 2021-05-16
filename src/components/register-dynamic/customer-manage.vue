@@ -14,6 +14,21 @@
                 <i-input v-model="formInline.name" :readonly="forbidden" :placeholder="i18n.placeholder.name" />
             </form-item>
             <div class="col">
+                <form-item prop="city" class="col2" :label="i18n.label.city">
+                    <i-select v-model="formInline.city" @on-change="cityChange" :placeholder="i18n.placeholder.city" clearable>
+                        <i-option v-for="item of dicts.city" :key="item.code" :value="item.code">{{item.name}}</i-option>
+                    </i-select>
+                </form-item>
+                <form-item prop="area" class="col2" :label="i18n.label.area">
+                    <i-select v-model="formInline.area" :placeholder="i18n.placeholder.area" clearable>
+                        <i-option v-for="item of dicts.area" :key="item.code" :value="item.code">{{item.name}}</i-option>
+                    </i-select>
+                </form-item>
+            </div>
+            <form-item prop="address" :label="i18n.label.address">
+                <i-input v-model="formInline.address" :readonly="forbidden" :placeholder="i18n.placeholder.address" />
+            </form-item>
+            <div class="col">
                 <form-item prop="adminor" class="col2" :label="i18n.label.adminor">
                     <i-input v-model="formInline.adminor" :readonly="forbidden" :placeholder="i18n.placeholder.adminor" />
                 </form-item>
@@ -32,21 +47,17 @@
                     </div>
                 </form-item>
             </div>
-            <form-item prop="address" :label="i18n.label.address">
-                <i-input v-model="formInline.address" :readonly="forbidden" :placeholder="i18n.placeholder.address" />
-            </form-item>
-            <form-item prop="remark" :label="i18n.label.remark">
-                <i-input v-model="formInline.remark" :readonly="forbidden" type="textarea" :placeholder="i18n.placeholder.remark" />
-            </form-item>
         </i-form>
     </my-modal>
 </template>
 
 <script lang="ts">
-import { Prop, Watch, Component } from 'vue-property-decorator';
-import { Form as IForm, FormItem, Input as IInput } from 'view-design';
+import { Watch, Component } from 'vue-property-decorator';
+import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as IOption } from 'view-design';
 import { Popup } from '@/base-class/dynamic-create';
+import { locationReg } from '@/utils/utils';
 import { setOrg as set, getOrgInfo as get } from '@/config/api';
+import { DictModule } from '@/store/modules/dict';
 
 @Component({
     name: 'CustomerManageHandle',
@@ -54,6 +65,8 @@ import { setOrg as set, getOrgInfo as get } from '@/config/api';
         IForm,
         FormItem,
         IInput,
+        ISelect,
+        IOption,
     },
 })
 export default class CustomerManageHandle extends Popup<'SetOrg'> {
@@ -71,8 +84,13 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         lng: '',
         lat: '',
         address: '',
-        remark: '',
+        city: '',
+        area: '',
     };
+    dicts = { 
+        city: [],
+        area: [],
+    } as Record<'city' | 'area', Dictionary<any>[]>;
 
     get i18n() {
         const label = {
@@ -82,7 +100,8 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: `${this.$t('h.formLabel.customerManage.personInChargeTelephone')}: `,
             lng: `${this.$t('h.formLabel.lng')}: `,
             lat: `${this.$t('h.formLabel.lat')}: `,
-            remark: `${this.$t('h.formLabel.remark')}: `,
+            city: `${this.$t('h.formLabel.city')}: `,
+            area: `${this.$t('h.formLabel.area')}: `,
         };
         const placeholder = {
             name: this.$t('h.placeholder.pleaseEnter', { msg: label.name }),
@@ -91,7 +110,9 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: this.$t('h.placeholder.pleaseEnter', { msg: label.adminor_phone }),
             lng: this.$t('h.placeholder.pleaseEnter', { msg: label.lng }),
             lat: this.$t('h.placeholder.pleaseEnter', { msg: label.lat }),
-            remark: this.$t('h.placeholder.pleaseEnter', { msg: label.remark }),
+            city: this.$t('h.placeholder.pleaseSelect', { msg: label.city }),
+            area: this.$t('h.placeholder.pleaseSelect', { msg: label.area }),
+
         };
 
         return { label, placeholder };
@@ -102,6 +123,10 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         return {
             name: { required: true, message: placeholder.name, trigger: 'blur' },
             address: { required: true, message: placeholder.address, trigger: 'blur' },
+            lng: { required: true, validator: (rule: any, val: string, callback: Function) => callback(locationReg(val, 'lng')) },
+            lat: { required: true, validator: (rule: any, val: string, callback: Function) => callback(locationReg(val, 'lat')) },
+            city: { required: true, message: placeholder.city, trigger: 'blur' },
+            area: { required: true, message: placeholder.area, trigger: 'blur' },
         };
     }
 
@@ -115,15 +140,45 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         const {
             formInline,
             id,
+            dicts: {
+                city: { length: city },
+                area: { length: area },
+            },
         } = this;
 
         id && (formInline.id = id);
+        city || this.getDicts('city', 'city');
+        area || this.getDicts('area', 'area');
         id && this.getDetails();
     }
     // 关闭前事件
     suffixFunc() {
         this.$refs.form.resetFields();
-        console.log(this.formInline);
+    }
+    cityChange() {
+        const {
+            dicts: {
+                area: { length: area },
+            },
+        } = this;
+        area || this.getDicts('area', 'area');
+    }
+    /**
+     * 获取字典数据
+     * @param {String} key: 成功赋值的键
+     * @param {String} type: 字典请求的类型
+     * @param {any} params?: 字典请求的参数
+     */
+    async getDicts<T extends keyof CustomerManageHandle['dicts']>(key: T, type: GlobalCustomDicts.CustomDictsKey, params?: GlobalCustomDicts.CustomDictsValue) {
+        const { dicts, formInline: { city } } = this;
+        let data = await DictModule.getCustomDicts({ type, params });
+        if (data && typeof data !== 'string') {
+            if (key === 'area') {
+                (dicts[key] as any) = data.find(item => item.code === city)?.children || [];
+            } else {
+                (dicts[key] as any[]) = data;
+            }
+        }
     }
     // 获取详情
     async getDetails() {
@@ -135,7 +190,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         this.loading = false;
     }
     // 设置详情
-    setDetails({ address, name, adminor, adminor_phone, lng, lat, remark, ...args }: API.Response['OrgInfo']) {
+    setDetails({ address, name, adminor, adminor_phone, lng, lat, city, area, ...args }: API.Response['OrgInfo']) {
         const { formInline } = this;
         Object.assign(formInline, {
             address,
@@ -144,7 +199,8 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: Number(adminor_phone) || 0,
             lng,
             lat,
-            remark,
+            city,
+            area,
         });
     }
     /**

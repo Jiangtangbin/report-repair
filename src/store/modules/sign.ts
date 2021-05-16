@@ -37,15 +37,15 @@ class Sign extends VuexModule {
                 if (!data.type) {
                     addPath(data.data.auth);
                     this.addRoutes(data.data.auth);
-                    setStorage(currentUserKey, data.data.info.mobile.toString(), 'sessionStorage');
+                    // setStorage(currentUserKey, data.data.info.mobile.toString(), 'sessionStorage');
                     setStorage('t', data.data.token);
-                    const points = (data.data.info.maprange as any) || '[]';
-                    data.data.info.maprange = JSON.parse(points);
-                    if (data.data.lnglat) {
-                        // 后台可能返回字符串，谷歌浏览器只允许数字类型
-                        const { lng, lat } = data.data.lnglat;
-                        Object.assign(data.data.lnglat, { lng: Number(lng), lat: Number(lat) });
-                    }
+                    // const points = (data.data.info.maprange as any) || '[]';
+                    // data.data.info.maprange = JSON.parse(points);
+                    // if (data.data.lnglat) {
+                    //     // 后台可能返回字符串，谷歌浏览器只允许数字类型
+                    //     const { lng, lat } = data.data.lnglat;
+                    //     Object.assign(data.data.lnglat, { lng: Number(lng), lat: Number(lat) });
+                    // }
                     store.commit('user/resetUser', data.data);
                     store.commit('app/alterState', { key: 'isLogin', value: true });
                 }
@@ -58,6 +58,7 @@ class Sign extends VuexModule {
      */
     @Action
     async addRoutes(auth: ResponseLogin.Auth[]) {
+        console.log(auth)
         const routes = await store.dispatch('permission/generateRoutes', auth);
         router.addRoutes(routes.concat(asyncConstantRoutes));
     }

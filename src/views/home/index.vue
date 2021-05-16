@@ -17,7 +17,7 @@
                 </template>
             </div>
         </main>
-        <transition name="slide-dl-ue">
+        <!-- <transition name="slide-dl-ue">
             <footer v-if="isShowFooter" class="home-page-footer d-v-c">
                 <div class="home-page-footer-menu d-v-c">
                     <p class="home-page-footer-menu-target">{{footerMenusCurrentTarget}}</p>
@@ -46,7 +46,7 @@
                     </template>
                 </div>
             </footer>
-        </transition>
+        </transition> -->
     </div>
 </template>
 
@@ -62,10 +62,10 @@ import { title } from '@/config/environment';
     },
 })
 export default class Home extends Vue {
-    isShowFooter = false;
-    middleMenus = this.menus.default[0].children;
+    // isShowFooter = false;
+    // middleMenus = this.menus.default[0].children;
     mainMenusCurrentIndex = null; // 主体菜单当前索引
-    footerMenusCurrentTarget = ''; // 脚部菜单当前项
+    // footerMenusCurrentTarget = ''; // 脚部菜单当前项
     lang = appModule.lang;
 
     // 页面标题
@@ -75,14 +75,16 @@ export default class Home extends Vue {
     }
     // 菜单列表
     get menus() {
-        const result = { default: [], govern: [] };
+        // const result = { default: [], govern: [] };
+        
+        const result = { default: [] };
         userModule.menus.every(v => {
-            if (v.value === 'govern') {
-                v.children && result.govern.push(...v.children);
+            // if (v.value === 'govern') {
+            //     v.children && result.govern.push(...v.children);
+            //     result.default.push(v);
+            // } else {
                 result.default.push(v);
-            } else {
-                result.default.push(v);
-            }
+            // }
             return true;
         });
         return result;
@@ -101,16 +103,17 @@ export default class Home extends Vue {
      * @param {Object} item: 点击项信息
      * @param {Number} index: 点击项索引
      */
-    handle(item: Object, index: Number) {
-        this.isShowFooter = false;
-        setTimeout(() => {
+    handle(item: Object, index: number) {
+        this.$router.push(item.path);
+        // this.isShowFooter = false;
+        // setTimeout(() => {
             // 一级菜单索引的记录
-            appModule.alterState({ key: 'menuIndex', value: index });
-            this.isShowFooter = true;
-            this.middleMenus = item.children;
+            // appModule.alterState({ key: 'menuIndex', value: index });
+            // this.isShowFooter = true;
+            // this.middleMenus = item.children;
             this.mainMenusCurrentIndex = index;
-            this.footerMenusCurrentTarget = item.title;
-        }, 500);
+            // this.footerMenusCurrentTarget = item.title;
+        // }, 500);
     }
     /**
      * @description: 菜单子项切换（外部链接）
@@ -125,11 +128,11 @@ export default class Home extends Vue {
         });
     }
 
-    created() {
-        setTimeout(() => {
-            this.handle(this.menus.default[appModule.menuIndex], appModule.menuIndex);
-        }, 100);
-    }
+    // created() {
+    //     setTimeout(() => {
+    //         this.handle(this.menus.default[appModule.menuIndex], appModule.menuIndex);
+    //     }, 100);
+    // }
 }
 </script>
 
@@ -306,7 +309,7 @@ export default class Home extends Vue {
                 width: 100%;
                 figure {
                     margin: 0 80px;
-                    width: 220px;
+                    width: 100px;
                     height: 350px;
                     color: #dddddd;
                     font-size: 24px;
@@ -344,52 +347,52 @@ export default class Home extends Vue {
                 }
             }
         }
-        .home-page-footer {
-            width: 100%;
-            height: 200px;
-            &-menu {
-                width: calc(100% - 286px);
-                height: 100%;
-                position: relative;
-                display: flex;
-                flex-flow: row wrap;
-                padding: 55px 10px 10px 10px;
-                background: {
-                    image: url($home-page-footer-menu);
-                    size: 100% 100%;
-                    repeat: no-repeat;
-                }
-                &-target {
-                    position: absolute;
-                    color: white;
-                    top: 11px;
-                    font-size: 16px;
-                    text-shadow: 1px 1px 3px #fff;
-                }
-                &-item {
-                    min-width: 160px;
-                    max-width: 160px;
-                    margin: 0 20px;
-                    height: 40px;
-                    color: #fff;
-                    background: {
-                        image: url($home-page-footer-menu-item);
-                        size: 100% 100%;
-                        repeat: no-repeat;
-                    }
-                    &:hover {
-                        transition: all .8s;
-                        background: {
-                            image: url($home-page-footer-menu-active);
-                            size: 100% 100%;
-                            repeat: no-repeat;
-                        }
-                    }
-                    figcaption {
-                        margin: 0 0 0 10px;
-                    }
-                }
-            }
-        }
+        // .home-page-footer {
+        //     width: 100%;
+        //     height: 200px;
+        //     &-menu {
+        //         width: calc(100% - 286px);
+        //         height: 100%;
+        //         position: relative;
+        //         display: flex;
+        //         flex-flow: row wrap;
+        //         padding: 55px 10px 10px 10px;
+        //         background: {
+        //             image: url($home-page-footer-menu);
+        //             size: 100% 100%;
+        //             repeat: no-repeat;
+        //         }
+        //         &-target {
+        //             position: absolute;
+        //             color: white;
+        //             top: 11px;
+        //             font-size: 16px;
+        //             text-shadow: 1px 1px 3px #fff;
+        //         }
+        //         &-item {
+        //             min-width: 160px;
+        //             max-width: 160px;
+        //             margin: 0 20px;
+        //             height: 40px;
+        //             color: #fff;
+        //             background: {
+        //                 image: url($home-page-footer-menu-item);
+        //                 size: 100% 100%;
+        //                 repeat: no-repeat;
+        //             }
+        //             &:hover {
+        //                 transition: all .8s;
+        //                 background: {
+        //                     image: url($home-page-footer-menu-active);
+        //                     size: 100% 100%;
+        //                     repeat: no-repeat;
+        //                 }
+        //             }
+        //             figcaption {
+        //                 margin: 0 0 0 10px;
+        //             }
+        //         }
+        //     }
+        // }
     }
 </style>

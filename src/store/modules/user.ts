@@ -25,50 +25,13 @@ const backfillZoom = 15;
 function defaultUser(): ResponseLogin.LoginInfo {
     return {
         info: {
+            admin_area: "",
             id: 0,
-            usercode: '',
-            username: '',
-            acceptalarm: 1,
-            mobile: 0,
-            avatar: '',
-            email: '',
-            address: '',
-            wxnum: '',
-            qqnum: '',
-            belong_org: 0,
-            department: 0,
-            uuid: '',
-            flag: '',
-            isonline: 1,
-            status: 0,
-            orgname: '',
-            orgcode: '',
-            role: '',
-            rolename: '',
-            orgpath: '',
-            orgattr: '',
-            isbloc: 0,
-            tenant: 0,
-            xf_path: '',
-            tenant_status: 0,
-            goto: '',
-            gotoname: '',
-            logintype: '1',
-            notices: 1,
-            maprange: [],
+            org_id: 0,
+            role: "",
         },
         token: '',
-        port: 8989,
         auth: [],
-        file_pre: '',
-        // alarmnotice: [],
-        // mapcenter: '',
-        // lnglat: backfillPoint,
-        // zoom: backfillZoom,
-        // config: {
-        //     title,
-        //     baseorg: '义乌市',
-        // },
     };
 }
 function getMenu(data: ResponseLogin.Auth[]): ResponseLogin.Auth[] {
@@ -113,7 +76,7 @@ class User extends VuexModule implements IUserState {
     }
     // 返回当前用户机构信息
     get userOrg() {
-        const { user: { info: { belong_org: id, orgname: name }}} = this;
+        const { user: { info: { org_id: id, role: name }}} = this;
         return { id, name };
     }
     // 返回网格信息

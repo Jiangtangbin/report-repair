@@ -121,7 +121,7 @@ export default class AccountNumberManage extends AccountColumns {
             case 'unable':
             case 'enable': {
                 this.loading = true;
-                const { type } = await forbiddenUser({ ids: [data!.id], status: Number(name === 'enable') });
+                const { type } = await forbiddenUser({ id: data!.id, status: Number(name === 'enable') });
                 this.loading = false;
                 type || this.refresh();
                 break;

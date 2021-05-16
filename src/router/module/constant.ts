@@ -29,14 +29,6 @@ export const asyncConstantRoutes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue'),
     },
     {
-        path: '/api',
-        name: 'api',
-        meta: {
-            title: '接口页面',
-        },
-        component: () => import(/* webpackChunkName: 'api' */ '@/views/api/index.vue'),
-    },
-    {
         path: '/zrender',
         name: 'zrender',
         meta: {

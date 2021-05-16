@@ -156,30 +156,30 @@ export default class LoginBox extends Vue {
     }
     /**
      * @description: 提交表单
-     * @param {Number} force: 是否强制登录，1 强制登录
      */
-    async onOk(force?: number) {
+    async onOk() {
         const { formInline, formInline: { password, mobile }, $Message, $Modal } = this;
         this.loading = true;
-        signModule.login({ mobile, password, type: 1, force })
-            .then(({ type, msg, code, data }) => {
+        signModule.login({ mobile, password, type: 1 })
+            .then(({ type, msg, data }) => {
                 type || setUser(formInline);
-                if (code === 2) {
-                    $Modal.confirm({
-                        title: this.$t('h.tips.loggedIn') as string,
-                        content: this.$t('h.tips.forceLogin') as string,
-                        onOk: () => {
-                            this.onOk(1);
-                        },
-                    });
+                // if (code === 2) {
+                //     $Modal.confirm({
+                //         title: this.$t('h.tips.loggedIn') as string,
+                //         content: this.$t('h.tips.forceLogin') as string,
+                //         onOk: () => {
+                //             this.onOk(1);
+                //         },
+                //     });
+                // } else {
+                    console.log(type);
+                if (!type) {
+                    $Message.success(this.$t('h.tips.loginSuccess'));
+                    this.$router.push('/home');
                 } else {
-                    if (!type) {
-                        $Message.success(this.$t('h.tips.loginSuccess'));
-                        this.$router.push(data.info.goto || '/home');
-                    } else {
-                        $Message.error(msg || 'error');
-                    }
+                    $Message.error(msg || 'error');
                 }
+                // }
                 this.loading = false;
             });
     }

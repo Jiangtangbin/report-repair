@@ -1,120 +1,233 @@
 declare namespace ResponseSimple {
     // 字典数据
     interface Dict {
-        value: string;
-        title: string;
+        code: string;
+        name: string;
         type: number;
         [index: string]: string | number;
     }
-    // 安装包选项
-    interface PackageOptions {
-        id: number;
-        version_name: string;
-        version_no: string;
-        type: number;
-        url: string;
-        create_man: number;
-        create_time: string;
-        remark: string;
+    // 角色下拉框
+    interface Rule {
+        id: number | string;
+        code: string;
+        name: string;
+        [index: string]: string | number;
     }
-    // 安装包
-    interface Package {
-        apk?: PackageOptions;
-        plugin?: PackageOptions;
-        suidao?: PackageOptions;
-        ios?: PackageOptions;
+    // 市区树形
+    interface CityArea {
+        code: string;
+        name: string;
+        p_code: string;
+        children?: CityArea[];
+        [index: string]: string | number | undefined | CityArea[];
     }
-    // 菜单模块列表
-    interface getModule {
-        value: string;
-        title: string;
-        icon: string;
-        children?: getMenuTree[]; // 自定义字段，将 getMenuTree 作为子级，方便直接读取数据
-        [index: string]: string | number | undefined | getMenuTree[] | boolean;
-    }
-    // 树形菜单
-    interface getMenuTree {
-        id: number;
-        pid: number;
-        module: string;
-        title: string;
-        url_value?: string;
-        value: string;
-        icon: string;
-        online_hide: 0 | 1;
-        sort: number;
-        system_menu: number;
-        status: 0 | 1;
-        ismenu: 0 | 1;
-        children?: getMenuTree[];
-        [index: string]: number | string | undefined | getMenuTree[];
-    }
-    // 菜单详情
-    interface getMenuInfo {
-        id: number;
-        module: string;
-        pid: number;
-        sort: number;
-        title: string;
-        icon: string;
-        ismenu: 0 | 1;
-        status: 0 | 1;
-        online_hide: 0 | 1;
-        url_value: string;
-        in_title: string;
-        value: string;
+    // 工单类型和服务 / 故障类型的树形
+    interface WorkServiceFault {
+        code: string;
+        name: string;
+        children?: WorkServiceFault[];
+        [index: string]: string | number | undefined | WorkServiceFault[];
     }
     // 操作记录
     interface OperationLog {
         id: number;
         username: string;
         op_name: string;
+        obj: string;
         time: string;
         status: 0 | 1;
         msg: string;
     }
-    // 角色列表
-    interface RoleList {
-        id: number;
-        code: string;
-        name: string;
-        description: string;
-        issystem: 0 | 1;
-        orgname?: string;
-    }
-    // 角色详情
-    interface RoleInfo {
-        id: number;
-        code: string;
-        name: string;
-        description: string;
-        menu_auth: string[];
-    }
-    // 平面图列表
-    interface PlanList {
-        name: string;
-        p_name: string;
+    // 工单池列表
+    interface WorkPoolList {
+        id: number | string;
+        work_code: number | string;
+        work_type_name: string;
+        work_level_name: string;
+        service_type_name: string;
         org_name: string;
-        id: number;
-        org_id: number;
-        img: string;
+        link_man: string;
+        link_mobile: number | string;
+        create_time: string;
     }
-    // 平面图详情
-    interface PlanFileInfo {
-        id: number;
-        name: string;
-        p_id: number;
-        p_name: string;
-        org_id: number;
-        orgname: string;
-        img: string;
+    // 工单列表
+    interface WorkList {
+        id: number | string;
+        work_code: number | string;
+        work_type_name: string;
+        work_status_name: string;
+        work_level_name: string;
+        service_type_name: string;
+        org_name: string;
+        link_man: string;
+        link_mobile: number | string;
+        create_time: string;
+        score: number | string;
     }
-    // 离线地图树形
-    interface OffLineTree {
-        id: number;
-        map_name: string;
-        map_img: string;
-        children: getMenuTree[];
+    // 工单详情
+    interface WorkInfo {
+        // 字段info的注释，请忽略": "详细信息",
+        info: {
+            id: number | string; 
+            work_code: number | string; 
+            work_type_name: string; 
+            work_level_name: string; 
+            work_status: number | string; 
+            work_status_name: string; 
+            service_type_name: string; 
+        },
+        // 字段line的注释，请忽略": "时间轴信息",
+        line: {
+            // 字段report的注释，请忽略": "报修",
+            report: {
+                time: string;
+                creater_name: string;
+                org_name: string;
+                org_address: string;
+                link_man: string;
+                link_mobile: number | string;
+                content: string;
+                imgs: string[];
+            },
+            //字段recieve的注释，请忽略: 接单,
+            recieve: {
+                time: string;
+                accepttype_name: string;
+                sender_name: string;
+                accepter_name: string;
+                accepter_mobile: number | string;
+            },
+            //字段arrive的注释，请忽略: 到场,
+            arrive: {
+                time: string;
+                lng: string;
+                lat: string;
+                distance: string;
+            },
+            //字段reply的注释，请忽略: 回单,
+            reply: {
+                time: string;
+                replyer_name: string;
+                reply_content: string;
+                reply_imgs: string[];
+            },
+            //字段evaluate的注释，请忽略: 评价,
+            evaluate: {
+                time: string;
+                score: number | string;
+                pj: string;
+            }
+        }
+    }
+    // 知识库列表
+    interface KnowledgeBaseList {
+        id: number | string;
+        title: string;
+        creater_name: string;
+        create_time: string;
+        num: number;
+    }
+    // 知识库详情
+    interface KnowledgeBaseInfo {
+        id: number | string;
+        title: string;
+        content: string;
+        creater: number | string;
+        creater_name: string;
+        create_time: string;
+    }
+    // 公告列表
+    interface NoticeList {
+        id: number | string;
+        title: string;
+        publish_status: string;
+        publish_status_name: string;
+        creater_name: string;
+        createtime: string;
+        publish_name: string;
+        publishtime: string;
+        num: number;
+    }
+    // 公告详情
+    interface NoticeInfo {
+        id: number | string;
+        title: string;
+        content: string;
+        publish_status: string;
+        publish_status_name: string;
+        creater: string;
+        creater_name: string;
+        create_time: string;
+        publish: string;
+        publish_name: string;
+        publishtime: string;
+        num: number;
+    }
+    // 地图运维
+    interface MapOperation {
+        points: string;
+        // 字段charts的注释，请忽略: 图表,
+        charts: {
+            // 字段overview的注释，请忽略: 总览,
+            overview: {
+                total: number;
+                year: number;
+                month: number;
+                unfinish: number;
+                pj: number;
+                score: number;
+            },
+        // 字段list的注释，请忽略: 最近工单,
+        list: [
+            {
+            id: number | string;
+            work_code: number | string;
+            work_type_name: string;
+            work_status_name: string;
+            work_level_name: string;
+            service_type_name: string;
+            org_name: string;
+            link_man: string;
+            link_mobile: number | string;
+            create_time: string;
+            }
+        ]
+        }
+    }
+    // 获取客户总览
+    interface OrgOverView {
+        // 字段info的注释，请忽略: 详情,
+        info: {
+            id: number | string;
+            code: number | string;
+            name: string;
+            city: string;
+            area: string;
+            city_name: string;
+            area_name: string;
+            address: string;
+            lng: string;
+            lat: string;
+            adminor: string;
+            adminor_phone: number | string;
+        },
+        // 字段overview的注释，请忽略: 总览,
+        overview: {
+            total: number;
+            year: number;
+            month: number;
+            unfinish: number;
+            pj: number;
+            score: number;
+        }
+    }
+    // 基础数据树形
+    interface BasicDataTree {
+        value: string;
+        title: string;
+        p_code: string;
+        children?: BasicDataTree[];
+        [index: string]: string | number | BasicDataTree[] | undefined;
     }
 }
 

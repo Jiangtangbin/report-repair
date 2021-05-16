@@ -12,7 +12,6 @@ import {
 import {
     getRightMenu, orgHandle, mapDeviceHandle
 } from '@/mixins/map';
-import { mobileMask } from '@/utils/utils';
 import { i18n } from '@/locale/index';
 
 export type PopupListField = 'device' | 'customer' | 'role' | 'deviceGroup' | 'config' | 'file' | 'distributeLog' | 'plan';

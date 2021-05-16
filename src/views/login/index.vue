@@ -49,7 +49,7 @@ export default class Login extends Vue {
     }
 
     async created() {
-        console.log('获取安装包接口，后台逻辑错误');
+        // console.log('获取安装包接口，后台逻辑错误');
         // const { type, data } = await getPackage(4);
         // if (!type) {
         //     this.packageArr[1].url = (data.ios && data.ios.url) || 'h.tips.getIOSInstallPackageError';
@@ -104,6 +104,10 @@ export default class Login extends Vue {
         }
         &-qr-code {
             height: 40%;
+        }
+        @include utils-pierce(ivu-checkbox-inner) {
+            background-color: transparent;
+            border-color: inherit;
         }
     }
 </style>

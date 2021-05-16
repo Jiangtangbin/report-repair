@@ -2,7 +2,6 @@
     <div class="layout-wrapper">
         <div :style="{width: getWidth}" class="layout-main">
             <nav-bar v-show="!isFullScreen" :free="free" />
-            <Breadcrumb v-show="!isFullScreen" />
             <app-main :class="{'layout-main-app-full-screen': isFullScreen}" class="layout-main-app" />
         </div>
     </div>
@@ -10,14 +9,12 @@
 
 <script lang="ts">
 import { Watch, Component, Vue } from 'vue-property-decorator';
-import Breadcrumb from './components/nav-bar/breadcrumb.vue';
 import { NavBar, AppMain } from './components/index';
 import { appModule } from '@/store/index';
 import { Route } from 'vue-router';
 
 @Component({
     components: {
-        Breadcrumb,
         AppMain,
         NavBar,
     },
@@ -25,7 +22,7 @@ import { Route } from 'vue-router';
 export default class Layout extends Vue {
     isFullScreen = false;
     free: string | undefined = '';
-    
+
     get getWidth() {
         const { isFullScreen } = this;
         return isFullScreen || appModule.isMobile

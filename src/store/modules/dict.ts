@@ -1,6 +1,6 @@
 import { Module, VuexModule, Action, getModule } from 'vuex-module-decorators';
 import store, { userModule } from '../index';
-import { getDicts } from '@/config/api';
+import { getDicts, getCityAreaTree, getRuleSelect } from '@/config/api';
 import { uniqueRequest } from '@/utils/assist';
 
 type CustomDicts = GlobalCustomDicts.CustomDicts
@@ -58,6 +58,21 @@ class Dict extends VuexModule {
             case 'menus':
                 // 获取权限菜单
                 result = JSON.parse(JSON.stringify(userModule.menus));
+                break;
+            case 'role':
+                // 获取角色
+                result = userModule.customDicts[`${type}${params}` as K]
+                    || await this.requestCustomDicts({ axios: () => getRuleSelect(), type });
+                break;
+            case 'city':
+                // 市
+                result = userModule.customDicts[`${type}${params}` as K]
+                    || await this.requestCustomDicts({ axios: () => getCityAreaTree(), type });
+                break;
+            case 'area':
+                // 区
+                result = userModule.customDicts[`${type}${params}` as K]
+                || await this.requestCustomDicts({ axios: () => getCityAreaTree(), type });
                 break;
             default:
                 throw new Error(`未定义的类型，type：${type}，params：${params}`);

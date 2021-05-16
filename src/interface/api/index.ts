@@ -123,9 +123,9 @@ declare namespace API {
             id?: number;
             username: string;
             mobile: string;
-            role: any;
+            role: string;
             org_id?: any;
-            admin_area?: number | string;
+            admin_area?: string[];
             sex?: number | string;
             email?: string;
             is_notice?: number;

@@ -202,6 +202,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             city,
             area,
         });
+        this.cityChange();
     }
     /**
      * @description: 打开地图窗口

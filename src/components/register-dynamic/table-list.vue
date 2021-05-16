@@ -31,12 +31,12 @@
             ref="table"
             class="popup-table-wrapper"
         />
-            <selection v-if="multiple" v-slot="{data, index}" :data="finallyChecked" :show-key="getShowKey" class="popup-checked">
-                <div class="popup-checked-selection">
-                    <span class="t-o-e">{{index + 1}}. {{data[getShowKey]}}</span>
-                    <svg-icon @click="removeOption(data, index)" icon-class="times" />
-                </div>
-            </selection>
+        <selection v-if="multiple" v-slot="{data, index}" :data="finallyChecked" :show-key="getShowKey" class="popup-checked">
+            <div class="popup-checked-selection">
+                <span class="t-o-e">{{index + 1}}. {{data[getShowKey]}}</span>
+                <svg-icon @click="removeOption(data, index)" icon-class="times" />
+            </div>
+        </selection>
     </my-modal>
 </template>
 

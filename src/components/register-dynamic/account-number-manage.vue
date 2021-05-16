@@ -205,7 +205,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         let data = await DictModule.getCustomDicts({ type, params });
         if (data && typeof data !== 'string') {
             if (key === 'admin_area') {
-                recursion(data, v => {
+                recursion((data as any), v => {
                     v.label = v.name;
                     v.value = v.code;
                 });
@@ -224,7 +224,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         this.loading = false;
     }
     // 设置详情
-    setDetails({ username, mobile, email, org_id: orgId, orgname, role, rolename, is_notice, admin_area, sex }: API.Response['UserInfo']) {
+    setDetails({ username, mobile, email, org_id: orgId, org_name, role, is_notice, sex, admin_area }: API.Response['UserInfo']) {
         const { formInline } = this;
         Object.assign(formInline, {
             username,
@@ -232,11 +232,11 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             originMobile: mobile,
             _mobile: mobileMask(mobile),
             email,
-            org_id: orgId ? [{ id: orgId, name: orgname }] : [],
-            role: role ? [{ code: role, name: rolename }] : [],
+            org_id: orgId ? [{ id: orgId, name: org_name }] : [],
+            role,
             is_notice,
-            admin_area,
             sex,
+            admin_area,
         });
     }
     // 选择弹窗
@@ -265,7 +265,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             id,
             type,
             formInline,
-            formInline: { org_id: org, role, mobile, originMobile, _mobile, ...args },
+            formInline: { org_id: org, mobile, originMobile, _mobile, admin_area, ...args },
         } = this;
         const factMobile = originMobile || mobile;
         originMobile && (formInline.mobile = factMobile);
@@ -275,9 +275,9 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             this.loading = true;
             const params = Object.assign(args, {
                 id: type === 1 ? undefined : id,
-                role: lodashGet(role, '[0].code', ''),
                 org_id: lodashGet(org, '[0].id', ''),
                 mobile: factMobile,
+                admin_area: admin_area[admin_area.length - 1],
             });
             const { type: types } = await set(params);
             if (!types) this.$emit('success');

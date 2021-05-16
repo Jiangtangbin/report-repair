@@ -1,20 +1,17 @@
 import Vue, { VNode } from 'vue';
 import { TableColumn } from 'view-design';
 import {
-    getDeviceList, getOrgList, getRoleList, getDeviceGroupList, getConfigList, getFileList, getDistributionLogList, getPlanList
+    getOrgList
 } from '@/config/api';
 import {
-    Options, deviceCondition, customerCondition, roleManageCondition, deviceGroupCondition, configCondition, fileCondition, distributeLogCondition, planCondition
+    Options, customerCondition
 } from './conditions';
 import {
-    Trees, deviceManage, customerManage, roleManage, deviceGroupManage, configManage, fileManage, distributeLogManage, planManage
+    Trees, customerManage
 } from './columns';
-import {
-    getRightMenu, orgHandle, mapDeviceHandle
-} from '@/mixins/map';
 import { i18n } from '@/locale/index';
 
-export type PopupListField = 'device' | 'customer' | 'role' | 'deviceGroup' | 'config' | 'file' | 'distributeLog' | 'plan';
+export type PopupListField = 'customer';
 
 export type PopupList = Record<PopupListField, {
     title: string,
@@ -57,13 +54,6 @@ function genRightMenu<T extends Dictionary<any>>(this: Vue, menus: RightMenuOpti
 
 // 弹窗列表
 const popupList: PopupList = {
-    device: {
-        title: '设备列表',
-        axios: getDeviceList,
-        columns: deviceManage(),
-        conditions: deviceCondition,
-        showKey: 'name',
-    },
     customer: {
         title: '客户列表',
         axios: getOrgList,
@@ -71,138 +61,6 @@ const popupList: PopupList = {
         conditions: customerCondition,
         showKey: 'name',
     },
-    role: {
-        title: '角色列表',
-        axios: getRoleList,
-        columns: roleManage(),
-        conditions: roleManageCondition,
-        showKey: 'name',
-    },
-    deviceGroup: {
-        title: '设备分组列表',
-        axios: getDeviceGroupList,
-        columns: deviceGroupManage(),
-        conditions: deviceGroupCondition,
-        showKey: 'name',
-    },
-    config: {
-        title: '配置列表',
-        axios: getConfigList,
-        columns: configManage(),
-        conditions: configCondition,
-        showKey: 'name',
-    },
-    file: {
-        title: '文件列表',
-        axios: getFileList,
-        columns: fileManage(),
-        conditions: fileCondition,
-        showKey: 'name',
-    },
-    distributeLog: {
-        title: '下发记录列表',
-        axios: getDistributionLogList,
-        columns: distributeLogManage(),
-        conditions: distributeLogCondition,
-        showKey: 'name',
-    },
-    plan: {
-        title: '平面图列表',
-        axios: getPlanList,
-        columns: planManage(),
-        conditions: planCondition,
-        showKey: 'name',
-    },
 };
 
 export default popupList;
-
-// 地图附近资源 table columns
-export function nearbyColumns(instance: Vue): Record<API.PointType | 'o', TableColumn[]> {
-    return {
-        o: [
-            {
-                type: 'index',
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.index') as string));
-                },
-                align: 'center',
-                width: 60,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.name') as string));
-                },
-                key: 'name',
-                sortable: true,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.distance') as string));
-                },
-                key: 'distance',
-                sortable: true,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.operation') as string));
-                },
-                width: 120,
-                align: 'center',
-                render(h?, data?) {
-                    const { row } = data as any;
-                    const btnDatum = getRightMenu('o', 'o').filter(v => v.value !== 'details') as RightMenuOption[];
-                    return h!(
-                        'div',
-                        { on: { dblclick: (e: MouseEvent) => e.stopPropagation() }, class: 'table-operation' },
-                        genRightMenu.call(instance, btnDatum, row, orgHandle),
-                    );
-                },
-            },
-        ],
-        d: [
-            {
-                type: 'selection',
-                width: 51,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.name') as string));
-                },
-                key: 'name',
-                tooltip: true,
-                ellipsis: true,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.customerName') as string));
-                },
-                key: 'orgname',
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.distance') as string));
-                },
-                key: 'distance',
-                sortable: true,
-            },
-            {
-                renderHeader(h?: CreateElement) {
-                    return h!('span', (i18n.t('h.table.operation') as string));
-                },
-                width: 120,
-                align: 'center',
-                render(h?, data?) {
-                    const { row, row: { category, sub_category }} = data as any;
-                    const unique = `${category}${sub_category}`;
-                    const btnDatum = getRightMenu(unique, 'd', category, sub_category).filter(v => v.value !== 'details') as RightMenuOption[];
-                    return h!(
-                        'div',
-                        { on: { dblclick: (e: MouseEvent) => e.stopPropagation() }, class: 'table-operation' },
-                        genRightMenu.call(instance, btnDatum, row, mapDeviceHandle),
-                    );
-                },
-            },
-        ],
-    };
-}

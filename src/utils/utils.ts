@@ -447,7 +447,7 @@ export function getCountDown(timestamp: number = Date.now(), { type }: CountDown
  * @return: 编码返回数组[省,市...]，解码返回对象{ province: 省... }
  */
 export const transformRegionCoding = (() => {
-    type RegionField = 'province' | 'city' | 'area' | 'county' | 'street';
+    type RegionField = 'province' | 'city' | 'area' | 'county' | 'street' | 'admin_area';
     type Region = Record<RegionField, string>;
     const listGather: RegionField[] = ['province', 'city', 'area', 'county', 'street'];
     function transformRegionCoding(data: string[]): Region

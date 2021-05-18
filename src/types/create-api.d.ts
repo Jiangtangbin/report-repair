@@ -31,6 +31,8 @@ import DistributeContentHandle from '@/components/register-dynamic/distribute-co
 import DistributeResultHandle from '@/components/register-dynamic/distribute-result.vue';
 import DevicePreviewHandle from '@/components/register-dynamic/device-preview.vue';
 import DeviceSetContentHandle from '@/components/register-dynamic/device-set-content.vue';
+import KnowLedgeManageHandle from '@/components/register-dynamic/know-ledge-manage.vue';
+import NoticeManageHandle from '@/components/register-dynamic/notice-manage.vue';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -65,5 +67,7 @@ declare module 'vue/types/vue' {
         $createDistributeResultHandle: createFunction<DistributeResultHandle>;
         $createDevicePreviewHandle: createFunction<DevicePreviewHandle>;
         $createDeviceSetContentHandle: createFunction<DeviceSetContentHandle>;
+        $createKnowLedgeManageHandle: createFunction<KnowLedgeManageHandle>;
+        $createNoticeManageHandle: createFunction<NoticeManageHandle>;
     }
 }

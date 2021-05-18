@@ -18,6 +18,10 @@ declare namespace GlobalSocket {
         | SocketFormat<'user', 'modifypassword', any>
     // 上下线格式
     type OnOff = { uuid: string; t: 'on' | 'off' };
+    // 巡检任务提醒格式
+    type CheckTask = { t: 'checktask'; content: string; time: string; id: number; [index: string]: string | number; }
+    // 工单任务提醒格式
+    type WorkTask = { t: 'worktask'; content: string; time: string; id: number; [index: string]: string | number; }
     // 微信成功绑定格式
     type Scan = {
         t: string,

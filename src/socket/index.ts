@@ -7,9 +7,9 @@ import bus from '@/utils/bus';
 import { i18n } from '@/locale/index';
 
 const { hostname, protocol } = window.location;
-const host = process.env.NODE_ENV === 'development' ? '192.168.4.132' : hostname;
+const host = process.env.NODE_ENV === 'development' ? 'http://122.112.176.222' : hostname;
 // port 由后台传递, 如果是 wss 则取 port 则不要, 改成添加 /wss
-const uri = protocol === 'https:' ? `wss://${host}/wss` : `ws://${host}:<%= port %>`;
+const uri = protocol === 'https:' ? `wss://${host}/wss` : `ws://${host}:${socketModule.port}`;
 
 class Socket {
     static noticeName = 'reconnected';
@@ -57,7 +57,7 @@ class Socket {
     inits() {
         if (this.instance) return;
         this.enableReconnect = true;
-        const port = userModule.user.port;
+        const port = socketModule.port;
         this.instance = new WebSocket(uri.replace(/<%=\sport\s%>/g, port.toString()));
         this.instance.onopen = this.onopen;
         this.instance.onmessage = this.onmessage;
@@ -68,8 +68,8 @@ class Socket {
     onopen(ev: Event) {
         const { reconnectionCount } = this;
         if (!this.instance) console.log('socket 实例未初始化');
-        const { uuid, orgcode: token } = userModule.user.info;
-        const initJSON = JSON.stringify({ bt: 'common', data: { st: 'binduid', p: { uuid, token }}});
+        const { token } = socketModule;
+        const initJSON = JSON.stringify({ bt: 'common', data: { st: 'binduid', p: { token }}});
         this.instance!.send(initJSON);
         this.reconnectionCount = 0;
         this.heartStart();

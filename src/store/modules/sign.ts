@@ -46,6 +46,8 @@ class Sign extends VuexModule {
                     //     const { lng, lat } = data.data.lnglat;
                     //     Object.assign(data.data.lnglat, { lng: Number(lng), lat: Number(lat) });
                     // }
+                    store.commit('socket/alterState', { key: 'port', value: data.data.socket.port });
+                    store.commit('socket/alterState', { key: 'token', value: data.data.socket.token });
                     store.commit('user/resetUser', data.data);
                     store.commit('app/alterState', { key: 'isLogin', value: true });
                 }
@@ -58,7 +60,6 @@ class Sign extends VuexModule {
      */
     @Action
     async addRoutes(auth: ResponseLogin.Auth[]) {
-        console.log(auth)
         const routes = await store.dispatch('permission/generateRoutes', auth);
         router.addRoutes(routes.concat(asyncConstantRoutes));
     }

@@ -3,7 +3,7 @@ import { Vue, Prop } from 'vue-property-decorator';
 import { userModule, appModule } from '@/store/index';
 import { Poptip, TableColumnRenderParams } from 'view-design';
 import { getMatch, isNumber } from '@/utils/index';
-import { operationLog, accountNumberManage, customerManage } from '@/config/columns';
+import { operationLog, accountNumberManage, customerManage, knowLedgeManage, noticeManage } from '@/config/columns';
 import isEqualWith from 'lodash/isEqualWith';
 import { i18n } from '@/locale/index';
 
@@ -30,6 +30,8 @@ type AuthField = {
 export type PageAuth = {
     'account-number-manage': ReadonlyAuth | 'auth' | 'unable' | 'enable';
     'customer-manage': BaseAuth;
+    'know-ledge-manage': BaseAuth;
+    'notice-manage': BaseAuth;
     'operation-log': 'details';
 }
 
@@ -287,5 +289,31 @@ export abstract class CustomerColumns extends BasicList<'customer-manage'> {
     get columns() {
         const { authKey } = this;
         return genListOperations(customerManage(), authKey)(this);
+    }
+}
+
+// 知识库管理列表
+export abstract class KnowledgeBaseColumns extends BasicList<'know-ledge-manage'> {
+    auth: PageAuth['know-ledge-manage'][] = [];
+    // 外部提供的权限字段
+    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
+    authKey!: 'know-ledge-manage';
+
+    get columns() {
+        const { authKey } = this;
+        return genListOperations(knowLedgeManage(), authKey)(this);
+    }
+}
+
+// 公告管理列表
+export abstract class NoticeColumns extends BasicList<'notice-manage'> {
+    auth: PageAuth['notice-manage'][] = [];
+    // 外部提供的权限字段
+    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
+    authKey!: 'notice-manage';
+
+    get columns() {
+        const { authKey } = this;
+        return genListOperations(noticeManage(), authKey)(this);
     }
 }

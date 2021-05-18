@@ -31,20 +31,6 @@ export type Options = {
     treeSelects?: IConditionTreeSelect;
 };
 
-/**
- * 基础的状态筛选条件提取出来
- */
-const status = [
-    {
-        title: 'h.status.enable',
-        value: '1',
-    },
-    {
-        title: 'h.status.unable',
-        value: '0',
-    },
-];
-
 // 操作记录查询条件
 export function operationLogCondition(): Options {
     return {
@@ -63,12 +49,12 @@ export function operationLogCondition(): Options {
             value: 'username',
             options: [
                 {
-                    title: 'h.table.operationLog.operationObj',
-                    value: 'obj',
-                },
-                {
                     title: 'h.table.operationLog.operationUser',
                     value: 'username',
+                },
+                {
+                    title: 'h.table.operationLog.operationObj',
+                    value: 'obj',
                 },
                 {
                     title: 'h.table.operationLog.startTime',
@@ -141,6 +127,50 @@ export function customerCondition(): Options {
                 {
                     title: 'h.table.area',
                     value: 'area',
+                },
+            ],
+        },
+    };
+}
+
+// 知识库管理查询条件
+export function knowledgeBaseCondition(): Options {
+    return {
+        backfill: {},
+        selects: {},
+        inputs: {
+            title: '',
+            value: 'title',
+            options: [
+                {
+                    title: 'h.table.title',
+                    value: 'title',
+                },
+            ],
+        },
+    };
+}
+
+// 公告管理查询条件
+export function noticeCondition(): Options {
+    return {
+        backfill: {},
+        selects: {
+            op: {
+                name: '',
+                placeholder: 'h.placeholder.pleaseSelectPublishStatus',
+                type: 'dict',
+                params: 10,
+                options: [],
+            },
+        },
+        inputs: {
+            title: '',
+            value: 'title',
+            options: [
+                {
+                    title: 'h.table.title',
+                    value: 'title',
                 },
             ],
         },

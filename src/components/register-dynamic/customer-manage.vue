@@ -15,12 +15,12 @@
             </form-item>
             <div class="col">
                 <form-item prop="city" class="col2" :label="i18n.label.city">
-                    <i-select v-model="formInline.city" @on-change="cityChange" :placeholder="i18n.placeholder.city" clearable>
+                    <i-select v-model="formInline.city" @on-change="cityChange" :disabled="forbidden" :placeholder="i18n.placeholder.city" clearable>
                         <i-option v-for="item of dicts.city" :key="item.code" :value="item.code">{{item.name}}</i-option>
                     </i-select>
                 </form-item>
                 <form-item prop="area" class="col2" :label="i18n.label.area">
-                    <i-select v-model="formInline.area" :placeholder="i18n.placeholder.area" clearable>
+                    <i-select v-model="formInline.area" :disabled="forbidden" :placeholder="i18n.placeholder.area" clearable>
                         <i-option v-for="item of dicts.area" :key="item.code" :value="item.code">{{item.name}}</i-option>
                     </i-select>
                 </form-item>

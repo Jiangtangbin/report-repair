@@ -6,7 +6,6 @@
         <my-menu @selected="selected" :active-name="$route.name" :collapse="collapse" :data="menuData" :trigger="trigger" class="nav-bar-menus" ref="menuWrapper" />
         <div class="nav-bar-personal d-v-c">
             <search />
-            <p>{{$t('h.formLabel.affiliatedCustomer')}}: {{userInfo.role}}</p>
             <avatar />
         </div>
     </div>
@@ -18,7 +17,6 @@ import { Card } from 'view-design';
 import { appModule, userModule } from '@/store/index';
 import MyMenu from '@/components/menu/index.vue';
 import Search from './search.vue';
-// import sizeSelect from './size-select.vue';
 import avatar from './avatar.vue';
 import { title } from '@/config/environment';
 
@@ -29,7 +27,6 @@ const home = [{ title: 'h.other.home', icon: 'homes', value: 'home', path: '/hom
     components: {
         Card,
         Search,
-        // sizeSelect,
         avatar,
         MyMenu,
     },
@@ -41,13 +38,9 @@ export default class LayoutNavBar extends Vue {
 
     lang = appModule.lang;
 
-    get userInfo() {
-        return userModule.user.info;
-    }
     get title() {
         const { $route: { params: { free }, matched }} = this;
         const route = free && matched.find(v => v.path.indexOf(`:free(${free})`) !== -1);
-        // return (route && route.meta.title) || userModule.user.config.title;
         return (route && route.meta.title) || this.$t(title);
     }
     // 子应用首页
@@ -103,7 +96,6 @@ export default class LayoutNavBar extends Vue {
                 this.$getDynamicComponent('publicIframe', () => {
                     this.$createPublicIframeHandle({
                         title: data.title,
-                        // url: data.url_value,
                     }).show();
                 });
                 return false;

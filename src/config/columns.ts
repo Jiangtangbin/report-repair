@@ -174,6 +174,93 @@ export function customerManage(): TableColumn[] {
     ];
 }
 
+// 知识库管理列表
+export function knowLedgeManage(): TableColumn[] {
+    return [
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.title') as string);
+            },
+            key: 'title',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.publishPeople') as string);
+            },
+            key: 'creater_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.publishTime') as string);
+            },
+            key: 'create_time',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.readingNum') as string);
+            },
+            key: 'num',
+            sortable: 'custom',
+        },
+    ];
+}
+
+// 公告管理列表
+export function noticeManage(): TableColumn[] {
+    return [
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.title') as string);
+            },
+            key: 'title',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.publishPeople') as string);
+            },
+            key: 'publish_status',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.createrPeople') as string);
+            },
+            key: 'creater_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.createrTime') as string);
+            },
+            key: 'createtime',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.publishPeople') as string);
+            },
+            key: 'publish_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.publishTime') as string);
+            },
+            key: 'publishtime',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.readingNum') as string);
+            },
+            key: 'num',
+            sortable: 'custom',
+        },
+    ];
+}
+
 // 工单列表
 export function work(): TableColumn[] {
     return [

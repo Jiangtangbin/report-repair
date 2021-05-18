@@ -57,7 +57,7 @@
                     <cascader v-model="formInline.admin_area" :data="dicts.admin_area" :disabled="forbidden" :placeholder="i18n.placeholder.admin_area" change-on-select filterable transfer />
                 </form-item>
                 <form-item prop="sex" class="col2" :label="i18n.label.sex">
-                    <i-select v-model="formInline.sex" :placeholder="i18n.placeholder.sex" clearable>
+                    <i-select v-model="formInline.sex" :disabled="forbidden" :placeholder="i18n.placeholder.sex" clearable>
                         <i-option v-for="item of dicts.sex" :key="item.code" :value="item.code">{{item.name}}</i-option>
                     </i-select>
                 </form-item>
@@ -78,7 +78,7 @@ import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as 
 import { Popup } from '@/base-class/dynamic-create';
 import { setUserInfo as set, getUserInfo as get } from '@/config/api';
 import lodashGet from 'lodash/get';
-import { userNameReg, passwordReg, mobileReg, mobileMask } from '@/utils/utils';
+import { userNameReg, passwordReg, mobileReg, mobileMask, transformRegionCoding } from '@/utils/utils';
 import { recursion } from '@/utils/index';
 import { DictModule } from '@/store/modules/dict';
 
@@ -102,9 +102,6 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
     $refs!: {
         form: IForm;
     }
-
-    @Prop({ type: Object })
-    orgs!: object;
 
     loading = false;
     formInline = {
@@ -164,12 +161,6 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             mobile: { required: true, validator: (rule: RegExp, value: string, callback: Function) => callback(mobileReg(value, true)), trigger: 'blur' },
             role: { required: true, message: placeholder.role },
         };
-    }
-
-    // 所属机构发生改变
-    @Watch('orgs', { immediate: true })
-    changeOrgs(val?: object) {
-        (this.formInline as any).org_id = val ? [val] : [];
     }
 
     // 打开前事件
@@ -236,7 +227,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             role,
             is_notice,
             sex,
-            admin_area,
+            admin_area: admin_area ? [admin_area] : [],
         });
     }
     // 选择弹窗

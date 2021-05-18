@@ -8,7 +8,6 @@ export interface IUserState {
     menus: ResponseLogin.Auth[];
     dicts: Dictionary<ResponseSimple.Dict[]>;
     customDicts: ICustomDicts<GlobalCustomDicts.CustomDicts, keyof GlobalCustomDicts.CustomDicts>;
-    senseType: Dictionary<ResponseDevice.SenseDataType>;
     unique: string; // 用户每次登录后生成的唯一值，防止字典数据缓存
     token: string; // 图片上传 token
 }
@@ -52,7 +51,6 @@ class User extends VuexModule implements IUserState {
     public user = defaultUser();
     public dicts: Dictionary<ResponseSimple.Dict[]> = {};
     public customDicts = ({} as ICustomDicts<GlobalCustomDicts.CustomDicts, keyof GlobalCustomDicts.CustomDicts>);
-    public senseType = {};
     public unique = ''; // 用户每次登录后生成的唯一值, 防止字典数据缓存
     public token = ''; // 图片上传 token
 
@@ -121,10 +119,6 @@ class User extends VuexModule implements IUserState {
         else {
             this.dicts = {};
         }
-    }
-    @Mutation
-    senseTypeChange(data: IUserState['senseType']) {
-        this.senseType = data;
     }
     @Mutation
     /**

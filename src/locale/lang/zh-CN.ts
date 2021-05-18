@@ -205,6 +205,12 @@ export default {
             adminor: '负责人',
             adminorPhone: '负责人电话',
             weChat: '微信',
+            title: '标题',
+            createrPeople: '创建人',
+            createrTime: '创建时间',
+            publishPeople: '发布人',
+            publishTime: '发布时间',
+            readingNum: '阅读量',
             operationLog: {
                 operationObj: '操作对象',
                 operationUser: '操作用户',
@@ -304,6 +310,8 @@ export default {
             adminArea: '监管区域',
             sex: '性别',
             isNotice: '接收工单通知',
+            content: '内容',
+            title: '标题',
             menu: {
                 menuTitle: '菜单标题',
                 pageTitle: '页面标题',
@@ -344,6 +352,7 @@ export default {
             pleaseSelectFilterValues: '请选择筛选条件',
             pleaseSelectQueryTime: '请选择查询的时间段',
             pleaseSelectOperationType: '请选择操作类型',
+            pleaseSelectPublishStatus: '请选择发布状态',
             pleaseSelectCustomer: '请选择所属客户',
             pleaseSelectRegion: '请选择所属区域',
             pleaseSelectCategory: '请选择所属类别',
@@ -368,6 +377,8 @@ export default {
             titles: {
                 location: '定位',
                 customer: '客户',
+                knowLedgeBase: '知识库',
+                notice: '公告',
                 auth: '权限',
                 accountNumber: '账号',
                 role: '角色',

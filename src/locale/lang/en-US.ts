@@ -205,6 +205,12 @@ export default {
             adminor: 'person charge',
             adminorPhone: 'person charge phone',
             weChat: 'we chat',
+            title: 'title',
+            createrPeople: 'creater people',
+            createrTime: 'creater time',
+            publishPeople: 'publish people',
+            publishTime: 'publish time',
+            readingNum: 'reading number',
             operationLog: {
                 operationObj: 'operation object',
                 operationUser: 'operation user',
@@ -304,6 +310,8 @@ export default {
             adminArea: 'regulatory area',
             sex: 'sex',
             isNotice: 'receive work order notice',
+            content: 'content',
+            title: 'title',
             menu: {
                 menuTitle: 'menu title',
                 pageTitle: 'page title',
@@ -344,6 +352,7 @@ export default {
             pleaseSelectFilterValues: 'Please select filter values',
             pleaseSelectQueryTime: 'Please select the time period to query',
             pleaseSelectOperationType: 'Please select operation type',
+            pleaseSelectPublishStatus: 'Please select publish status',
             pleaseSelectCustomer: 'Please select your customer',
             pleaseSelectRegion: 'Please select your region',
             pleaseSelectCategory: 'Please select the category',
@@ -368,6 +377,8 @@ export default {
             titles: {
                 location: ' location',
                 customer: ' customer',
+                knowLedgeBase: 'know ledge base',
+                notice: 'notice',
                 auth: ' auth',
                 accountNumber: ' account number',
                 role: ' role',

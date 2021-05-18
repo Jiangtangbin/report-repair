@@ -161,18 +161,8 @@ export default class LoginBox extends Vue {
         const { formInline, formInline: { password, mobile }, $Message, $Modal } = this;
         this.loading = true;
         signModule.login({ mobile, password, type: 1 })
-            .then(({ type, msg, data }) => {
+            .then(({ type, msg }) => {
                 type || setUser(formInline);
-                // if (code === 2) {
-                //     $Modal.confirm({
-                //         title: this.$t('h.tips.loggedIn') as string,
-                //         content: this.$t('h.tips.forceLogin') as string,
-                //         onOk: () => {
-                //             this.onOk(1);
-                //         },
-                //     });
-                // } else {
-                    console.log(type);
                 if (!type) {
                     $Message.success(this.$t('h.tips.loginSuccess'));
                     this.$router.push('/home');

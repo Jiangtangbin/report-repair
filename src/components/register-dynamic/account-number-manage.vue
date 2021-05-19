@@ -30,31 +30,10 @@
                 </form-item>
             </div>
             <div class="col">
-                <form-item prop="org_id" class="col2" :label="i18n.label.org_id">
-                    <div class="col">
-                        <div @click.self="forbidden || selectCard('org_id')" :label="i18n.placeholder.org_id" class="receive-wrapper simulate-input pseudo-prefix-empty">
-                            <figure v-for="(item, key) of formInline.org_id" :key="key" class="receive-item">
-                                <figcaption @click="openWins('org', item.id)" :title="item.name" class="t-o-e simulate-a">{{item.name}}</figcaption>
-                                <svg-icon
-                                    v-show="!forbidden"
-                                    @click.stop.native="delReceiveItem('org_id', key)"
-                                    class="receive-item-close"
-                                    icon-class="close"
-                                />
-                            </figure>
-                        </div>
-                        <my-button v-if="type === 1" v-show="!forbidden" @click="selectCard('org_id')" class="k-w" type="primary">{{$t('h.formLabel.choice')}}</my-button>
-                    </div>
-                </form-item>
                 <form-item prop="role" class="col2" :label="i18n.label.role">
                     <i-select v-model="formInline.role" :placeholder="i18n.placeholder.role" clearable>
                         <i-option v-for="item of dicts.role" :key="item.code" :value="item.code">{{item.name}}</i-option>
                     </i-select>
-                </form-item>
-            </div>
-            <div class="col">
-                <form-item prop="admin_area" class="col2" :label="i18n.label.admin_area">
-                    <cascader v-model="formInline.admin_area" :data="dicts.admin_area" :disabled="forbidden" :placeholder="i18n.placeholder.admin_area" change-on-select filterable transfer />
                 </form-item>
                 <form-item prop="sex" class="col2" :label="i18n.label.sex">
                     <i-select v-model="formInline.sex" :disabled="forbidden" :placeholder="i18n.placeholder.sex" clearable>
@@ -62,7 +41,26 @@
                     </i-select>
                 </form-item>
             </div>
-            <form-item :label="i18n.label.is_notice" prop="is_notice">
+            <form-item v-if="formInline.role === 'jg'" :rules="formInline.role === 'jg' ? undefined : {}" prop="admin_area" :label="i18n.label.admin_area">
+                <cascader v-model="formInline.admin_area" :data="dicts.admin_area" :disabled="forbidden" :placeholder="i18n.placeholder.admin_area" change-on-select filterable transfer />
+            </form-item>
+            <form-item v-if="formInline.role === 'kh'" :rules="formInline.role === 'kh' ? undefined : {}" prop="org_id" :label="i18n.label.org_id">
+                <div class="col">
+                    <div @click.self="forbidden || selectCard('org_id')" :label="i18n.placeholder.org_id" class="receive-wrapper simulate-input pseudo-prefix-empty">
+                        <figure v-for="(item, key) of formInline.org_id" :key="key" class="receive-item">
+                            <figcaption @click="openWins('org', item.id)" :title="item.name" class="t-o-e simulate-a">{{item.name}}</figcaption>
+                            <svg-icon
+                                v-show="!forbidden"
+                                @click.stop.native="delReceiveItem('org_id', key)"
+                                class="receive-item-close"
+                                icon-class="close"
+                            />
+                        </figure>
+                    </div>
+                    <my-button v-if="type === 1" v-show="!forbidden" @click="selectCard('org_id')" class="k-w" type="primary">{{$t('h.formLabel.choice')}}</my-button>
+                </div>
+            </form-item>
+            <form-item v-if="formInline.role === 'admin'" :rules="formInline.role === 'admin' ? undefined : {}" :label="i18n.label.is_notice" prop="is_notice">
                 <i-switch v-model="formInline.is_notice" :true-value="1" :false-value="0">
                     <template v-slot:open>{{$t('h.status.yes')}}</template>
                     <template v-slot:close>{{$t('h.status.no')}}</template>
@@ -78,7 +76,7 @@ import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as 
 import { Popup } from '@/base-class/dynamic-create';
 import { setUserInfo as set, getUserInfo as get } from '@/config/api';
 import lodashGet from 'lodash/get';
-import { userNameReg, passwordReg, mobileReg, mobileMask, transformRegionCoding } from '@/utils/utils';
+import { userNameReg, passwordReg, mobileReg, mobileMask } from '@/utils/utils';
 import { recursion } from '@/utils/index';
 import { DictModule } from '@/store/modules/dict';
 
@@ -115,7 +113,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         email: '',
         org_id: [],
         role: '',
-        is_notice: 0,
+        is_notice: 1,
         admin_area: [],
         sex: '',
     };
@@ -160,7 +158,15 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             // password: { required: isAdd, validator: (rule: RegExp, value: string, callback: Function) => callback(passwordReg(value, isAdd)), trigger: 'blur' },
             mobile: { required: true, validator: (rule: RegExp, value: string, callback: Function) => callback(mobileReg(value, true)), trigger: 'blur' },
             role: { required: true, message: placeholder.role },
+            admin_area: { required: true, message: placeholder.org_id },
+            org_id: { required: true, message: placeholder.org_id },
+            is_notice: { required: true, message: placeholder.org_id },
         };
+    }
+
+    @Watch('type', { immediate: true })
+    changeT(type: 1 | 2 | 'details') {
+        typeof type === 'number' && (this.formInline.type = type);
     }
 
     // 打开前事件
@@ -227,7 +233,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             role,
             is_notice,
             sex,
-            admin_area: admin_area ? [admin_area] : [],
+            admin_area: admin_area ? ["hn001", admin_area] : [],
         });
     }
     // 选择弹窗
@@ -256,7 +262,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             id,
             type,
             formInline,
-            formInline: { org_id: org, mobile, originMobile, _mobile, admin_area, ...args },
+            formInline: { org_id: org, mobile, originMobile, _mobile, admin_area, is_notice, role, ...args },
         } = this;
         const factMobile = originMobile || mobile;
         originMobile && (formInline.mobile = factMobile);
@@ -268,6 +274,8 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
                 id: type === 1 ? undefined : id,
                 org_id: lodashGet(org, '[0].id', ''),
                 mobile: factMobile,
+                is_notice: role === 'admin' ? is_notice : undefined,
+                role,
                 admin_area: admin_area[admin_area.length - 1],
             });
             const { type: types } = await set(params);

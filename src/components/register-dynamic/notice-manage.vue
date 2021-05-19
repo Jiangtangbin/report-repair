@@ -14,7 +14,7 @@
                 <i-input v-model="formInline.title" :readonly="forbidden" :placeholder="i18n.placeholder.title" />
             </form-item>
             <form-item prop="content" :label="i18n.label.content" class="rich-text">
-                <rich-text ref="richText" />
+                <rich-text @on-ready="handleRichText" ref="richText" />
             </form-item>
         </i-form>
     </my-modal>
@@ -45,6 +45,7 @@ export default class NoticeManageHandle extends Popup<'SetNotice'> {
     }
 
     loading = false;
+    editor = null;
     formInline = {
         type: 1,
         id: 0,
@@ -108,6 +109,12 @@ export default class NoticeManageHandle extends Popup<'SetNotice'> {
             title,
             content,
         });
+        (this.editor as any).txt.html(formInline.content);
+        this.forbidden && (this.editor as any).disable();
+    }
+    // 保存 editor 实例
+    handleRichText(editor: any) {
+        this.editor = editor;
     }
     // 提交事件
     async ok() {
@@ -132,7 +139,20 @@ export default class NoticeManageHandle extends Popup<'SetNotice'> {
     @import '~@/views/styles/popup.scss';
 
     .rich-text {
-        height: 430px;
-        max-height: 430px;
+        height: 458px;
+        max-height: 458px;
+        margin-top: -28px;
+        padding-top: 28px;
+        @include utils-pierce(ivu-form-item-label) {
+            &::before {
+                content: '*';
+                display: inline-block;
+                margin-right: 4px;
+                line-height: 1;
+                font-family: SimSun;
+                font-size: 14px;
+                color: #ed4014;
+            }
+        }
     }
 </style>

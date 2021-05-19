@@ -6,6 +6,7 @@
         <my-menu @selected="selected" :active-name="$route.name" :collapse="collapse" :data="menuData" :trigger="trigger" class="nav-bar-menus" ref="menuWrapper" />
         <div class="nav-bar-personal d-v-c">
             <search />
+            <p>{{$t('h.formLabel.affiliatedCustomer')}}: {{userInfo.org_name}}</p>
             <avatar />
         </div>
     </div>
@@ -38,6 +39,9 @@ export default class LayoutNavBar extends Vue {
 
     lang = appModule.lang;
 
+    get userInfo() {
+        return userModule.user.info;
+    }
     get title() {
         const { $route: { params: { free }, matched }} = this;
         const route = free && matched.find(v => v.path.indexOf(`:free(${free})`) !== -1);

@@ -8,6 +8,7 @@ declare namespace ResponseLogin {
     interface Info {
         id: number;
         org_id: number;
+        org_name: string;
         role: string;
         admin_area: string;
     }

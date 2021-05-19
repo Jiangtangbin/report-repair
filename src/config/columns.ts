@@ -76,7 +76,7 @@ export function accountNumberManage(): TableColumn[] {
     return [
         {
             renderHeader(h?: CreateElement) {
-                return h!('span', i18n.t('h.table.accountNumber') as string);
+                return h!('span', i18n.t('h.table.name') as string);
             },
             key: 'username',
         },
@@ -218,9 +218,13 @@ export function noticeManage(): TableColumn[] {
         },
         {
             renderHeader(h?: CreateElement) {
-                return h!('span', i18n.t('h.table.publishPeople') as string);
+                return h!('span', i18n.t('h.table.publishStatus') as string);
             },
             key: 'publish_status',
+            render(h?, data?) {
+                const { row: { publish_status }} = data as any;
+                return h!('span', publish_status === 'unpublished' ? i18n.t('h.status.unpublished') as string : i18n.t('h.status.published') as string);
+            },
             sortable: 'custom',
         },
         {
@@ -234,7 +238,7 @@ export function noticeManage(): TableColumn[] {
             renderHeader(h?: CreateElement) {
                 return h!('span', i18n.t('h.table.createrTime') as string);
             },
-            key: 'createtime',
+            key: 'create_time',
             sortable: 'custom',
         },
         {

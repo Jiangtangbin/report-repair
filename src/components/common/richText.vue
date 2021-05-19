@@ -142,7 +142,7 @@ export default {
       this.$refs.editControl,
       this.$refs.editor
     ));
-    console.log(editor);
+    
     editor.config.uploadImgServer = "/upload"; // 上传图片到服务器
     editor.config.customUploadImg = richTextUpload;
     // 设置内容区域的层级

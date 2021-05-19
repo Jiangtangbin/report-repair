@@ -41,6 +41,8 @@ export default {
             alarming: 'alarming',
             disposed: 'disposed',
             undisposed: 'undisposed',
+            unpublished: 'unpublished',
+            published: 'published',
             yes: 'yes',
             no: 'no',
         },
@@ -209,6 +211,7 @@ export default {
             createrPeople: 'creater people',
             createrTime: 'creater time',
             publishPeople: 'publish people',
+            publishStatus: 'publish status',
             publishTime: 'publish time',
             readingNum: 'reading number',
             operationLog: {

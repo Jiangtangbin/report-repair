@@ -27,6 +27,7 @@ function defaultUser(): ResponseLogin.LoginInfo {
             admin_area: "",
             id: 0,
             org_id: 0,
+            org_name: "",
             role: "",
         },
         token: '',

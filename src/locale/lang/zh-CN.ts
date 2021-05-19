@@ -41,6 +41,8 @@ export default {
             alarming: '报警中',
             disposed: '已处理',
             undisposed: '未处理',
+            unpublished: '未发布',
+            published: '已发布',
             yes: '是',
             no: '否',
         },
@@ -209,6 +211,7 @@ export default {
             createrPeople: '创建人',
             createrTime: '创建时间',
             publishPeople: '发布人',
+            publishStatus: '发布状态',
             publishTime: '发布时间',
             readingNum: '阅读量',
             operationLog: {

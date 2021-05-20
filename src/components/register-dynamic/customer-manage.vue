@@ -14,20 +14,13 @@
                 <i-input v-model="formInline.name" :readonly="forbidden" :placeholder="i18n.placeholder.name" />
             </form-item>
             <div class="col">
-                <form-item prop="city" class="col2" :label="i18n.label.city">
-                    <i-select v-model="formInline.city" @on-change="cityChange" :disabled="forbidden" :placeholder="i18n.placeholder.city" clearable>
-                        <i-option v-for="item of dicts.city" :key="item.code" :value="item.code">{{item.name}}</i-option>
-                    </i-select>
+                <form-item prop="region" class="col2" :label="i18n.label.region">
+                    <cascader v-model="formInline.region" :data="dicts.region" :disabled="forbidden" :placeholder="i18n.placeholder.region" change-on-select filterable transfer />
                 </form-item>
-                <form-item prop="area" class="col2" :label="i18n.label.area">
-                    <i-select v-model="formInline.area" :disabled="forbidden" :placeholder="i18n.placeholder.area" clearable>
-                        <i-option v-for="item of dicts.area" :key="item.code" :value="item.code">{{item.name}}</i-option>
-                    </i-select>
+                <form-item prop="address" class="col2" :label="i18n.label.address">
+                    <i-input v-model="formInline.address" :readonly="forbidden" :placeholder="i18n.placeholder.address" />
                 </form-item>
             </div>
-            <form-item prop="address" :label="i18n.label.address">
-                <i-input v-model="formInline.address" :readonly="forbidden" :placeholder="i18n.placeholder.address" />
-            </form-item>
             <div class="col">
                 <form-item prop="adminor" class="col2" :label="i18n.label.adminor">
                     <i-input v-model="formInline.adminor" :readonly="forbidden" :placeholder="i18n.placeholder.adminor" />
@@ -53,11 +46,12 @@
 
 <script lang="ts">
 import { Watch, Component } from 'vue-property-decorator';
-import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as IOption } from 'view-design';
+import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as IOption, Cascader } from 'view-design';
 import { Popup } from '@/base-class/dynamic-create';
-import { locationReg } from '@/utils/utils';
+import { locationReg, transformRegionCoding } from '@/utils/utils';
 import { setOrg as set, getOrgInfo as get } from '@/config/api';
 import { DictModule } from '@/store/modules/dict';
+import { disposeCascader } from '@/utils/assist';
 
 @Component({
     name: 'CustomerManageHandle',
@@ -67,6 +61,7 @@ import { DictModule } from '@/store/modules/dict';
         IInput,
         ISelect,
         IOption,
+        Cascader,
     },
 })
 export default class CustomerManageHandle extends Popup<'SetOrg'> {
@@ -84,13 +79,11 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         lng: '',
         lat: '',
         address: '',
-        city: '',
-        area: '',
+        region: [],
     };
     dicts = { 
-        city: [],
-        area: [],
-    } as Record<'city' | 'area', Dictionary<any>[]>;
+        region: [],
+    } as Record<'region', Dictionary<any>[]>;
 
     get i18n() {
         const label = {
@@ -100,8 +93,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: `${this.$t('h.formLabel.customerManage.personInChargeTelephone')}: `,
             lng: `${this.$t('h.formLabel.lng')}: `,
             lat: `${this.$t('h.formLabel.lat')}: `,
-            city: `${this.$t('h.formLabel.city')}: `,
-            area: `${this.$t('h.formLabel.area')}: `,
+            region: `${this.$t('h.formLabel.region')}: `,
         };
         const placeholder = {
             name: this.$t('h.placeholder.pleaseEnter', { msg: label.name }),
@@ -110,8 +102,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: this.$t('h.placeholder.pleaseEnter', { msg: label.adminor_phone }),
             lng: this.$t('h.placeholder.pleaseEnter', { msg: label.lng }),
             lat: this.$t('h.placeholder.pleaseEnter', { msg: label.lat }),
-            city: this.$t('h.placeholder.pleaseSelect', { msg: label.city }),
-            area: this.$t('h.placeholder.pleaseSelect', { msg: label.area }),
+            region: this.$t('h.placeholder.pleaseSelect', { msg: label.region }),
 
         };
 
@@ -125,8 +116,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             address: { required: true, message: placeholder.address, trigger: 'blur' },
             lng: { required: true, validator: (rule: any, val: string, callback: Function) => callback(locationReg(val, 'lng')) },
             lat: { required: true, validator: (rule: any, val: string, callback: Function) => callback(locationReg(val, 'lat')) },
-            city: { required: true, message: placeholder.city, trigger: 'blur' },
-            area: { required: true, message: placeholder.area, trigger: 'blur' },
+            region: { required: true, type: 'array', message: placeholder.region },
         };
     }
 
@@ -141,27 +131,17 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             formInline,
             id,
             dicts: {
-                city: { length: city },
-                area: { length: area },
+                region: { length: region },
             },
         } = this;
 
         id && (formInline.id = id);
-        city || this.getDicts('city', 'city');
-        area || this.getDicts('area', 'area');
+        region || this.getDicts('region', 'unit', 'E');
         id && this.getDetails();
     }
     // 关闭前事件
     suffixFunc() {
         this.$refs.form.resetFields();
-    }
-    cityChange() {
-        const {
-            dicts: {
-                area: { length: area },
-            },
-        } = this;
-        area || this.getDicts('area', 'area');
     }
     /**
      * 获取字典数据
@@ -170,14 +150,11 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
      * @param {any} params?: 字典请求的参数
      */
     async getDicts<T extends keyof CustomerManageHandle['dicts']>(key: T, type: GlobalCustomDicts.CustomDictsKey, params?: GlobalCustomDicts.CustomDictsValue) {
-        const { dicts, formInline: { city } } = this;
+        const { dicts } = this;
         let data = await DictModule.getCustomDicts({ type, params });
         if (data && typeof data !== 'string') {
-            if (key === 'area') {
-                (dicts[key] as any) = data.find(item => item.code === city)?.children || [];
-            } else {
-                (dicts[key] as any[]) = data;
-            }
+            key === 'region' && disposeCascader(data as API.Response['BasicDataTree']);
+            (dicts[key] as any[]) = data;
         }
     }
     // 获取详情
@@ -190,7 +167,7 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
         this.loading = false;
     }
     // 设置详情
-    setDetails({ address, name, adminor, adminor_phone, lng, lat, city, area, ...args }: API.Response['OrgInfo']) {
+    setDetails({ address, name, adminor, adminor_phone, lng, lat, ...args }: API.Response['OrgInfo']) {
         const { formInline } = this;
         Object.assign(formInline, {
             address,
@@ -199,10 +176,8 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
             adminor_phone: Number(adminor_phone) || 0,
             lng,
             lat,
-            city,
-            area,
+            region: transformRegionCoding(args),
         });
-        this.cityChange();
     }
     /**
      * @description: 打开地图窗口
@@ -225,11 +200,13 @@ export default class CustomerManageHandle extends Popup<'SetOrg'> {
     }
     // 提交事件
     async ok() {
-        const { $refs: { form: { validate }}, formInline} = this;
+        const { $refs: { form: { validate }}, formInline: { region, ...args }} = this;
         const flag = await validate();
         if (flag) {
             this.loading = true;
-            const params = { ...formInline };
+            const params = Object.assign(args, {
+                ...transformRegionCoding(region),
+            });
             const { type: types } = await set(params);
             if (!types) this.$emit('success');
             this.loading = false;

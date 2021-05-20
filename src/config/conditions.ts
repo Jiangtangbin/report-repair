@@ -79,7 +79,7 @@ export function accountNumberManageCondition(): Options {
             value: 'username',
             options: [
                 {
-                    title: 'h.table.accountNumber',
+                    title: 'h.table.name',
                     value: 'username',
                 },
                 {
@@ -100,9 +100,18 @@ export function accountNumberManageCondition(): Options {
 }
 
 // 客户管理查询条件
-export function customerCondition(): Options {
+export function customerCondition(hasTreeSelects = false): Options {
     return {
         backfill: {},
+        treeSelects: !hasTreeSelects ? undefined : {
+            region: {
+                name: '',
+                placeholder: 'h.formLabel.region',
+                type: 'unit',
+                params: 'E',
+                options: [],
+            },
+        },
         selects: {},
         inputs: {
             title: '',
@@ -119,14 +128,6 @@ export function customerCondition(): Options {
                 {
                     title: 'h.table.address',
                     value: 'address',
-                },
-                {
-                    title: 'h.table.city',
-                    value: 'city',
-                },
-                {
-                    title: 'h.table.area',
-                    value: 'area',
                 },
             ],
         },
@@ -156,7 +157,7 @@ export function noticeCondition(): Options {
     return {
         backfill: {},
         selects: {
-            op: {
+            publish_status: {
                 name: '',
                 placeholder: 'h.placeholder.pleaseSelectPublishStatus',
                 type: 'dict',
@@ -171,6 +172,36 @@ export function noticeCondition(): Options {
                 {
                     title: 'h.table.title',
                     value: 'title',
+                },
+            ],
+        },
+    };
+}
+
+// 工单池管理查询条件
+export function workPoolCondition(): Options {
+    return {
+        backfill: {},
+        selects: {
+            work_level: {
+                name: '',
+                placeholder: 'h.placeholder.pleaseSelectSLALevel',
+                type: 'dict',
+                params: 13,
+                options: [],
+            },
+        },
+        inputs: {
+            title: '',
+            value: 'work_code',
+            options: [
+                {
+                    title: 'h.table.work.workNumber',
+                    value: 'work_code',
+                },
+                {
+                    title: 'h.table.affiliatedCustomer',
+                    value: 'org_name',
                 },
             ],
         },

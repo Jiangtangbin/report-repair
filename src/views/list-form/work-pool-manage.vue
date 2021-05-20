@@ -8,7 +8,6 @@
         :loading="loading"
         :total="list.page.count"
         :conditions="searchCondition"
-        :trees="trees"
     >
         <div class="control">
             <my-button v-if="hasAuth('add')" @click="handle('add')" class="control-btn">{{$t('h.tableButton.add')}}</my-button>
@@ -20,20 +19,19 @@
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
-import { getOrgList as getList, deleteOrg as del } from '@/config/api';
-import { CustomerColumns, PageAuth } from '@/base-class/list';
-import { customerCondition as searchCondition } from '@/config/conditions';
-import { regionTrees } from '@/config/columns';
+import { getWorkPoolList as getList } from '@/config/api';
+import { WorkPoolColumns, PageAuth } from '@/base-class/list';
+import { workPoolCondition as searchCondition } from '@/config/conditions';
 
-type PageType = 'OrgList';
+type PageType = 'WorkPoolList';
 
 @Component({
-    name: 'customer-manage',
+    name: 'pool-manage',
     components: {
         BasicList,
     },
 })
-export default class CustomerManage extends CustomerColumns {
+export default class CustomerManage extends WorkPoolColumns {
     // 当前页面是否以弹出形式打开
     @Prop(Boolean)
     pageType!: boolean;
@@ -41,7 +39,6 @@ export default class CustomerManage extends CustomerColumns {
     @Prop(Object)
     fromQuery!: API.Parameter[PageType];
 
-    trees = regionTrees();
     loading = false;
     list: API.Response[PageType] = { list: [], page: { pageSize: 1, pageNum: 1, countPage: 1, count: 1 }};
     initCondition = searchCondition();
@@ -71,7 +68,7 @@ export default class CustomerManage extends CustomerColumns {
     // 所属类型发生改变时更新权限
     @Watch('authKey', { immediate: true })
     authKeyChange(val: string | undefined) {
-        this.getAuth(val as 'customer-manage');
+        this.getAuth(val as 'work-pool-manage');
     }
     /**
      * @description: 列表数据请求函数
@@ -89,13 +86,13 @@ export default class CustomerManage extends CustomerColumns {
     }
     
     // 列表操作栏点击事件
-    async handle(name: PageAuth['customer-manage'], data?: API.Response['OrgInfo']) {
+    async handle(name: PageAuth['work-pool-manage'], data?: API.Response['WorkInfo']) {
         switch (name) {
             case 'add':
             case 'edit':
             case 'details':
-                this.$getDynamicComponent('customerManage', () => {
-                    this.$createCustomerManageHandle({
+                this.$getDynamicComponent('knowLedgeManage', () => {
+                    this.$createKnowLedgeManageHandle({
                         type: this.getType(name),
                         id: data && data.id,
                         $events: {
@@ -105,10 +102,10 @@ export default class CustomerManage extends CustomerColumns {
                 });
                 break;
             case 'delete': {
-                this.loading = true;
-                const { type } = await del(data!.id);
-                this.loading = false;
-                type || this.refresh(this.list.list.length <= 1);
+                // this.loading = true;
+                // const { type } = await del(data!.id);
+                // this.loading = false;
+                // type || this.refresh(this.list.list.length <= 1);
                 break;
             }
         }

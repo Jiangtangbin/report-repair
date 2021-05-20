@@ -118,14 +118,13 @@ declare namespace API {
             role_name?: string;
         }
         // 添加账号
-        'SetUser': {
+        'SetUser': Area &  {
             type: TypeAlias;
             id?: number;
             username: string;
             mobile: string;
             role: string;
             org_id?: any;
-            admin_area?: string[];
             sex?: number | string;
             email?: string;
             is_notice?: number;
@@ -245,6 +244,10 @@ declare namespace API {
         area?: string;
         county?: string;
         street?: string;
+    }
+    type Area = {
+        admin_city?: string;
+        admin_area?: string;
     }
     type Location = {
         lng: string;

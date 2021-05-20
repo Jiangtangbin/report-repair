@@ -15,11 +15,11 @@ declare namespace ResponseSimple {
     }
     // 市区树形
     interface CityArea {
-        code: string;
-        name: string;
+        value: string;
+        title: string;
         p_code: string;
-        children?: CityArea[];
-        [index: string]: string | number | undefined | CityArea[];
+        children?: BasicDataTree[];
+        [index: string]: string | number | BasicDataTree[] | undefined;
     }
     // 工单类型和服务 / 故障类型的树形
     interface WorkServiceFault {

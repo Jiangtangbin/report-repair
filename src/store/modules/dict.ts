@@ -1,7 +1,7 @@
 import { Module, VuexModule, Action, getModule } from 'vuex-module-decorators';
 import store, { userModule } from '../index';
 import { getDicts, getCityAreaTree, getRuleSelect } from '@/config/api';
-import { uniqueRequest } from '@/utils/assist';
+import { uniqueRequest, disposeCascader } from '@/utils/assist';
 
 type CustomDicts = GlobalCustomDicts.CustomDicts
 
@@ -64,15 +64,11 @@ class Dict extends VuexModule {
                 result = userModule.customDicts[`${type}${params}` as K]
                     || await this.requestCustomDicts({ axios: () => getRuleSelect(), type });
                 break;
-            case 'city':
-                // 市
+            case 'unit':
+                // 区域
                 result = userModule.customDicts[`${type}${params}` as K]
-                    || await this.requestCustomDicts({ axios: () => getCityAreaTree(), type });
-                break;
-            case 'area':
-                // 区
-                result = userModule.customDicts[`${type}${params}` as K]
-                || await this.requestCustomDicts({ axios: () => getCityAreaTree(), type });
+                    || await this.requestCustomDicts({ axios: () => getCityAreaTree(), params: `${params}` });
+                disposeCascader(result as API.Response['BasicDataTree']);
                 break;
             default:
                 throw new Error(`未定义的类型，type：${type}，params：${params}`);

@@ -99,9 +99,9 @@ export default {
       const keys = await Promise.all(files.map(file => {
         const formData = new FormData();
         formData.append("file", file);
-        uploadFile(formData);
+        return uploadFile(formData);
       }));
-      keys.some(key => key && insertImg(imgpre + key));
+      keys.some(key => key && insertImg(key.data.url));
       disposeText();
     },
     /**

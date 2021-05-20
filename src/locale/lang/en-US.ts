@@ -115,6 +115,7 @@ export default {
             menuName: 'menu name',
         },
         tree: {
+            region: 'region',
             auxiliaryOptions: 'auxiliary options',
             sizeClass: 'size class',
             grouping: 'grouping',
@@ -214,6 +215,7 @@ export default {
             publishStatus: 'publish status',
             publishTime: 'publish time',
             readingNum: 'reading number',
+            affiliatedCustomer: 'affiliated customer',
             operationLog: {
                 operationObj: 'operation object',
                 operationUser: 'operation user',
@@ -224,27 +226,15 @@ export default {
                 startTime: 'start time',
                 endTime: 'end time',
             },
-            deviceManage: {
-                signalIntensity: 'signal intensity',
-                electricityQuantity: 'electricity quantity',
-            },
-            fileManage: {
-                fileName: 'file name',
-                fileType: 'file type',
-                fileSize: 'file size',
-                filePath: 'file path',
-            },
-            configManage: {
-                configName: 'config name',
-                configContent: 'config content',
-            },
-            distributeLogManage: {
-                distributeType: 'distribute type',
-                distributeContent: 'distribute content',
-                distributeTime: 'distribute time',
-                distributePeople: 'distribute people',
-                distributeDevice: 'distribute device',
-            },
+            work: {
+                workNumber: 'work order no',
+                workType: 'work type',
+                workLevel: "sla level",
+                serviceType: "service/fault type",
+                contactMan: "contact man",
+                contactNumber: "contact number",
+                repairTime: "repair time",
+            }
         },
         page: {
             result: 'A total of {msg} results',
@@ -315,6 +305,7 @@ export default {
             isNotice: 'receive work order notice',
             content: 'content',
             title: 'title',
+            region: 'region',
             menu: {
                 menuTitle: 'menu title',
                 pageTitle: 'page title',
@@ -368,6 +359,7 @@ export default {
             pleaseSelectDeviceType: 'Please select device type',
             pleaseSelectFileType: 'Please select file type',
             pleaseSelectDistributeType: 'Please select distribute type',
+            pleaseSelectSLALevel: 'Please select SLA level',
         },
         modal: {
             optionList: 'Option list',

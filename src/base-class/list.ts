@@ -3,7 +3,7 @@ import { Vue, Prop } from 'vue-property-decorator';
 import { userModule, appModule } from '@/store/index';
 import { Poptip, TableColumnRenderParams } from 'view-design';
 import { getMatch, isNumber } from '@/utils/index';
-import { operationLog, accountNumberManage, customerManage, knowLedgeManage, noticeManage } from '@/config/columns';
+import { operationLog, accountNumberManage, customerManage, knowLedgeManage, noticeManage, workPoolManage } from '@/config/columns';
 import isEqualWith from 'lodash/isEqualWith';
 import { i18n } from '@/locale/index';
 
@@ -32,6 +32,7 @@ export type PageAuth = {
     'customer-manage': BaseAuth;
     'know-ledge-manage': BaseAuth;
     'notice-manage': BaseAuth;
+    'work-pool-manage': BaseAuth;
     'operation-log': 'details';
 }
 
@@ -315,5 +316,18 @@ export abstract class NoticeColumns extends BasicList<'notice-manage'> {
     get columns() {
         const { authKey } = this;
         return genListOperations(noticeManage(), authKey)(this);
+    }
+}
+
+// 工单池管理列表
+export abstract class WorkPoolColumns extends BasicList<'work-pool-manage'> {
+    auth: PageAuth['work-pool-manage'][] = [];
+    // 外部提供的权限字段
+    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
+    authKey!: 'work-pool-manage';
+
+    get columns() {
+        const { authKey } = this;
+        return genListOperations(workPoolManage(), authKey)(this);
     }
 }

@@ -80,7 +80,7 @@ const dynamicRoutes: RouteConfig[] = [
                 title: '工单池',
             },
             props: setProps1,
-            component: () => import(/* webpackChunkName: 'pool-manage' */ '@/views/list-form/pool-manage.vue'),
+            component: () => import(/* webpackChunkName: 'work-pool-manage' */ '@/views/list-form/work-pool-manage.vue'),
         },
         {
             path: '/workList',

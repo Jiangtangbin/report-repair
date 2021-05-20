@@ -10,6 +10,7 @@ function prefix(str: number | string, separator = 0) {
 
 export interface IMatchOption<T> {
     label?: any;
+    title?: any;
     value?: any;
     children?: T[];
     [index: string]: any;

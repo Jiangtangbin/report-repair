@@ -62,8 +62,9 @@ class Socket extends VuexModule implements ISocket {
     }
 
     @Action
-    newMessage({ bt, data: { st, p }}: GlobalSocket.Info) {
-        switch (bt) {
+    newMessage({ t, p }: GlobalSocket.Info) {
+        console.log(t, p);
+        switch (t) {
             // 用户大类
             case 'user':
                 switch (st) {

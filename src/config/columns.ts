@@ -265,6 +265,66 @@ export function noticeManage(): TableColumn[] {
     ];
 }
 
+// 工单池管理列表
+export function workPoolManage(): TableColumn[] {
+    return [
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workNumber') as string);
+            },
+            key: 'work_code',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workType') as string);
+            },
+            key: 'work_type_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workLevel') as string);
+            },
+            key: 'work_level_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.serviceType') as string);
+            },
+            key: 'service_type_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.affiliatedCustomer') as string);
+            },
+            key: 'org_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.contactMan') as string);
+            },
+            key: 'link_man',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.contactNumber') as string);
+            },
+            key: 'link_mobile',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.repairTime') as string);
+            },
+            key: 'create_time',
+            sortable: 'custom',
+        },
+    ];
+}
+
 // 工单列表
 export function work(): TableColumn[] {
     return [
@@ -336,35 +396,9 @@ export function work(): TableColumn[] {
 
 // 树形结构数据
 const possibleLevel = {
-    E: ['province', 'city', 'area', 'county', 'street'],
+    E: ['city', 'area'],
     device: ['category', 'sub_category'],
 };
-
-// 基础类型筛选
-export const baseTrees: () => Trees[] = () => [
-    {
-        title: 'h.tree.region',
-        value: 'E',
-        type: 'unit',
-        params: 'E',
-        levelKey: possibleLevel.E,
-        options: [],
-    },
-    {
-        title: 'h.tree.category',
-        value: 'orgtype',
-        type: 'unit',
-        params: 'A',
-        options: [],
-    },
-    {
-        title: 'h.tree.industy',
-        value: 'industy',
-        type: 'unit',
-        params: 'B',
-        options: [],
-    },
-];
 
 // 区域筛选
 export const regionTrees: () => Trees[] = () => [
@@ -377,6 +411,7 @@ export const regionTrees: () => Trees[] = () => [
         options: [],
     },
 ];
+
 
 // 弹窗下的列表，机构
 export function popupOrg<T extends Vue>(instance: T, field: string = 'org_id'): TableColumn[] {

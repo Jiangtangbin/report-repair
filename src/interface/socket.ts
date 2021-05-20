@@ -1,10 +1,7 @@
 // socket 的基础格式
 type SocketFormat<Bt, St, P> = {
-    bt: Bt;
-    data: {
-        st: St;
-        p: P;
-    };
+    t: Bt;
+    p: P;
 }
 
 declare namespace GlobalSocket {

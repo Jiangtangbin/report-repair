@@ -66,8 +66,9 @@ export function findComponentsUpward(context: Vue, componentName: string): Vue[]
 export function disposeCascader<T extends IMatchOption<T>>(data: T[]) {
     if (Array.isArray(data)) {
         recursion(data, v => {
-            v.label = v.title;
-            v.hasOwnProperty('value') || (v.value = v.id);
+            v.label = v.name;
+            v.title = v.name;
+            v.hasOwnProperty('value') || (v.value = v.code);
         });
     }
 }

@@ -139,13 +139,13 @@ export function getOperationLog(params?: API.Parameter['OperationLog']) {
 }
 
 // 工单池列表
-export function getWorkPoolList(data: API.Parameter['WorkPoolList']) {
-    return axios<API.Response['WorkPoolList']>('system/work/getPoolList', { data });
+export function getWorkPoolList(params: API.Parameter['WorkPoolList']) {
+    return axios<API.Response['WorkPoolList']>('system/work/getPoolList', { params, noTip: true });
 }
 
 // 工单列表
-export function getWorkList(data: API.Parameter['WorkList']) {
-    return axios<API.Response['WorkList']>('system/work/getWorkList', { data });
+export function getWorkList(params: API.Parameter['WorkList']) {
+    return axios<API.Response['WorkList']>('system/work/getWorkList', { params, noTip: true  });
 }
 
 // 工单详情
@@ -179,8 +179,8 @@ export function appraise(data: API.Parameter['Appraise']) {
 }
 
 // 知识库列表
-export function getKnowledgeBaseList(data: API.Parameter['KnowledgeBaseList']) {
-    return axios<API.Response['KnowledgeBaseList']>('system/other/getKnowledgeList', { data });
+export function getKnowledgeBaseList(params: API.Parameter['KnowledgeBaseList']) {
+    return axios<API.Response['KnowledgeBaseList']>('system/other/getKnowledgeList', { params, noTip: true });
 }
 
 // 知识库详情
@@ -199,8 +199,8 @@ export function deleteKnowledgeBase(id: number) {
 }
 
 // 公告列表
-export function getNoticeList(data: API.Parameter['NoticeList']) {
-    return axios<API.Response['NoticeList']>('system/other/getNoticeList', { data });
+export function getNoticeList(params: API.Parameter['NoticeList']) {
+    return axios<API.Response['NoticeList']>('system/other/getNoticeList', { params, noTip: true });
 }
 
 // 公告详情

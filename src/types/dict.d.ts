@@ -9,8 +9,6 @@ declare namespace GlobalCustomDicts {
     type CustomDicts = {
         dict: CustomDictFormat<'dict', number, IResponse<API.Response['Dict']>>;
         unit: CustomDictFormat<'unit', 'A' | 'B' | 'E', IResponse<API.Response['BasicDataTree']>>;
-        city: CustomDictFormat<'city', 'city', IResponse<API.Response['CityArea']>>;
-        area: CustomDictFormat<'area', 'area', IResponse<API.Response['CityArea']>>;
         role: CustomDictFormat<'role', 'role', IResponse<API.Response['Rule']>>;
         menus: CustomDictFormat<'menus', never, IResponse<API.Response['LoginInfo']['auth']>>;
     }

@@ -115,6 +115,7 @@ export default {
             menuName: '菜单名称',
         },
         tree: {
+            region: '区域',
             auxiliaryOptions: '辅助选项',
             sizeClass: '大小类',
             grouping: '分组',
@@ -214,6 +215,7 @@ export default {
             publishStatus: '发布状态',
             publishTime: '发布时间',
             readingNum: '阅读量',
+            affiliatedCustomer: '所属客户',
             operationLog: {
                 operationObj: '操作对象',
                 operationUser: '操作用户',
@@ -224,27 +226,15 @@ export default {
                 startTime: '开始时间',
                 endTime: '结束时间',
             },
-            deviceManage: {
-                signalIntensity: '信号强度',
-                electricityQuantity: '电量',
-            },
-            fileManage: {
-                fileName: '文件名称',
-                fileType: '文件类型',
-                fileSize: '文件大小',
-                filePath: '文件路径',
-            },
-            configManage: {
-                configName: '配置名称',
-                configContent: '配置内容',
-            },
-            distributeLogManage: {
-                distributeType: '分配类型',
-                distributeContent: '分配内容',
-                distributeTime: '分配时间',
-                distributePeople: '分配人',
-                distributeDevice: '分配设备',
-            },
+            work: {
+                workNumber: '工单号',
+                workType: '工单类型',
+                workLevel: "SLA级别",
+                serviceType: "服务/故障类型",
+                contactMan: "联系人",
+                contactNumber: "联系电话",
+                repairTime: "报修时间",
+            }
         },
         page: {
             result: '共 {msg} 个结果',
@@ -315,6 +305,7 @@ export default {
             isNotice: '接收工单通知',
             content: '内容',
             title: '标题',
+            region: '区域',
             menu: {
                 menuTitle: '菜单标题',
                 pageTitle: '页面标题',
@@ -368,6 +359,7 @@ export default {
             pleaseSelectDeviceType: '请选择设备类型',
             pleaseSelectFileType: '请选择文件类型',
             pleaseSelectDistributeType: '请选择分配类型',
+            pleaseSelectSLALevel: '请选择SLA级别',
         },
         modal: {
             optionList: '选项列表',

@@ -41,8 +41,8 @@
                     </i-select>
                 </form-item>
             </div>
-            <form-item v-if="formInline.role === 'jg'" :rules="formInline.role === 'jg' ? undefined : {}" prop="admin_area" :label="i18n.label.admin_area">
-                <cascader v-model="formInline.admin_area" :data="dicts.admin_area" :disabled="forbidden" :placeholder="i18n.placeholder.admin_area" change-on-select filterable transfer />
+            <form-item v-if="formInline.role === 'jg'" :rules="formInline.role === 'jg' ? undefined : {}" prop="region" :label="i18n.label.region">
+                <cascader v-model="formInline.region" :data="dicts.region" :disabled="forbidden" :placeholder="i18n.placeholder.region" change-on-select filterable transfer />
             </form-item>
             <form-item v-if="formInline.role === 'kh'" :rules="formInline.role === 'kh' ? undefined : {}" prop="org_id" :label="i18n.label.org_id">
                 <div class="col">
@@ -76,9 +76,9 @@ import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as 
 import { Popup } from '@/base-class/dynamic-create';
 import { setUserInfo as set, getUserInfo as get } from '@/config/api';
 import lodashGet from 'lodash/get';
-import { userNameReg, passwordReg, mobileReg, mobileMask } from '@/utils/utils';
-import { recursion } from '@/utils/index';
+import { userNameReg, passwordReg, mobileReg, mobileMask, transformRegionCoding } from '@/utils/utils';
 import { DictModule } from '@/store/modules/dict';
+import { disposeCascader } from '@/utils/assist';
 
 const tableListType: Dictionary<string> = {
     org_id: 'customer',
@@ -114,14 +114,14 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         org_id: [],
         role: '',
         is_notice: 1,
-        admin_area: [],
+        region: [],
         sex: '',
     };
     dicts = { 
         role: [],
         sex: [],
-        admin_area: [],
-    } as Record<'role' | 'sex' | 'admin_area', Dictionary<any>[]>;
+        region: [],
+    } as Record<'role' | 'sex' | 'region', Dictionary<any>[]>;
 
     get i18n() {
         const label = {
@@ -131,7 +131,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             email: `${this.$t('h.formLabel.email')}: `,
             org_id: `${this.$t('h.formLabel.affiliatedCustomer')}: `,
             role: `${this.$t('h.formLabel.affiliatedRole')}: `,
-            admin_area: `${this.$t('h.formLabel.adminArea')}: `,
+            region: `${this.$t('h.formLabel.adminArea')}: `,
             sex: `${this.$t('h.formLabel.sex')}: `,
             is_notice: `${this.$t('h.formLabel.isNotice')}: `,
         };
@@ -142,7 +142,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             // password: this.$t('h.placeholder.pleaseEnter', { msg: label.password }),
             mobile: this.$t('h.placeholder.pleaseEnter', { msg: label.mobile }),
             email: this.$t('h.placeholder.pleaseEnter', { msg: label.email }),
-            admin_area: this.$t('h.placeholder.pleaseSelect', { msg: label.admin_area }),
+            region: this.$t('h.placeholder.pleaseSelect', { msg: label.region }),
             sex: this.$t('h.placeholder.pleaseSelect', { msg: label.sex }),
             is_notice: this.$t('h.placeholder.pleaseSelect', { msg: label.is_notice }),
         };
@@ -158,7 +158,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             // password: { required: isAdd, validator: (rule: RegExp, value: string, callback: Function) => callback(passwordReg(value, isAdd)), trigger: 'blur' },
             mobile: { required: true, validator: (rule: RegExp, value: string, callback: Function) => callback(mobileReg(value, true)), trigger: 'blur' },
             role: { required: true, message: placeholder.role },
-            admin_area: { required: true, message: placeholder.org_id },
+            region: { required: true, type: 'array', message: placeholder.region },
             org_id: { required: true, message: placeholder.org_id },
             is_notice: { required: true, message: placeholder.org_id },
         };
@@ -177,14 +177,14 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             dicts: {
                 role: { length: role },
                 sex: { length: sex },
-                admin_area: { length: admin_area },
+                region: { length: region },
             }, 
         } = this;
 
         id && (formInline.id = id);
         role || this.getDicts('role', 'role');
         sex || this.getDicts('sex', 'dict', 1);
-        admin_area || this.getDicts('admin_area', 'city');
+        region || this.getDicts('region', 'unit', 'E');
         id && this.getDetails();
     }
     // 关闭前事件
@@ -201,13 +201,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         const { dicts } = this;
         let data = await DictModule.getCustomDicts({ type, params });
         if (data && typeof data !== 'string') {
-            if (key === 'admin_area') {
-                recursion((data as any), v => {
-                    v.label = v.name;
-                    v.value = v.code;
-                });
-                (dicts[key] as any[]) = data;
-            }
+            key === 'region' && disposeCascader(data as API.Response['BasicDataTree']);
             (dicts[key] as any[]) = data;
         }
     }
@@ -221,7 +215,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         this.loading = false;
     }
     // 设置详情
-    setDetails({ username, mobile, email, org_id: orgId, org_name, role, is_notice, sex, admin_area }: API.Response['UserInfo']) {
+    setDetails({ username, mobile, email, org_id: orgId, org_name, role, is_notice, sex, ...args }: API.Response['UserInfo']) {
         const { formInline } = this;
         Object.assign(formInline, {
             username,
@@ -233,7 +227,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             role,
             is_notice,
             sex,
-            admin_area: admin_area ? ["hn001", admin_area] : [],
+            region: transformRegionCoding(args),
         });
     }
     // 选择弹窗
@@ -262,7 +256,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             id,
             type,
             formInline,
-            formInline: { org_id: org, mobile, originMobile, _mobile, admin_area, is_notice, role, ...args },
+            formInline: { org_id: org, mobile, originMobile, _mobile, region, is_notice, role, ...args },
         } = this;
         const factMobile = originMobile || mobile;
         originMobile && (formInline.mobile = factMobile);
@@ -275,8 +269,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
                 org_id: lodashGet(org, '[0].id', ''),
                 mobile: factMobile,
                 is_notice: role === 'admin' ? is_notice : undefined,
-                role,
-                admin_area: admin_area[admin_area.length - 1],
+                ...transformRegionCoding(region),
             });
             const { type: types } = await set(params);
             if (!types) this.$emit('success');

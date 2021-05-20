@@ -7,9 +7,9 @@ import bus from '@/utils/bus';
 import { i18n } from '@/locale/index';
 
 const { hostname, protocol } = window.location;
-const host = process.env.NODE_ENV === 'development' ? 'http://122.112.176.222' : hostname;
+const host = process.env.NODE_ENV === 'development' ? '122.112.176.222' : hostname;
 // port 由后台传递, 如果是 wss 则取 port 则不要, 改成添加 /wss
-const uri = protocol === 'https:' ? `wss://${host}/wss` : `ws://${host}:${socketModule.port}`;
+const uri = protocol === 'https:' ? `wss://${host}/wss` : `ws://${host}:<%= port %>`;
 
 class Socket {
     static noticeName = 'reconnected';
@@ -69,7 +69,7 @@ class Socket {
         const { reconnectionCount } = this;
         if (!this.instance) console.log('socket 实例未初始化');
         const { token } = socketModule;
-        const initJSON = JSON.stringify({ bt: 'common', data: { st: 'binduid', p: { token }}});
+        const initJSON = JSON.stringify({ t: 'binduid', p: { token }});
         this.instance!.send(initJSON);
         this.reconnectionCount = 0;
         this.heartStart();
@@ -85,15 +85,14 @@ class Socket {
     onmessage(ev: MessageEvent) {
         console.log('收到消息：', ev.data);
         try {
-            const { bt, data } = JSON.parse(ev.data);
+            const { t, p } = JSON.parse(ev.data);
 
-            if (bt !== 'distribution') {
+            if (t !== 'binduid_return') {
                 socketModule.newMessage({
-                    bt,
-                    data,
+                    t,
+                    p,
                 });
-            }
-            else {
+            } else {
                 // 连接 socket 成功
                 bus.$emit('socket-reconnect', true);
             }
@@ -132,9 +131,9 @@ class Socket {
         this.heartEnd();
         this.heartTimer = window.setInterval(() => {
             if (!this.instance) return this.heartEnd();
-            this.send('');
+            this.send('ping');
             console.log('ws 心跳检测');
-        }, 25000);
+        }, 60000);
     }
     // 停止发送心跳
     heartEnd() {

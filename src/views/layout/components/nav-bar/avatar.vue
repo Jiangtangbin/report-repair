@@ -63,7 +63,7 @@ export default class PersonalAvatar extends Vue {
                 this.logouts();
                 break;
             case 'personal':
-                this.$router.push('/person/setUser');
+                this.$router.push({ name: 'personal' });
                 break;
             default:
                 this.$router.push({ name: 'home' });

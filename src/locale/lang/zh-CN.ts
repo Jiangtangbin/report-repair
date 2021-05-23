@@ -104,6 +104,7 @@ export default {
             configured: '已配置此模板的内容。切换后，此模板的内容将被清除！',
             getVideoDuration: '正在获取视频时长，请稍后！',
             getAudioDuration: '正在获取音频时长，请稍后！',
+            bindSuccess: '绑定成功',
         },
         header: {
             returnHome: '返回首页',
@@ -113,6 +114,9 @@ export default {
             inspectionTask: '巡检任务',
             workTask: '工单任务',
             menuName: '菜单名称',
+            checkWXInfo: '查看微信信息',
+            replaceAccount: '更换账号',
+            bindWX: '绑定微信',
         },
         tree: {
             region: '区域',
@@ -154,6 +158,9 @@ export default {
             close: '关闭',
             add: '添加',
             edit: '编辑',
+            enable: '启用',
+            unable: '禁用',
+            unbindWx: '解绑账号微信',
             details: '详情',
             delete: '删除',
             upload: '上传',
@@ -173,6 +180,12 @@ export default {
             viewPicture: '查看图片',
             viewDistributeLog: '查看分配记录',
             viewDistributeResult: '查看分配结果',
+            create: '上报',
+            send: '派单',
+            accept: '领单',
+            mark: '打卡',
+            reply: '回单',
+            pj: '评价',
         },
         table: {
             index: '序号',
@@ -207,7 +220,7 @@ export default {
             area: '区',
             adminor: '负责人',
             adminorPhone: '负责人电话',
-            weChat: '微信',
+            wechat: '微信',
             title: '标题',
             createrPeople: '创建人',
             createrTime: '创建时间',
@@ -216,6 +229,7 @@ export default {
             publishTime: '发布时间',
             readingNum: '阅读量',
             affiliatedCustomer: '所属客户',
+            userName: '用户名',
             operationLog: {
                 operationObj: '操作对象',
                 operationUser: '操作用户',
@@ -229,6 +243,8 @@ export default {
             work: {
                 workNumber: '工单号',
                 workType: '工单类型',
+                workStatus: '工单状态',
+                score: '评分',
                 workLevel: "SLA级别",
                 serviceType: "服务/故障类型",
                 contactMan: "联系人",
@@ -259,6 +275,7 @@ export default {
             buttonDownload: '点击按钮开始下载',
         },
         formLabel: {
+            userName: '用户名',
             serialNumber: '序列号',
             affiliatedCustomer: '所属客户',
             affiliatedGroup: '所属分组',
@@ -306,6 +323,8 @@ export default {
             content: '内容',
             title: '标题',
             region: '区域',
+            reset: '重置',
+            wechat: '微信',
             menu: {
                 menuTitle: '菜单标题',
                 pageTitle: '页面标题',
@@ -328,6 +347,28 @@ export default {
             customerManage: {
                 personInCharge: '负责人',
                 personInChargeTelephone: '负责人电话',
+            },
+            work: {
+                work_type : '工单类型',
+                work_level : 'sla 级别',
+                service_type : '服务/故障类型',
+                content : '报修内容',
+                imgs: '图片',
+                videos: '视频',
+                link_man : '联系人',
+                link_mobile : '联系电话',
+                reciever: '接收人',
+            },
+            wxbind: {
+                scanQrcode: '请打开微信扫描下方的二维码',
+                qrcodeError: '二维码获取失败',
+                repeatGet: '重新获取',
+                errorInfo: '错误信息',
+            },
+            wxinfo: {
+                headimgurl: '头像',
+                nickname: '微信名称',
+                region: '区域',
             },
         },
         placeholder: {
@@ -360,6 +401,7 @@ export default {
             pleaseSelectFileType: '请选择文件类型',
             pleaseSelectDistributeType: '请选择分配类型',
             pleaseSelectSLALevel: '请选择SLA级别',
+            pleaseSelectWorkStatus: '请选择工单状态',
         },
         modal: {
             optionList: '选项列表',
@@ -385,6 +427,9 @@ export default {
                 queryCriteria: '查询条件',
                 uploadFile: '上传文件',
                 viewPicture: '查看图片',
+                wxbind: '微信绑定',
+                work: '上报工单',
+                workDistribution: '派发工单',
             },
         },
         map: {
@@ -412,6 +457,7 @@ export default {
             customName: '自定义名称',
             requestAddress: '请求地址',
             axiosParams: '其他参数（axios 的配置参数）',
+            admin: '管理员',
         },
         httpCode: {
             304: '请求参数不满足条件(错误码：304)',

@@ -18,7 +18,8 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import BaseUpload, { Res, BeforeUploadErrorOption } from '@/components/common/upload.vue';
-import { getUpToken as get, action } from '@/config/api';
+// import { getUpToken as get, action } from '@/config/api';
+import { action } from '@/config/api';
 import { userModule } from '@/store/index';
 
 // 会重新获取 token 的错误字段
@@ -27,7 +28,7 @@ const repeatToken = ['expired token', 'bad token', 'token not specified'];
 let repeatFileNum: Record<string, number> = {};
 // 同一时间内重新获取 token 的最大次数
 const repeatMaxNum = 3;
-let updateTokenPromise: null | Promise<boolean> = null;
+// let updateTokenPromise: null | Promise<boolean> = null;
 
 @Component({
     name: 'my-upload',
@@ -71,7 +72,7 @@ export default class MyUpload extends Vue {
             this.$Notice.warning({
                 title: this.$t('h.upload.maxNum', { msg: maxNum }) as string,
             });
-            return false;
+            return Promise.reject();
         }
         if (this.beforeUpload) return this.beforeUpload(error, file, maxNum);
         return true;
@@ -89,16 +90,16 @@ export default class MyUpload extends Vue {
         });
     }
     // 获取上传文件的 token
-    async getToken() {
-        if (updateTokenPromise) return updateTokenPromise;
-        updateTokenPromise = get()
-            .then(({ type, data }) => {
-                !type && userModule.updateToken(data.upToken);
-                updateTokenPromise = null;
-                return !type;
-            });
-        return updateTokenPromise;
-    }
+    // async getToken() {
+    //     if (updateTokenPromise) return updateTokenPromise;
+    //     updateTokenPromise = get()
+    //         .then(({ type, data }) => {
+    //             !type && userModule.updateToken(data.upToken);
+    //             updateTokenPromise = null;
+    //             return !type;
+    //         });
+    //     return updateTokenPromise;
+    // }
     /**
      * @description: 对错误返回值进行处理，确认不是 token 失效的问题
      * @param {Error} err: 错误信息
@@ -113,7 +114,7 @@ export default class MyUpload extends Vue {
             repeatFileNum[key] = repeatFileNum[key] || 0;
             repeatFileNum[key]++;
             if (repeatFileNum[key] < repeatMaxNum) {
-                const status = await this.getToken();
+                const status = userModule.token;
                 status && aginUpload();
             }
         } else {

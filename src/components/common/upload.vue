@@ -12,6 +12,7 @@
         :on-progress="onProgress"
         :on-success="handingSuccess"
         :on-error="handingError"
+        :headers="{token: uploadToken}"
         ref="upload"
     >
         <slot>
@@ -24,6 +25,7 @@
 <script lang="ts">
 import { Prop, Component, Vue } from 'vue-property-decorator';
 import { Upload } from 'view-design';
+import { userModule } from '@/store/index';
 import { imgFormat } from '@/config/index';
 import { isFunction } from '@/utils/index';
 
@@ -63,7 +65,7 @@ export default class BaseUpload extends Vue {
     @Prop({ type: Object, default: () => ({}) })
     styles!: object;
     // 最大上传数量
-    @Prop({ type: Number, default: 5 })
+    @Prop({ type: Number, default: 3 })
     maxNum!: number;
     // 是否显示上传列表
     @Prop(Boolean)
@@ -103,6 +105,10 @@ export default class BaseUpload extends Vue {
     mounted() {
         this.fileList = (this.$refs.upload as any).fileList;
         this.$emit('ready', this.fileList);
+    }
+
+    get uploadToken() {
+        return userModule.user.token;
     }
 
     /**

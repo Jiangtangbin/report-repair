@@ -82,8 +82,8 @@ export default class TableListHandle extends BasePopup {
     @Prop(String)
     showKey!: string;
     // 默认选中字段
-    @Prop({ type: Array, default: () => ([]) })
-    checked!: Dictionary<any>[];
+    @Prop({ type: [Array, String], default: () => [] })
+    checked!: Dictionary<any>[] | string;
     // 外部传递的参数
     @Prop({ type: Object, default: () => ({}) })
     fromQuery!: Dictionary<any>;

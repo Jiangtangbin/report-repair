@@ -5,7 +5,7 @@ import dynamicImport, { IDynamicImportOptions } from '@/utils/component-dynamic-
 Vue.use(createAPI);
 
 type Path = 'request' | 'container' | 'sounds' | 'baseDataTree' | 'tableList'
-    | 'icon' | 'camera' | 'condition' | 'publicIframe' | 'menuManage' | 'packageManage' | 'roleManage' | 'accountNumberManage' | 'accountNumberAuth' | 'customerManage' | 'location' | 'deviceManage' | 'deviceGroupManage' | 'planManage' | 'usualAddressList' | 'usualAddress' | 'deviceGroupDevice' | 'fileManage' | 'configManage' | 'publicPlay' | 'configContent' | 'distributeContent' | 'distributeResult' | 'devicePreview' | 'deviceSetContent' | 'knowLedgeManage' | 'noticeManage';
+    | 'icon' | 'camera' | 'condition' | 'publicIframe' | 'menuManage' | 'packageManage' | 'roleManage' | 'accountNumberManage' | 'accountNumberAuth' | 'customerManage' | 'location' | 'deviceManage' | 'deviceGroupManage' | 'planManage' | 'usualAddressList' | 'usualAddress' | 'deviceGroupDevice' | 'fileManage' | 'configManage' | 'publicPlay' | 'configContent' | 'distributeContent' | 'distributeResult' | 'devicePreview' | 'deviceSetContent' | 'knowLedgeManage' | 'noticeManage' | 'workPoolManage' | 'workPoolDistributionManage' | 'wxBind' | 'wxInfo';
 type Registered = {
     [index: string]: boolean;
 };
@@ -43,6 +43,10 @@ const dynamicComponentAlias: Record<Path, AsyncComponent> = {
     deviceSetContent: () => import('./device-set-content.vue'),
     knowLedgeManage: () => import('./know-ledge-manage.vue'),
     noticeManage: () => import('./notice-manage.vue'),
+    workPoolManage: () => import('./work-pool-manage.vue'),
+    workPoolDistributionManage: () => import('./work-pool-distribution-manage.vue'),
+    wxBind: () => import('./wx-bind.vue'),
+    wxInfo: () => import('./wx-info.vue'),
 };
 const registered: Registered = {};
 

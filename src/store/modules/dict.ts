@@ -1,6 +1,6 @@
 import { Module, VuexModule, Action, getModule } from 'vuex-module-decorators';
 import store, { userModule } from '../index';
-import { getDicts, getCityAreaTree, getRuleSelect } from '@/config/api';
+import { getDicts, getCityAreaTree, getRuleSelect, getWorkServiceFault } from '@/config/api';
 import { uniqueRequest, disposeCascader } from '@/utils/assist';
 
 type CustomDicts = GlobalCustomDicts.CustomDicts
@@ -64,10 +64,16 @@ class Dict extends VuexModule {
                 result = userModule.customDicts[`${type}${params}` as K]
                     || await this.requestCustomDicts({ axios: () => getRuleSelect(), type });
                 break;
+            case 'work_type':
+                // 获取工单类型
+                result = userModule.customDicts[`${type}${params}` as K]
+                    || await this.requestCustomDicts({ axios: () => getWorkServiceFault(), type });
+                disposeCascader(result as API.Response['BasicDataTree']);
+                break;
             case 'unit':
                 // 区域
                 result = userModule.customDicts[`${type}${params}` as K]
-                    || await this.requestCustomDicts({ axios: () => getCityAreaTree(), params: `${params}` });
+                    || await this.requestCustomDicts({ axios: () => getCityAreaTree(), params: `${(params)}` });
                 disposeCascader(result as API.Response['BasicDataTree']);
                 break;
             default:

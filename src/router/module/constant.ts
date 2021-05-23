@@ -29,6 +29,30 @@ export const asyncConstantRoutes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: 'home' */ '@/views/home/index.vue'),
     },
     {
+        path: '/personal',
+        name: 'personal',
+        meta: {
+            title: '个人设置',
+        },
+        component: () => import(/* webpackChunkName: 'personal' */ '@/views/setting/personal.vue'),
+    },
+    {
+        path: '/modifyMobile',
+        name: 'modifyMobile',
+        meta: {
+            title: '修改手机号码',
+        },
+        component: () => import(/* webpackChunkName: 'modify-mobile' */ '@/views/setting/modify-mobile.vue'),
+    },
+    {
+        path: '/modifyPassword',
+        name: 'modifyPassword',
+        meta: {
+            title: '修改密码',
+        },
+        component: () => import(/* webpackChunkName: 'modify-password' */ '@/views/setting/modify-password.vue'),
+    },
+    {
         path: '/zrender',
         name: 'zrender',
         meta: {

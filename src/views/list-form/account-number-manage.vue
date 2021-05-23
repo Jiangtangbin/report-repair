@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
-import { getUserList as get, forbiddenUser } from '@/config/api';
+import { getUserList as get, forbiddenUser, unbundlingWx } from '@/config/api';
 import { AccountColumns, PageAuth } from '@/base-class/list';
 import { accountNumberManageCondition as searchCondition } from '@/config/conditions';
 
@@ -101,17 +101,13 @@ export default class AccountNumberManage extends AccountColumns {
                     }).show();
                 });
                 break;
-            case 'auth':
-                this.$getDynamicComponent('accountNumberAuth', () => {
-                    this.$createAccountNumberAuthHandle({
-                        title: data!.name,
-                        id: data!.id,
-                        $events: {
-                            success: 'refresh',
-                        },
-                    }).show();
-                });
+            case 'unbindWx': {
+                this.loading = true;
+                const { type } = await unbundlingWx(data!.id);
+                this.loading = false;
+                type || this.refresh();
                 break;
+            }
             case 'unable':
             case 'enable': {
                 this.loading = true;

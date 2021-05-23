@@ -33,6 +33,10 @@ import DevicePreviewHandle from '@/components/register-dynamic/device-preview.vu
 import DeviceSetContentHandle from '@/components/register-dynamic/device-set-content.vue';
 import KnowLedgeManageHandle from '@/components/register-dynamic/know-ledge-manage.vue';
 import NoticeManageHandle from '@/components/register-dynamic/notice-manage.vue';
+import WorkPoolManageHandle from '@/components/register-dynamic/work-pool-manage.vue';
+import WorkPoolDistributionManageHandle from '@/components/register-dynamic/work-pool-distribution-manage.vue';
+import WxBindHandle from '@/components/register-dynamic/wx-bind.vue';
+import WxInfoHandle from '@/components/register-dynamic/wx-info.vue';
 
 declare module 'vue/types/vue' {
     interface Vue {
@@ -69,5 +73,9 @@ declare module 'vue/types/vue' {
         $createDeviceSetContentHandle: createFunction<DeviceSetContentHandle>;
         $createKnowLedgeManageHandle: createFunction<KnowLedgeManageHandle>;
         $createNoticeManageHandle: createFunction<NoticeManageHandle>;
+        $createWorkPoolManageHandle: createFunction<WorkPoolManageHandle>;
+        $createWorkPoolDistributionManageHandle: createFunction<WorkPoolDistributionManageHandle>;
+        $createWxBindHandle: createFunction<WxBindHandle>;
+        $createWxInfoHandle: createFunction<WxInfoHandle>;
     }
 }

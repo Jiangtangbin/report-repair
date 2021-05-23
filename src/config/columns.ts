@@ -76,7 +76,7 @@ export function accountNumberManage(): TableColumn[] {
     return [
         {
             renderHeader(h?: CreateElement) {
-                return h!('span', i18n.t('h.table.name') as string);
+                return h!('span', i18n.t('h.table.userName') as string);
             },
             key: 'username',
         },
@@ -106,7 +106,7 @@ export function accountNumberManage(): TableColumn[] {
         },
         {
             renderHeader(h?: CreateElement) {
-                return h!('span', i18n.t('h.table.weChat') as string);
+                return h!('span', i18n.t('h.table.wechat') as string);
             },
             key: 'wx',
             sortable: 'custom',
@@ -325,6 +325,109 @@ export function workPoolManage(): TableColumn[] {
     ];
 }
 
+// 树形结构数据
+const possibleLevel = {
+    E: ['city', 'area'],
+    work_type: ['work_type', 'service_type'],
+};
+
+// 区域筛选
+export const regionTrees: () => Trees[] = () => [
+    {
+        title: 'h.tree.region',
+        value: 'E',
+        type: 'unit',
+        params: 'E',
+        levelKey: possibleLevel.E,
+        options: [],
+    },
+];
+
+// 工单大小类
+export const workTrees: () => Trees[] = () => [
+    {
+        title: 'h.tree.sizeType',
+        value: 'work_type',
+        type: 'work_type',
+        levelKey: possibleLevel.work_type,
+        options: [],
+    },
+];
+
+// 工单管理列表
+export function workManage(): TableColumn[] {
+    return [
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workNumber') as string);
+            },
+            key: 'work_code',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workType') as string);
+            },
+            key: 'work_type_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workStatus') as string);
+            },
+            key: 'work_status_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.workLevel') as string);
+            },
+            key: 'work_level_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.serviceType') as string);
+            },
+            key: 'service_type_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.affiliatedCustomer') as string);
+            },
+            key: 'org_name',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.contactMan') as string);
+            },
+            key: 'link_man',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.contactNumber') as string);
+            },
+            key: 'link_mobile',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.repairTime') as string);
+            },
+            key: 'create_time',
+            sortable: 'custom',
+        },
+        {
+            renderHeader(h?: CreateElement) {
+                return h!('span', i18n.t('h.table.work.score') as string);
+            },
+            key: 'score',
+            sortable: 'custom',
+        },
+    ];
+}
+
 // 工单列表
 export function work(): TableColumn[] {
     return [
@@ -393,25 +496,6 @@ export function work(): TableColumn[] {
         },
     ];
 }
-
-// 树形结构数据
-const possibleLevel = {
-    E: ['city', 'area'],
-    device: ['category', 'sub_category'],
-};
-
-// 区域筛选
-export const regionTrees: () => Trees[] = () => [
-    {
-        title: 'h.tree.region',
-        value: 'E',
-        type: 'unit',
-        params: 'E',
-        levelKey: possibleLevel.E,
-        options: [],
-    },
-];
-
 
 // 弹窗下的列表，机构
 export function popupOrg<T extends Vue>(instance: T, field: string = 'org_id'): TableColumn[] {

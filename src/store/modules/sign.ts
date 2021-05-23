@@ -4,9 +4,8 @@ import resetStore from '../reset';
 import router, { resetRouter } from '@/router/index';
 import { asyncConstantRoutes } from '@/router/module/constant';
 import { Module, VuexModule, Action, getModule } from 'vuex-module-decorators';
-import { login, logout, getUserThroughToken, getUserThroughSecret, freshToken } from '@/config/api';
+import { login, logout, freshToken } from '@/config/api';
 import { setStorage } from '@/utils/index';
-import { currentUserKey } from '@/config/index';
 import path from 'path';
 
 // 更新 token 时，防止用来重复请求
@@ -28,24 +27,14 @@ class Sign extends VuexModule {
      * @param {Boolean} isSecret: 是否通过秘钥登录
      */
     @Action
-    login(data: API.Parameter['Login'] | string, isSecret?: boolean) {
-        const request = isSecret
-            ? getUserThroughSecret(data as string)
-            : (typeof data !== 'string' ? login(data) : getUserThroughToken(data));
+    login(data: API.Parameter['Login'] | string) {
+        const request = login(data as any);
         return request
             .then(async (data: any) => {
                 if (!data.type) {
                     addPath(data.data.auth);
                     this.addRoutes(data.data.auth);
-                    // setStorage(currentUserKey, data.data.info.mobile.toString(), 'sessionStorage');
                     setStorage('t', data.data.token);
-                    // const points = (data.data.info.maprange as any) || '[]';
-                    // data.data.info.maprange = JSON.parse(points);
-                    // if (data.data.lnglat) {
-                    //     // 后台可能返回字符串，谷歌浏览器只允许数字类型
-                    //     const { lng, lat } = data.data.lnglat;
-                    //     Object.assign(data.data.lnglat, { lng: Number(lng), lat: Number(lat) });
-                    // }
                     store.commit('socket/alterState', { key: 'port', value: data.data.socket.port });
                     store.commit('socket/alterState', { key: 'token', value: data.data.socket.token });
                     store.commit('user/resetUser', data.data);

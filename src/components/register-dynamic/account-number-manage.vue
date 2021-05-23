@@ -13,9 +13,9 @@
             <form-item prop="username" :label="i18n.label.username">
                 <i-input v-model="formInline.username" :readonly="forbidden" :placeholder="i18n.placeholder.username" />
             </form-item>
-            <!-- <form-item prop="password" :label="i18n.label.password">
+            <form-item prop="password" :label="i18n.label.password">
                 <i-input v-model="formInline.password" :readonly="forbidden" :placeholder="i18n.placeholder.password" type="password" />
-            </form-item> -->
+            </form-item>
             <div class="col">
                 <form-item prop="mobile" class="col2" :label="i18n.label.mobile">
                     <i-input
@@ -31,7 +31,7 @@
             </div>
             <div class="col">
                 <form-item prop="role" class="col2" :label="i18n.label.role">
-                    <i-select v-model="formInline.role" :placeholder="i18n.placeholder.role" clearable>
+                    <i-select v-model="formInline.role" :disabled="forbidden" :placeholder="i18n.placeholder.role" clearable>
                         <i-option v-for="item of dicts.role" :key="item.code" :value="item.code">{{item.name}}</i-option>
                     </i-select>
                 </form-item>
@@ -60,18 +60,21 @@
                     <my-button v-if="type === 1" v-show="!forbidden" @click="selectCard('org_id')" class="k-w" type="primary">{{$t('h.formLabel.choice')}}</my-button>
                 </div>
             </form-item>
-            <form-item v-if="formInline.role === 'admin'" :rules="formInline.role === 'admin' ? undefined : {}" :label="i18n.label.is_notice" prop="is_notice">
-                <i-switch v-model="formInline.is_notice" :true-value="1" :false-value="0">
+            <form-item v-if="formInline.role === 'admin'" :rules="formInline.role === 'admin' ? undefined : {}" prop="is_notice" :label="i18n.label.is_notice">
+                <i-switch v-model="formInline.is_notice" :disabled="forbidden" :true-value="1" :false-value="0">
                     <template v-slot:open>{{$t('h.status.yes')}}</template>
                     <template v-slot:close>{{$t('h.status.no')}}</template>
                 </i-switch>
+            </form-item>
+            <form-item :label="i18n.label.wechat" class="form-item-wechat">
+                {{formInline.wx ? '已绑定' : '未绑定'}}
             </form-item>
         </i-form>
     </my-modal>
 </template>
 
 <script lang="ts">
-import { Prop, Watch, Component } from 'vue-property-decorator';
+import { Watch, Component } from 'vue-property-decorator';
 import { Form as IForm, FormItem, Input as IInput, Select as ISelect, Option as IOption, Switch as ISwitch, Cascader } from 'view-design';
 import { Popup } from '@/base-class/dynamic-create';
 import { setUserInfo as set, getUserInfo as get } from '@/config/api';
@@ -106,7 +109,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         type: 1,
         id: 0,
         username: '',
-        // password: '',
+        password: '',
         mobile: '',
         originMobile: '', // 编辑时保存的手机号
         _mobile: '', // 显示遮掩的手机号
@@ -116,6 +119,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
         is_notice: 1,
         region: [],
         sex: '',
+        wx: '',
     };
     dicts = { 
         role: [],
@@ -125,8 +129,8 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
 
     get i18n() {
         const label = {
-            username: `${this.$t('h.formLabel.accountNumber')}: `,
-            // password: `${this.$t('h.formLabel.password')}: `,
+            username: `${this.$t('h.formLabel.userName')}: `,
+            password: `${this.$t('h.formLabel.password')}: `,
             mobile: `${this.$t('h.formLabel.mobile')}: `,
             email: `${this.$t('h.formLabel.email')}: `,
             org_id: `${this.$t('h.formLabel.affiliatedCustomer')}: `,
@@ -134,12 +138,13 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
             region: `${this.$t('h.formLabel.adminArea')}: `,
             sex: `${this.$t('h.formLabel.sex')}: `,
             is_notice: `${this.$t('h.formLabel.isNotice')}: `,
+            wechat: `${this.$t('h.formLabel.wechat')}: `,
         };
         const placeholder = {
             username: this.$t('h.placeholder.pleaseEnter', { msg: label.username }),
             org_id: this.$t('h.placeholder.pleaseSelect', { msg: label.org_id }),
             role: this.$t('h.placeholder.pleaseSelect', { msg: label.role }),
-            // password: this.$t('h.placeholder.pleaseEnter', { msg: label.password }),
+            password: this.$t('h.placeholder.pleaseEnter', { msg: label.password }),
             mobile: this.$t('h.placeholder.pleaseEnter', { msg: label.mobile }),
             email: this.$t('h.placeholder.pleaseEnter', { msg: label.email }),
             region: this.$t('h.placeholder.pleaseSelect', { msg: label.region }),
@@ -151,11 +156,11 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
     }
     get rules() {
         const { i18n: { placeholder }, type } = this;
-        // const isAdd = type === 1;
+        const isAdd = type === 1;
 
         return {
             username: { required: true, validator: (rule: RegExp, value: string, callback: Function) => callback(userNameReg(value, true)), trigger: 'blur' },
-            // password: { required: isAdd, validator: (rule: RegExp, value: string, callback: Function) => callback(passwordReg(value, isAdd)), trigger: 'blur' },
+            password: { required: isAdd, validator: (rule: RegExp, value: string, callback: Function) => callback(passwordReg(value, isAdd)), trigger: 'blur' },
             mobile: { required: true, validator: (rule: RegExp, value: string, callback: Function) => callback(mobileReg(value, true)), trigger: 'blur' },
             role: { required: true, message: placeholder.role },
             region: { required: true, type: 'array', message: placeholder.region },
@@ -269,6 +274,7 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
                 org_id: lodashGet(org, '[0].id', ''),
                 mobile: factMobile,
                 is_notice: role === 'admin' ? is_notice : undefined,
+                role,
                 ...transformRegionCoding(region),
             });
             const { type: types } = await set(params);
@@ -283,4 +289,11 @@ export default class AccountNumberManageHandle extends Popup<'SetUser'> {
 
 <style scoped lang="scss">
     @import '~@/views/styles/popup.scss';
+
+    @include utils-pierce(form-item-wechat) {
+        .ivu-form-item-label {
+            bottom: 1px;
+            float: left;
+        }
+    }
 </style>

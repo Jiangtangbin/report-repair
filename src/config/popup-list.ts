@@ -1,17 +1,17 @@
 import Vue, { VNode } from 'vue';
 import { TableColumn } from 'view-design';
 import {
-    getOrgList
+    getOrgList, getUserList
 } from '@/config/api';
 import {
-    Options, customerCondition
+    Options, customerCondition, accountNumberManageCondition
 } from './conditions';
 import {
-    Trees, customerManage
+    Trees, customerManage, accountNumberManage
 } from './columns';
 import { i18n } from '@/locale/index';
 
-export type PopupListField = 'customer';
+export type PopupListField = 'customer' | 'account';
 
 export type PopupList = Record<PopupListField, {
     title: string,
@@ -54,6 +54,13 @@ function genRightMenu<T extends Dictionary<any>>(this: Vue, menus: RightMenuOpti
 
 // 弹窗列表
 const popupList: PopupList = {
+    account: {
+        title: '账号列表',
+        axios: getUserList,
+        columns: accountNumberManage(),
+        conditions: accountNumberManageCondition,
+        showKey: 'username',
+    },
     customer: {
         title: '客户列表',
         axios: getOrgList,

@@ -533,9 +533,9 @@ export const passwordReg = (value: string, required?: boolean) => {
 export const mobileReg = (value: string, required: boolean = false, message: string = 'h.tips.mobileVerification') => {
     const arrErr = [];
     if (required || value) {
-        // const flag = /^1[123456789]\d{9}$/.test(value);
+        const flag = /^1[123456789]\d{9}$/.test(value);
         // const flag = /^0?(13[0-9]|15[012356789]|18[0123456789]|14[57]|17[6783]|170[059]|14[57]|166|19[89])[0-9]{8}$/.test(value);
-        const flag = !!value;
+        // const flag = !!value;
         flag || arrErr.push(i18n.t(message));
     }
     return arrErr;

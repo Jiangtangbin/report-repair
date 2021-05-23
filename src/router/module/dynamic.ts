@@ -47,15 +47,6 @@ const dynamicRoutes: RouteConfig[] = [
             component: () => import(/* webpackChunkName: 'account-number-manage' */ '@/views/list-form/account-number-manage.vue'),
         },
         {
-            path: '/operationLog',
-            name: 'operationLog',
-            meta: {
-                title: '操作记录',
-            },
-            props: setProps1,
-            component: () => import(/* webpackChunkName: 'operation-log' */ '@/views/list-form/operation-log.vue'),
-        },
-        {
             path: '/knowLedgeList',
             name: 'knowLedgeList',
             meta: {
@@ -101,6 +92,15 @@ const dynamicRoutes: RouteConfig[] = [
             },
             props: setProps1,
             component: () => import(/* webpackChunkName: 'map-operation' */ '@/views/operations/map-operation.vue'),
+        },
+        {
+            path: '/operationLog',
+            name: 'operationLog',
+            meta: {
+                title: '操作记录',
+            },
+            props: setProps1,
+            component: () => import(/* webpackChunkName: 'operation-log' */ '@/views/list-form/operation-log.vue'),
         },
     // {
     //     path: '/system',

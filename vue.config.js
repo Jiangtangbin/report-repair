@@ -4,22 +4,22 @@ const path = require('path');
 const resolve = dir => path.join(__dirname, dir);
 
 // 配置多页面主函数
-// const pages = {
-//     // pc 主函数
-//     index: {
-//         entry: 'src/main.ts',
-//         template: 'public/index.html',
-//         filename: 'index.html',
-//         chunks: ['chunk-libs', 'chunk-vendors', 'chunk-common', 'chunk-commons', 'runtime', 'index', 'index~mini', 'manifest'],
-//     },
-//     // mobile 主函数
-//     mini: {
-//         entry: 'src/mobile-main.ts',
-//         template: 'public/index.html',
-//         filename: 'mini.html',
-//         chunks: ['chunk-libs', 'chunk-vendors', 'chunk-common', 'chunk-commons', 'runtime', 'mini', 'index~mini', 'manifest'],
-//     },
-// };
+const pages = {
+    // pc 主函数
+    index: {
+        entry: 'src/main.ts',
+        template: 'public/index.html',
+        filename: 'index.html',
+        chunks: ['chunk-libs', 'chunk-vendors', 'chunk-common', 'chunk-commons', 'runtime', 'index', 'index~mini', 'manifest'],
+    },
+    // mobile 主函数
+    mini: {
+        entry: 'src/mobile-main.ts',
+        template: 'public/index.html',
+        filename: 'mini.html',
+        chunks: ['chunk-libs', 'chunk-vendors', 'chunk-common', 'chunk-commons', 'runtime', 'mini', 'index~mini', 'manifest'],
+    },
+};
 
 module.exports = {
     outputDir: `../../dist/dist_ggj/dist`,
@@ -31,7 +31,7 @@ module.exports = {
     ],
     productionSourceMap: false,
     // 多页面
-    // pages,
+    pages,
     // 不开启 eslint 模式
     lintOnSave: false,
     // 运行时编译
@@ -122,10 +122,10 @@ module.exports = {
             }
         );
         // 删除多页面构建的预加载插件以防止无限递归 https://github.com/vuejs/vue-cli/issues/2463
-        // Object.keys(pages).forEach(page => {
-        //     config.plugins.delete(`preload-${page}`);
-        //     config.plugins.delete(`prefetch-${page}`);
-        // });
+        Object.keys(pages).forEach(page => {
+            config.plugins.delete(`preload-${page}`);
+            config.plugins.delete(`prefetch-${page}`);
+        });
         config
             .plugin('fork-ts-checker')
             // 引进 fork-ts-checker-webpack-plugin 专门在一个进程中进行类型检查

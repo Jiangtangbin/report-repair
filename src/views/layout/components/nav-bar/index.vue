@@ -6,7 +6,7 @@
         <my-menu @selected="selected" :active-name="$route.name" :collapse="collapse" :data="menuData" :trigger="trigger" class="nav-bar-menus" ref="menuWrapper" />
         <div class="nav-bar-personal d-v-c">
             <search />
-            <p>{{$t('h.formLabel.affiliatedCustomer')}}: {{userInfo.org_name}}</p>
+            <p>{{$t('h.formLabel.affiliatedCustomer')}}: {{userInfo.org_name || $t('h.other.admin')}}</p>
             <avatar />
         </div>
     </div>

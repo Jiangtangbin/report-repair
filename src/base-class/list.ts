@@ -3,7 +3,7 @@ import { Vue, Prop } from 'vue-property-decorator';
 import { userModule, appModule } from '@/store/index';
 import { Poptip, TableColumnRenderParams } from 'view-design';
 import { getMatch, isNumber } from '@/utils/index';
-import { operationLog, accountNumberManage, customerManage, knowLedgeManage, noticeManage, workPoolManage } from '@/config/columns';
+import { operationLog, accountNumberManage, customerManage, knowLedgeManage, noticeManage, workPoolManage, workManage } from '@/config/columns';
 import isEqualWith from 'lodash/isEqualWith';
 import { i18n } from '@/locale/index';
 
@@ -24,15 +24,25 @@ type AuthField = {
     edit: NormalFields;
     delete: TipsFields;
     details: NormalFields;
+    enable: NormalFields;
+    unable: NormalFields;
+    unbindWx: NormalFields;
+    create: NormalFields;
+    send: NormalFields;
+    accept: NormalFields;
+    mark: NormalFields;
+    reply: NormalFields;
+    pj: NormalFields;
 }
 
 // 每个页面所对应的权限
 export type PageAuth = {
-    'account-number-manage': ReadonlyAuth | 'auth' | 'unable' | 'enable';
+    'account-number-manage': ReadonlyAuth | 'unable' | 'enable' | 'unbindWx';
     'customer-manage': BaseAuth;
     'know-ledge-manage': BaseAuth;
     'notice-manage': BaseAuth;
-    'work-pool-manage': BaseAuth;
+    'work-pool-manage': 'create' | 'send' | 'accept';
+    'work-manage': 'mark' | 'reply' | 'pj';
     'operation-log': 'details';
 }
 
@@ -59,11 +69,6 @@ const icons: AuthField = {
         alias: 'add',
         title: 'add',
     },
-    'set-group-device': {
-        name: 'plus',
-        alias: 'set-group-device',
-        title: 'setGroupDevice',
-    },
     edit: {
         name: 'edit',
         alias: 'edit',
@@ -80,6 +85,46 @@ const icons: AuthField = {
         name: 'details',
         alias: 'details',
         title: 'details',
+    },
+    enable: {
+        title: 'enable',
+        alias: 'enable',
+        name: 'on',
+    },
+    unable: {
+        title: 'unable',
+        alias: 'unable',
+        name: 'off',
+    },
+    unbindWx: {
+        title: 'unbindWx',
+        alias: 'unbindWx',
+        name: 'put-in',
+    },
+    send: {
+        title: 'send',
+        alias: 'send',
+        name: 'emergency',
+    },
+    accept: {
+        title: 'accept',
+        alias: 'accept',
+        name: 'schedule',
+    },
+    mark: {
+        title: 'mark',
+        alias: 'mark',
+        name: 'history-trace',
+    },
+    reply: {
+        title: 'reply',
+        alias: 'reply',
+        name: 'txt-share',
+    },
+    pj: {
+        title: 'pj',
+        alias: 'pj',
+        name: 'tasks',
     },
 };
 
@@ -102,6 +147,9 @@ function iconDispose<T extends PageAuth, K extends keyof PageAuth>(originAuth: T
         }
         case /userList$/.test(a!) ? a : '':  {
             console.log('账号管理');
+            const { status, wx } = data!;
+            auth = (auth as any).includes('status') ? (auth.filter((v: string) => v !== 'status') as any).concat(status ? 'unable' : 'enable') : auth;
+            auth = (auth as any).includes('unbindWx') ? (auth.filter((v: string) => v !== 'unbindWx') as any).concat(wx ? 'unbindWx' : '') : auth;
             break;
         }
         case /knowLedgeList$/.test(a!) ? a : '':  {
@@ -331,3 +379,16 @@ export abstract class WorkPoolColumns extends BasicList<'work-pool-manage'> {
         return genListOperations(workPoolManage(), authKey)(this);
     }
 }
+
+// 工单管理列表
+export abstract class WorkColumns extends BasicList<'work-manage'> {
+    auth: PageAuth['work-manage'][] = [];
+    // 外部提供的权限字段
+    @Prop({ type: String, default(this: Vue) { return this.$options.name } })
+    authKey!: 'work-manage';
+
+    get columns() {
+        const { authKey } = this;
+        return genListOperations(workManage(), authKey)(this);
+    }
+}WorkColumns

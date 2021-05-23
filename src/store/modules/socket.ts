@@ -64,58 +64,82 @@ class Socket extends VuexModule implements ISocket {
     @Action
     newMessage({ t, p }: GlobalSocket.Info) {
         console.log(t, p);
+        // 用户大类
         switch (t) {
-            // 用户大类
-            case 'user':
-                switch (st) {
-                    // 用户小类 -> 上下线通知
-                    case 'onoff':
-                        break;
-                    // 用户小类 -> 通知提醒
-                    case 'notice': {
-                        switch (p!.t) {
-                            // 用户小类 -> 通知提醒 -> 报警提醒
-                            case 'alarm': {
-                                break;
-                            }
-                            // 用户小类 -> 通知提醒 -> 消警
-                            case 'unalarm': {
-                                break;
-                            }
-                            // 用户小类 -> 通知提醒 -> 巡检报警
-                            case 'check': {
-                                break;
-                            }
-                            // 用户小类 -> 通知提醒 -> 个人任务通知
-                            case 'checktask': {
-                                break;
-                            }
-                            // 用户小类 -> 通知提醒 -> 个人任务通知
-                            case 'worktask': {
-                                break;
-                            }
-                            default:
-                                break;
-                        }
-                        break;
-                    }
-                    // 用户小类 -> 密码被修改
-                    // 用户小类 -> 强制上下线提醒
-                    case 'modifypassword':
-                    case 'forceoffline':
-                        if (process.env.NODE_ENV !== 'development') {
-                            this.context.commit('app/alterState', { key: 'isLogin', value: false }, { root: true });
-                            this.context.commit('user/alterState', { key: 'token', value: '' }, { root: true });
-                            instance.$Modal.info({
-                                title: st === 'forceoffline' ? i18n.t('h.tips.accountAlreadyLogin') as string : i18n.t('h.tips.accountPasswordModified') as string,
-                                content: i18n.t('h.tips.reLogin') as string,
-                                onOk: () => this.context.dispatch('sign/resetState', '', { root: true }).then(() => window.location.reload()),
-                            });
-                        }
-                        break;
-                    default:
-                        break;
-                }
+            case 'account_disable':
+                console.log('收到账号停用消息', t, p);
+                // 账号停用，收到该消息，提示您的账号已被停用，然后断开 socket，返回登录页面
+                break;
+            case 'org_delete':
+                console.log('收到客户删除消息', t, p);
+                // 客户删除，收到该消息，提示您所属客户已被删除，然后断开 socket，返回登录页面
+                break;
+            case 'bindwx_reply':
+                console.log('收到绑定微信结果消息', t, p);
+                // 绑定微信结果，这里做失败的提示
+                // p: {
+                //     status: true 或 false,
+                //     msg: 失败原因,
+                //     data: {
+                //         // 绑定的微信账号信息
+                //     }
+                // }
+                break;
+            case 'new_notice':
+                console.log('收到新通知公告消息', t, p);
+                // 新通知公告
+                // p: {
+                //     id: id,
+                //     title: 公告标题
+                // }
+                break;
+            case 'new_work':
+                console.log('收到新通知工单消息', t, p);
+                // 新通知工单
+                // p: {
+                //     id: 工单 id,
+                //     step: 步骤,
+                //     work_code: 工单号,
+                //     org_name: 所属客户,
+                //     link_man: 联系人,
+                //     link_mobile: 联系电话,
+                //     work_type_name: 工单类型,
+                //     service_type_name: 服务/故障类型,
+                //     work_level_name: SLA级别
+                // }
+                break;
+            case 'accept_work':
+                console.log('收到接单通知消息', t, p);
+                // 接单通知，发送给客户的，提示他，他的工单已经接单了
+                // p: {
+                //     id: 工单 id,
+                //     step: 步骤,
+                //     work_code: 工单号,
+                //     accepter_name: 维修人员,
+                //     accepter_mobile: 联系电话
+                // }
+                break;
+            case 'finish_work':
+                console.log('收到完工通知消息', t, p);
+                // 完工通知，发送给客户的，提示他，他的工单已完成，请及时评价
+                // p: {
+                //     id: 工单 id,
+                //     step: 步骤,
+                //     work_code: 工单号,
+                //     accepter_name: 维修人员,
+                //     accepter_mobile: 联系电话
+                // }
+                break;
+            case 'pj_work':
+                console.log('收到评价通知消息', t, p);
+                // 评价通知，发送给 yw 维修人员的，提示他，您的工单客户已评价
+                // p: {
+                //     id: 工单 id,
+                //     step: 步骤,
+                //     work_code: 工单号,
+                //     score: 分值,
+                //     pj: 评价内容
+                // }
                 break;
             default:
                 break;

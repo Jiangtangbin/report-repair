@@ -32,20 +32,20 @@ export default class Download extends Vue {
     // 获取 apk url
     async getUrl() {
         this.loading = true;
-        const { data } = await getPackage(1);
+        const { data } = await getPackage('android');
+        console.log(data);
         this.loading = false;
-        return lodashGet(data, 'apk.url');
+        return lodashGet(data, 'url');
     }
     // 开始下载安装包
     async down() {
-        console.log('获取安装包接口，后台逻辑错误');
-        // const url = await this.getUrl();
-        // if (url) {
-        //     window.location = url;
-        // } else {
-        //     this.hasApk = false;
-        //     this.$Message.info(this.$t('h.tips.noInstallPack'));
-        // }
+        const url = await this.getUrl();
+        if (url) {
+            window.location = url;
+        } else {
+            this.hasApk = false;
+            this.$Message.info(this.$t('h.tips.noInstallPack'));
+        }
     }
 }
 

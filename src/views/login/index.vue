@@ -25,7 +25,7 @@ import QR from 'vue-qr';
 import login from './components/login.vue';
 import forgot from './components/forgot.vue';
 import { appModule } from '@/store/index';
-// import { getPackage } from '@/config/api';
+import { getPackage } from '@/config/api';
 
 const logo = require('@/assets/images/logo.png'); // 防止 ts 报错
 const { location: { origin }} = window;
@@ -49,11 +49,10 @@ export default class Login extends Vue {
     }
 
     async created() {
-        // console.log('获取安装包接口，后台逻辑错误');
-        // const { type, data } = await getPackage(4);
-        // if (!type) {
-        //     this.packageArr[1].url = (data.ios && data.ios.url) || 'h.tips.getIOSInstallPackageError';
-        // }
+        const { type, data } = await getPackage('ios');
+        if (!type) {
+            this.packageArr[1].url = (data.url && data.url) || 'h.tips.getIOSInstallPackageError';
+        }
     }
 }
 </script>

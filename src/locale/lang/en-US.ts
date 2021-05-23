@@ -104,6 +104,7 @@ export default {
             configured: 'The content of this template has been configured. After switching, the content of this template will be cleared!',
             getVideoDuration: 'Getting video duration, please wait!',
             getAudioDuration: 'Getting audio duration, please wait!',
+            bindSuccess: 'bind success',
         },
         header: {
             returnHome: 'back to home page',
@@ -113,6 +114,9 @@ export default {
             inspectionTask: 'inspection task',
             workTask: 'work order task',
             menuName: 'menu name',
+            checkWXInfo: 'biew wechat information',
+            replaceAccount: 'change account number',
+            bindWX: 'binding wechat',
         },
         tree: {
             region: 'region',
@@ -154,6 +158,9 @@ export default {
             close: 'close',
             add: 'add',
             edit: 'edit',
+            enable: 'enable',
+            unable: 'unable',
+            unbindWx: 'unbind wechat',
             details: 'details',
             delete: 'delete',
             upload: 'upload',
@@ -173,6 +180,12 @@ export default {
             viewPicture: 'view picture',
             viewDistributeLog: 'view distribute log',
             viewDistributeResult: 'view distribute result',
+            create: 'report',
+            send: 'dispatch',
+            accept: 'accept',
+            mark: 'mark',
+            reply: 'reply',
+            pj: 'appraise',
         },
         table: {
             index: 'serial number',
@@ -207,7 +220,7 @@ export default {
             area: 'area',
             adminor: 'person charge',
             adminorPhone: 'person charge phone',
-            weChat: 'we chat',
+            wechat: 'wechat',
             title: 'title',
             createrPeople: 'creater people',
             createrTime: 'creater time',
@@ -216,6 +229,7 @@ export default {
             publishTime: 'publish time',
             readingNum: 'reading number',
             affiliatedCustomer: 'affiliated customer',
+            userName: 'user name',
             operationLog: {
                 operationObj: 'operation object',
                 operationUser: 'operation user',
@@ -229,6 +243,8 @@ export default {
             work: {
                 workNumber: 'work order no',
                 workType: 'work type',
+                workStatus: 'work status',
+                score: 'score',
                 workLevel: "sla level",
                 serviceType: "service/fault type",
                 contactMan: "contact man",
@@ -259,6 +275,7 @@ export default {
             buttonDownload: 'click the button to start downloading',
         },
         formLabel: {
+            userName: 'user name',
             serialNumber: 'serial number',
             affiliatedCustomer: 'affiliated customer',
             affiliatedGroup: 'affiliated group',
@@ -306,6 +323,8 @@ export default {
             content: 'content',
             title: 'title',
             region: 'region',
+            reset: 'reset',
+            wechat: 'wechat',
             menu: {
                 menuTitle: 'menu title',
                 pageTitle: 'page title',
@@ -328,6 +347,28 @@ export default {
             customerManage: {
                 personInCharge: 'person in charge',
                 personInChargeTelephone: 'telephone number of responsible person',
+            },
+            work: {
+                work_type : 'work type',
+                work_level : 'sla level',
+                service_type : 'service/breakdown type',
+                content : 'repair contents',
+                imgs : 'picture',
+                videos: 'video',
+                link_man : 'link man',
+                link_mobile : 'link mobile',
+                reciever: 'reciever',
+            },
+            wxbind: {
+                scanQrcode: 'please open wechat to scan the qr code below',
+                qrcodeError: 'qr code acquisition failed',
+                repeatGet: 'recapture',
+                errorInfo: 'error message',
+            },
+            wxinfo: {
+                headimgurl: 'head portrait',
+                nickname: 'wechat name',
+                region: 'area',
             },
         },
         placeholder: {
@@ -360,6 +401,7 @@ export default {
             pleaseSelectFileType: 'Please select file type',
             pleaseSelectDistributeType: 'Please select distribute type',
             pleaseSelectSLALevel: 'Please select SLA level',
+            pleaseSelectWorkStatus: 'please select work status',
         },
         modal: {
             optionList: 'Option list',
@@ -385,6 +427,9 @@ export default {
                 queryCriteria: 'query criteria',
                 uploadFile: 'upload file',
                 viewPicture: 'view picture',
+                wxbind: 'wechat bind',
+                work: 'report work',
+                workDistribution: 'distribution work',
             },
         },
         map: {
@@ -412,6 +457,7 @@ export default {
             customName: 'custom name',
             requestAddress: 'request address',
             axiosParams: 'additional parameters (Axios configuration parameters)',
+            admin: 'admin',
         },
         httpCode: {
             304: 'The request parameter does not meet the condition(error code: 304)',

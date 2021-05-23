@@ -79,7 +79,7 @@ export function accountNumberManageCondition(): Options {
             value: 'username',
             options: [
                 {
-                    title: 'h.table.name',
+                    title: 'h.table.userName',
                     value: 'username',
                 },
                 {
@@ -187,7 +187,7 @@ export function workPoolCondition(): Options {
                 name: '',
                 placeholder: 'h.placeholder.pleaseSelectSLALevel',
                 type: 'dict',
-                params: 13,
+                params: 3,
                 options: [],
             },
         },
@@ -202,6 +202,47 @@ export function workPoolCondition(): Options {
                 {
                     title: 'h.table.affiliatedCustomer',
                     value: 'org_name',
+                },
+            ],
+        },
+    };
+}
+
+// 工单管理查询条件
+export function workCondition(): Options {
+    return {
+        backfill: {},
+        selects: {
+            work_level: {
+                name: '',
+                placeholder: 'h.placeholder.pleaseSelectSLALevel',
+                type: 'dict',
+                params: 3,
+                options: [],
+            },
+            work_status: {
+                name: '',
+                placeholder: 'h.placeholder.pleaseSelectWorkStatus',
+                type: 'dict',
+                params: 7,
+                options: [],
+            },
+        },
+        inputs: {
+            title: '',
+            value: 'work_code',
+            options: [
+                {
+                    title: 'h.table.work.workNumber',
+                    value: 'work_code',
+                },
+                {
+                    title: 'h.table.affiliatedCustomer',
+                    value: 'org_name',
+                },
+                {
+                    title: 'h.table.work.score',
+                    value: 'score',
                 },
             ],
         },

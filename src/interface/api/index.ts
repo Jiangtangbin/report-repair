@@ -139,6 +139,7 @@ declare namespace API {
             username: string;
             email?: string;
             sex?: string;
+            is_notice?: number;
         }
         // 操作记录列表
         'OperationLog': RequestPage & {

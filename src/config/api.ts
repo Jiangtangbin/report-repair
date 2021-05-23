@@ -2,15 +2,28 @@
 
 import axios from '@/axios/index';
 
-const { location: { host }} = window;
+const { location: { protocol, host }} = window;
 const baseUrl = process.env.NODE_ENV === 'development' ? '/' : host.indexOf('besthai') !== -1 ? '//122.112.176.222:8558/apis/' : '/apis/';
 
 // api 请求默认的地址
 export default baseUrl;
 
+// 上传地址
+export const action = `${protocol}//${host}/system/base/uploadFile`;
+
 // 登录接口
 export function login(data: API.Parameter['Login']) {
     return axios<API.Response['LoginInfo']>('common/common/login', { data, method: 'POST' });
+}
+
+// 退出登录
+export function logout() {
+    return axios('system/user/logout', { method: 'POST' });
+}
+
+// 获取安装包
+export function getPackage(type: 'android' | 'ios') {
+    return axios('common/common/getAppDownloadUrl', { params: { type }});
 }
 
 // 刷新 token
@@ -50,7 +63,7 @@ export function getCityAreaTree() {
 
 // 获取工单类型和服务 / 故障类型的树形
 export function getWorkServiceFault() {
-    return axios<API.Response['WorkServiceFault']>('system/base/getCateGoryTree', { noTip: true });
+    return axios<API.Response['WorkServiceFault']>('system/base/getCategoryTree', { noTip: true });
 }
 
 // 上传文件
@@ -153,7 +166,7 @@ export function getWorkInfo(id: number) {
     return axios<API.Response['WorkInfo']>('system/work/getWorkDetail', { params: { id }});
 }
 
-// 生成工单
+// 上报工单
 export function createWork(data: API.Parameter['CreateWork']) {
     return axios('system/work/createWork', { data, method: 'POST' });
 }

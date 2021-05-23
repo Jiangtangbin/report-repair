@@ -28,6 +28,9 @@ export const disabledBeforeToday = (date: Date) => date && date.valueOf() < Date
 // 禁用今天往后的日期
 export const disabledAfterToday = (date: Date) => date && date.valueOf() > Date.now();
 
+// 图片 or 视频格式
+export const imgVideoFormat = ['jpg', 'jpeg', 'bmp', 'eps', 'gif', 'mif', 'miff', 'png', 'tif', 'tiff', 'svg', 'wmf', 'avi', 'asf', 'wmv', 'avs', 'flv', 'mkv', 'mov', '3gp', 'mp4', 'mpg', 'mpeg', 'dat', 'ogm', 'vob', 'rm', 'rmvb', 'ts', 'tp', 'ifo', 'nsv'];
+
 // 图片格式
 export const imgFormat = ['jpg', 'jpeg', 'bmp', 'eps', 'gif', 'mif', 'miff', 'png', 'tif', 'tiff', 'svg', 'wmf'];
 

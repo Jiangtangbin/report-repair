@@ -4,7 +4,7 @@ import router from './router/mobile';
 import './axios/index';
 import './assets/icons/index';
 import { Message } from 'view-design';
-import { i18n } from '@/locale/index';
+import { i18n } from '@/views/mobile/locale/index';
 
 import vuePhotoview from 'vue-photo-preview'; // 图片预览组件.
 import 'vue-photo-preview/dist/skin.css'; // 图片预览组件样式.

@@ -8,9 +8,10 @@
         :loading="loading"
         :total="list.page.count"
         :conditions="searchCondition"
+        :trees="trees"
     >
         <div class="control">
-            <my-button v-if="hasAuth('add')" @click="handle('add')" class="control-btn">{{$t('h.tableButton.add')}}</my-button>
+            <my-button v-if="hasAuth('create')" @click="handle('create')" class="control-btn">{{$t('h.tableButton.create')}}</my-button>
             <my-button @click="refresh" class="control-btn" type="success">{{$t('h.tableButton.refresh')}}</my-button>
         </div>
     </basic-list>
@@ -21,17 +22,19 @@ import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
 import { getWorkPoolList as getList } from '@/config/api';
 import { WorkPoolColumns, PageAuth } from '@/base-class/list';
+import { workTrees } from '@/config/columns';
 import { workPoolCondition as searchCondition } from '@/config/conditions';
+import { userModule } from '@/store';
 
 type PageType = 'WorkPoolList';
 
 @Component({
-    name: 'pool-manage',
+    name: 'work-pool-manage',
     components: {
         BasicList,
     },
 })
-export default class CustomerManage extends WorkPoolColumns {
+export default class WorkPoolManage extends WorkPoolColumns {
     // 当前页面是否以弹出形式打开
     @Prop(Boolean)
     pageType!: boolean;
@@ -40,9 +43,11 @@ export default class CustomerManage extends WorkPoolColumns {
     fromQuery!: API.Parameter[PageType];
 
     loading = false;
+    trees = workTrees();
     list: API.Response[PageType] = { list: [], page: { pageSize: 1, pageNum: 1, countPage: 1, count: 1 }};
     initCondition = searchCondition();
     queryParams: Dictionary<any> = { };
+    orgs = { id: 0, name: '' };
 
     // 条件参数，防止动态路由缓存
     get searchCondition() {
@@ -58,6 +63,7 @@ export default class CustomerManage extends WorkPoolColumns {
     created() {
         const { pageType, fromQuery } = this;
         this.setParams(fromQuery, !pageType);
+        this.orgs = { id: userModule.user.info.org_id, name: userModule.user.info.org_name }
     }
 
     // 外部传递的参数
@@ -87,13 +93,12 @@ export default class CustomerManage extends WorkPoolColumns {
     
     // 列表操作栏点击事件
     async handle(name: PageAuth['work-pool-manage'], data?: API.Response['WorkInfo']) {
+        const { orgs } = this;
         switch (name) {
-            case 'add':
-            case 'edit':
-            case 'details':
-                this.$getDynamicComponent('knowLedgeManage', () => {
-                    this.$createKnowLedgeManageHandle({
-                        type: this.getType(name),
+            case 'create':
+                this.$getDynamicComponent('workPoolManage', () => {
+                    this.$createWorkPoolManageHandle({
+                        orgs: userModule.user.info.role === 'kh' ? orgs : undefined,
                         id: data && data.id,
                         $events: {
                             success: 'refresh',
@@ -101,13 +106,16 @@ export default class CustomerManage extends WorkPoolColumns {
                     }).show();
                 });
                 break;
-            case 'delete': {
-                // this.loading = true;
-                // const { type } = await del(data!.id);
-                // this.loading = false;
-                // type || this.refresh(this.list.list.length <= 1);
+            case 'send':
+                this.$getDynamicComponent('workPoolDistributionManage', () => {
+                    this.$createWorkPoolDistributionManageHandle({
+                        id: data && data.id,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }).show();
+                });
                 break;
-            }
         }
     }
 }

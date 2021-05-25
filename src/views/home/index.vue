@@ -3,7 +3,7 @@
         <header class="home-page-header d-v-c">
             <div class="home-page-header-title d-v-c">
                 <img src="~@/assets/images/home-page-header-title.png" />
-                <span :style="{ 'letter-spacing': lang === 'en-US' ? '10px' : '50px' }">{{$t(title)}}</span>
+                <span :style="{ 'letter-spacing': lang === 'en-US' ? '10px' : '50px' }">{{$t('h.other.platformName')}}</span>
             </div>
             <personal />
         </header>
@@ -54,7 +54,6 @@
 import { Watch, Component, Vue } from 'vue-property-decorator';
 import { appModule, userModule } from '@/store/index';
 import Personal from '@/views/layout/components/nav-bar/avatar.vue';
-import { title } from '@/config/environment';
 
 @Component({
     components: {
@@ -68,11 +67,6 @@ export default class Home extends Vue {
     // footerMenusCurrentTarget = ''; // 脚部菜单当前项
     lang = appModule.lang;
 
-    // 页面标题
-    get title() {
-        // return userModule.user.config.title;
-        return title;
-    }
     // 菜单列表
     get menus() {
         // const result = { default: [], govern: [] };
@@ -119,14 +113,14 @@ export default class Home extends Vue {
      * @description: 菜单子项切换（外部链接）
      * @param {Object} item: 外部链接
      */
-    popupLink(item: Object) {
-        this.$getDynamicComponent('publicIframe', () => {
-            this.$createPublicIframeHandle({
-                title: item.title,
-                // url: item.url_value,
-            }).show();
-        });
-    }
+    // popupLink(item: Object) {
+    //     this.$getDynamicComponent('publicIframe', () => {
+    //         this.$createPublicIframeHandle({
+    //             title: item.title,
+    //             // url: item.url_value,
+    //         }).show();
+    //     });
+    // }
 
     // created() {
     //     setTimeout(() => {

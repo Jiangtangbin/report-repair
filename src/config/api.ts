@@ -1,6 +1,8 @@
 /// <reference path="../interface/api/index.ts" />
 
-import axios from '@/axios/index';
+import { Message } from 'view-design';
+import axios, { defaultAxios } from '@/axios/';
+import { downLoadFile } from '@/utils/index';
 
 const { location: { protocol, host }} = window;
 const baseUrl = process.env.NODE_ENV === 'development' ? '/' : host.indexOf('besthai') !== -1 ? '//122.112.176.222:8558/apis/' : '/apis/';
@@ -112,7 +114,7 @@ export function forbiddenUser(data: API.Parameter['Forbidden']) {
 }
 
 // 解绑账号微信
-export function unbundlingWx(id: number){
+export function unbindUserWx(id: number){
     return axios('system/user/unbindUserWx', { params: { id }, method: 'POST' });
 }
 
@@ -127,8 +129,8 @@ export function getQRCodeUrl() {
 }
 
 // 获取用户微信信息
-export function getUserWxInfo() {
-    return axios<API.Response['UserWxInfo']>('system/user/getUserWxInfo', { noTip: true });
+export function getUserWxInfo(user_id: number) {
+    return axios<API.Response['UserWxInfo']>('system/user/getUserWxInfo', { params: { user_id }, noTip: true });
 }
 
 // 获取图形验证码
@@ -177,18 +179,48 @@ export function distributionWork(data: API.Parameter['DistributionWork']) {
 }
 
 // 领取工单
-export function receiveWork(data: API.Parameter['ReceiveWork']) {
-    return axios('system/work/acceptWork', { data });
+export function receiveWork(work_id: number) {
+    return axios('system/work/acceptWork', { params: { work_id } });
 }
 
 // 回单
 export function replyWork(data: API.Parameter['ReplyWork']) {
     return axios('system/work/replyWork', { data, method: 'POST' });
 }
+// 取消工单
+export function cancelWork(data: API.Parameter['CancelWork']) {
+    return axios('system/work/cancelWork', { data, method: 'POST' });
+}
 
-// 评价
-export function appraise(data: API.Parameter['Appraise']) {
-    return axios('system/work/pj', { data, method: 'POST' });
+// 导出工单
+export function exportWorkList(params: API.Parameter['WorkList']) {
+    return defaultAxios('system/work/exportWork', { params, responseType: 'blob' })
+        .then((data) => {
+            const i = data.headers['content-type'].indexOf('application/json');
+            if (i === -1) {
+                // 请求成功
+                const disposition = data.headers['content-disposition'];
+                const filename = disposition && disposition.match(/\d+\.\w+$/)
+                    ? disposition.match(/\d+\.\w+$/)[0]
+                    : `${Date.now()}.csv`;
+                downLoadFile(data.data, filename);
+            }
+            else {
+                // 请求失败
+                const reader = new FileReader();
+                reader.onload = function onload(e) {
+                    const a = JSON.parse((e as any).target!.result);
+                    Message.error(a.msg || '导出失败');
+                };
+                reader.onerror = function () {
+                    Message.error('导出失败');
+                };
+                reader.readAsText(data.data);
+            }
+        })
+        .catch(error => {
+            Message.error(error.message || '未知错误');
+        });
 }
 
 // 知识库列表

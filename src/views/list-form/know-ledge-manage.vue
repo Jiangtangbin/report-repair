@@ -108,6 +108,9 @@ export default class CustomerManage extends KnowledgeBaseColumns {
                 type || this.refresh(this.list.list.length <= 1);
                 break;
             }
+            default: {
+                break;
+            }
         }
     }
 }

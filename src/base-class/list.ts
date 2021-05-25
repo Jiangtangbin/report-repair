@@ -25,14 +25,11 @@ type AuthField = {
     delete: TipsFields;
     details: NormalFields;
     enable: NormalFields;
-    unable: NormalFields;
-    unbindWx: NormalFields;
-    create: NormalFields;
+    unable: TipsFields;
+    unbindWx: TipsFields;
     send: NormalFields;
-    accept: NormalFields;
-    mark: NormalFields;
+    accept: TipsFields;
     reply: NormalFields;
-    pj: NormalFields;
 }
 
 // 每个页面所对应的权限
@@ -41,8 +38,8 @@ export type PageAuth = {
     'customer-manage': BaseAuth;
     'know-ledge-manage': BaseAuth;
     'notice-manage': BaseAuth;
-    'work-pool-manage': 'create' | 'send' | 'accept';
-    'work-manage': 'mark' | 'reply' | 'pj';
+    'work-pool-manage': 'create' | 'send' | 'accept' | 'cancel';
+    'work-manage': 'create' | 'reply' | 'cancel';
     'operation-log': 'details';
 }
 
@@ -95,11 +92,15 @@ const icons: AuthField = {
         title: 'unable',
         alias: 'unable',
         name: 'off',
+        isTips: true,
+        tips: 'confirmUnable',
     },
     unbindWx: {
         title: 'unbindWx',
         alias: 'unbindWx',
         name: 'put-in',
+        isTips: true,
+        tips: 'confirmUnbindWx',
     },
     send: {
         title: 'send',
@@ -110,22 +111,19 @@ const icons: AuthField = {
         title: 'accept',
         alias: 'accept',
         name: 'schedule',
-    },
-    mark: {
-        title: 'mark',
-        alias: 'mark',
-        name: 'history-trace',
+        isTips: true,
+        tips: 'confirmAccept',
     },
     reply: {
         title: 'reply',
         alias: 'reply',
         name: 'txt-share',
     },
-    pj: {
-        title: 'pj',
-        alias: 'pj',
-        name: 'tasks',
-    },
+    cancel: {
+        title: 'cancelWork',
+        alias: 'cancel',
+        name: 'txt-arrow',
+    }
 };
 
 /**
@@ -161,10 +159,17 @@ function iconDispose<T extends PageAuth, K extends keyof PageAuth>(originAuth: T
             break;
         }
         case /poolList$/.test(a!) ? a : '':  {
+            const { work_status } = data!;
+            auth = (auth as any).includes('send') ? (auth.filter((v: string) => v !== 'send') as any).concat(work_status === 'pending' ? 'send' : '') : auth;
+            auth = (auth as any).includes('accept') ? (auth.filter((v: string) => v !== 'accept') as any).concat(work_status === 'pending' ? 'accept' : '') : auth;
+            auth = (auth as any).includes('cancel') ? (auth.filter((v: string) => v !== 'cancel') as any).concat(work_status === 'assigned' || work_status === 'dealing' || work_status === 'pending' ? 'cancel' : '') : auth;
             console.log('工单池管理');
             break;
         }
         case /workList$/.test(a!) ? a : '':  {
+            const { work_status } = data!;
+            auth = (auth as any).includes('reply') ? (auth.filter((v: string) => v !== 'reply') as any).concat(work_status === 'dealing' ? 'reply' : '') : auth;
+            auth = (auth as any).includes('cancel') ? (auth.filter((v: string) => v !== 'cancel') as any).concat(work_status === 'assigned' || work_status === 'dealing' || work_status === 'pending' ? 'cancel' : '') : auth;
             console.log('工单管理');
             break;
         }

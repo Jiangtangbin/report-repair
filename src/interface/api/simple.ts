@@ -49,6 +49,7 @@ declare namespace ResponseSimple {
         link_man: string;
         link_mobile: number | string;
         create_time: string;
+        work_status: string;
     }
     // 工单列表
     interface WorkList {

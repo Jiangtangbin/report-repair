@@ -2,7 +2,6 @@ import router, { resetRouter } from './index';
 import { appModule, userModule } from '@/store/index';
 import { signModule } from '@/store/modules/sign';
 import { LoadingBar } from 'view-design';
-import { getExemptionLoginAgreement } from '@/config/environment';
 import setTitle from '@/utils/dom';
 
 const whiteList = ['/', '/icon', '/404'];
@@ -12,9 +11,7 @@ router.beforeEach(async (to, from, next) => {
     const search = window.decodeURIComponent(to.fullPath.split('?')[1] || '');
     const { secret, token, from: fromUrl, ...surplusQuery } = router.match(`?${search}`).query as Record<string, string>;
     // 获取外部链接协议
-    const outerLinkProtocol = search.split('ak=')[1];
     // 免登录协议方式
-    const ak = getExemptionLoginAgreement ? { ak: getExemptionLoginAgreement, type: 1 } : '';
     LoadingBar.start();
     if (!asyncRouteReady) {
         // 用户登录后页面刷新则重新加载路由
@@ -26,7 +23,7 @@ router.beforeEach(async (to, from, next) => {
         }
     }
     // secret 免登录方式、token 免登录方式、协议免登录方式
-    if (secret || token || (outerLinkProtocol && outerLinkProtocol.includes(getExemptionLoginAgreement) && !outerLinkProtocol.includes('noLogin=break'))) {
+    if (secret || token) {
         const { isLogin } = appModule;
         if (
             !((secret && secret === appModule.fromInfo.secret) ||
@@ -34,7 +31,7 @@ router.beforeEach(async (to, from, next) => {
         ) {
             // 如果已登录，先清空路由在进行登录，防止路由重复
             isLogin && resetRouter();
-            const { type } = await signModule.login((secret || token || ak) as string, !!secret);
+            const { type } = await signModule.login((secret || token) as string);
             if (!type) {
                 fromUrl && appModule.alterState({ key: 'fromInfo', value: { url: fromUrl, secret, token }});
                 // noLogin 用于免登陆时登陆成功跳出判断

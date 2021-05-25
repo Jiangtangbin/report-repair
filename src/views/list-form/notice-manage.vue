@@ -108,6 +108,9 @@ export default class NoticeManage extends NoticeColumns {
                 type || this.refresh(this.list.list.length <= 1);
                 break;
             }
+            default: {
+                break;
+            }
         }
     }
 }

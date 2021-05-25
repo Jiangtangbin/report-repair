@@ -3,7 +3,7 @@
         v-model="value"
         @on-visible-change="$event || destroy()"
         :loading-func="ok"
-        :title="`${titlePrefix}${$t('h.modal.titles.customer')}`"
+        :title="`${titlePrefix}${$t('h.modal.titles.work')}`"
         :footer-hide="forbidden"
         width="780px"
         loading
@@ -236,10 +236,6 @@ export default class WorkPoolManageHandle extends Popup<'CreateWork'> {
             (dicts[key] as any[]) = data;
         }
     }
-    // 预览视频
-    playVideo(url: string) {
-        console.log(url);
-    }
     // 获取账号详情
     async getgetUserInfo() {
         const { user: { info: { id } } } = userModule;
@@ -295,8 +291,6 @@ export default class WorkPoolManageHandle extends Popup<'CreateWork'> {
         const { $refs: { form: { validate }}, formInline: { org_id: org, imgs, videos, ...args }} = this;
         const flag = await validate();
         if (flag) {
-            console.log(imgs);
-            console.log(videos);
             this.loading = true;
             const params = Object.assign(args, {
                 org_id: lodashGet(org, '[0].id', ''),

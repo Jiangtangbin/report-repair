@@ -1,7 +1,7 @@
 <template>
     <div class="nav-bar-wrapper">
         <div class="nav-bar-title d-v-c">
-            <h2 :style="styles">{{$t(title)}}</h2>
+            <h2 :style="styles">{{$t('h.other.platformName')}}</h2>
         </div>
         <my-menu @selected="selected" :active-name="$route.name" :collapse="collapse" :data="menuData" :trigger="trigger" class="nav-bar-menus" ref="menuWrapper" />
         <div class="nav-bar-personal d-v-c">
@@ -19,7 +19,6 @@ import { appModule, userModule } from '@/store/index';
 import MyMenu from '@/components/menu/index.vue';
 import Search from './search.vue';
 import avatar from './avatar.vue';
-import { title } from '@/config/environment';
 
 // 首页
 const home = [{ title: 'h.other.home', icon: 'homes', value: 'home', path: '/home' }];
@@ -45,7 +44,7 @@ export default class LayoutNavBar extends Vue {
     get title() {
         const { $route: { params: { free }, matched }} = this;
         const route = free && matched.find(v => v.path.indexOf(`:free(${free})`) !== -1);
-        return (route && route.meta.title) || this.$t(title);
+        return (route && route.meta.title) || '123';
     }
     // 子应用首页
     get appHome() {

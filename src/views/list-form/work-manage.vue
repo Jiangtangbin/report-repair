@@ -10,8 +10,9 @@
         :conditions="searchCondition"
     >
         <div class="control">
-            <my-button v-if="hasAuth('add')" @click="handle('add')" class="control-btn">{{$t('h.tableButton.add')}}</my-button>
+            <my-button v-if="hasAuth('create')" @click="handle('create')" class="control-btn">{{$t('h.tableButton.create')}}</my-button>
             <my-button @click="refresh" class="control-btn" type="success">{{$t('h.tableButton.refresh')}}</my-button>
+            <my-button v-if="hasAuth('export')" @click="exportCsv" :style="{ marginLeft: 'auto' }" type="info">{{$t('h.tableButton.export')}}</my-button>
         </div>
     </basic-list>
 </template>
@@ -19,9 +20,10 @@
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
-import { getWorkList as getList } from '@/config/api';
+import { getWorkList as getList, exportWorkList as exportList } from '@/config/api';
 import { WorkColumns, PageAuth } from '@/base-class/list';
 import { workCondition as searchCondition } from '@/config/conditions';
+import { userModule } from '@/store/index';
 
 type PageType = 'WorkList';
 
@@ -43,6 +45,7 @@ export default class WorkManage extends WorkColumns {
     list: API.Response[PageType] = { list: [], page: { pageSize: 1, pageNum: 1, countPage: 1, count: 1 }};
     initCondition = searchCondition();
     queryParams: Dictionary<any> = { };
+    orgs = { id: 0, name: '' };
 
     // 条件参数，防止动态路由缓存
     get searchCondition() {
@@ -58,6 +61,7 @@ export default class WorkManage extends WorkColumns {
     created() {
         const { pageType, fromQuery } = this;
         this.setParams(fromQuery, !pageType);
+        this.orgs = { id: userModule.user.info.org_id, name: userModule.user.info.org_name }
     }
 
     // 外部传递的参数
@@ -84,16 +88,28 @@ export default class WorkManage extends WorkColumns {
         }
         this.loading = false;
     }
-    
+    // 导出设备列表数据
+    exportCsv() {
+        const { getResponseParams: { pageSize, pageNum, ...args }} = this;
+        const length = Object.values(args).filter(Boolean).length;
+        length
+            ? exportList(args)
+            : this.$Modal.confirm({
+                title: this.$t('h.tips.workDataExport') as string,
+                content: this.$t('h.tips.noFilterIsExportAllData') as string,
+                onOk() {
+                    exportList(args);
+                },
+            });
+    }
     // 列表操作栏点击事件
     async handle(name: PageAuth['work-manage'], data?: API.Response['WorkInfo']) {
+        const { orgs } = this;
         switch (name) {
-            case 'add':
-            case 'edit':
-            case 'details':
-                this.$getDynamicComponent('knowLedgeManage', () => {
-                    this.$createKnowLedgeManageHandle({
-                        type: this.getType(name),
+            case 'create':
+                this.$getDynamicComponent('workPoolManage', () => {
+                    this.$createWorkPoolManageHandle({
+                        orgs: userModule.user.info.role === 'kh' ? orgs : undefined,
                         id: data && data.id,
                         $events: {
                             success: 'refresh',
@@ -101,11 +117,27 @@ export default class WorkManage extends WorkColumns {
                     }).show();
                 });
                 break;
-            case 'delete': {
-                // this.loading = true;
-                // const { type } = await del(data!.id);
-                // this.loading = false;
-                // type || this.refresh(this.list.list.length <= 1);
+            case 'reply':
+                this.$getDynamicComponent('workReplyManage', () => {
+                    this.$createWorkReplyManageHandle({
+                        work_id: data && data.id,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }).show();
+                });
+                break;
+            case 'cancel':
+                this.$getDynamicComponent('workPoolCancelManage', () => {
+                    this.$createWorkPoolCancelManageHandle({
+                        id: data && data.id,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }).show();
+                });
+                break;
+            default: {
                 break;
             }
         }

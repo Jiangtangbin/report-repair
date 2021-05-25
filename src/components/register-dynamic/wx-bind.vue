@@ -11,7 +11,7 @@
             <template v-else>
                 <p class="again">
                     <span>{{$t('h.formLabel.wxbind.qrcodeError')}}</span>
-                    <span @click="prefixFunc" class="simulate_a cursor-pointer">{{$t('h.formLabel.wxbind.repeatGet')}}</span>
+                    <span @click="prefixFunc" class="simulate_a c-p">{{$t('h.formLabel.wxbind.repeatGet')}}</span>
                 </p>
                 <span class="info-hint">{{$t('h.formLabel.wxbind.errorInfo')}}: {{ message }}</span>
             </template>
@@ -75,7 +75,6 @@ export default class WxBindHandle extends BasePopup {
         flex-flow: column;
         justify-content: center;
         align-items: center;
-
         .again {
             flex: auto;
             display: flex;

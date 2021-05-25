@@ -20,11 +20,11 @@
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
-import { getWorkPoolList as getList } from '@/config/api';
+import { getWorkPoolList as getList, receiveWork } from '@/config/api';
 import { WorkPoolColumns, PageAuth } from '@/base-class/list';
 import { workTrees } from '@/config/columns';
 import { workPoolCondition as searchCondition } from '@/config/conditions';
-import { userModule } from '@/store';
+import { userModule } from '@/store/index';
 
 type PageType = 'WorkPoolList';
 
@@ -116,6 +116,25 @@ export default class WorkPoolManage extends WorkPoolColumns {
                     }).show();
                 });
                 break;
+            case 'cancel':
+                this.$getDynamicComponent('workPoolCancelManage', () => {
+                    this.$createWorkPoolCancelManageHandle({
+                        id: data && data.id,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }).show();
+                });
+                break;
+            case 'accept':
+                this.loading = true;
+                const { type } = await receiveWork(data!.id);
+                this.loading = false;
+                type || this.refresh();
+                break;
+            default: {
+                break;
+            }
         }
     }
 }

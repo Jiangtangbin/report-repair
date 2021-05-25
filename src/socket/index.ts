@@ -2,7 +2,6 @@ import { Notice } from 'view-design';
 import { userModule, socketModule } from '@/store/index';
 import { formatDate } from '@/utils/index';
 import { getCountDown } from '@/utils/utils';
-import { getExemptionLoginAgreement } from '@/config/environment';
 import bus from '@/utils/bus';
 import { i18n } from '@/locale/index';
 
@@ -163,7 +162,6 @@ class Socket {
         const { noticeName, loseTime, loseNum } = this;
         // @ts-ignore
         Notice.close(noticeName);
-        if (getExemptionLoginAgreement) return false;
         // @ts-ignore
         Notice.warning({
             title: i18n.t('h.tips.communicationBreak') as string,
@@ -187,7 +185,6 @@ class Socket {
         const { noticeName, loseTime } = this;
         // @ts-ignore
         Notice.close(noticeName);
-        if (getExemptionLoginAgreement) return false;
         // @ts-ignore
         Notice.success({
             title: i18n.t('h.tips.communicationRecovery') as string,

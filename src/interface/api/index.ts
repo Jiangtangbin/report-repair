@@ -33,7 +33,11 @@ declare namespace API {
         }
         // 用户微信信息
         'UserWxInfo': {
-            user_id: number | string;
+            nickname: string;
+            headimgurl: string;
+            country: string;
+            province: string;
+            city: string;
         }
         // 操作记录列表
         'OperationLog': ListType<ResponseSimple.OperationLog[]>;
@@ -156,6 +160,7 @@ declare namespace API {
             service_type: string;
             work_level: string;
             org_name: string;
+            work_status: string;
         }
         // 工单列表
         'WorkList': RequestPage & {
@@ -183,10 +188,6 @@ declare namespace API {
             work_id: number;
             reciever: number | string;
         }
-        // 领取工单
-        'ReceiveWork': {
-            work_id: number;
-        }
         // 回单
         'ReplyWork': {
             work_id: number;
@@ -198,6 +199,11 @@ declare namespace API {
             work_id: number;
             score: number | string;
             pj?: string;
+        }
+        // 取消工单
+        'CancelWork': {
+            work_id: number;
+            reason: string;
         }
         // 知识库列表
         'KnowledgeBaseList': RequestPage & {

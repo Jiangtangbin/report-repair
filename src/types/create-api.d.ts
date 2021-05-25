@@ -35,6 +35,8 @@ import KnowLedgeManageHandle from '@/components/register-dynamic/know-ledge-mana
 import NoticeManageHandle from '@/components/register-dynamic/notice-manage.vue';
 import WorkPoolManageHandle from '@/components/register-dynamic/work-pool-manage.vue';
 import WorkPoolDistributionManageHandle from '@/components/register-dynamic/work-pool-distribution-manage.vue';
+import WorkPoolCancelManageHandle from '@/components/register-dynamic/work-pool-cancel-manage.vue';
+import WorkReplyManageHandle from '@/components/register-dynamic/work-reply-manage.vue';
 import WxBindHandle from '@/components/register-dynamic/wx-bind.vue';
 import WxInfoHandle from '@/components/register-dynamic/wx-info.vue';
 
@@ -75,6 +77,8 @@ declare module 'vue/types/vue' {
         $createNoticeManageHandle: createFunction<NoticeManageHandle>;
         $createWorkPoolManageHandle: createFunction<WorkPoolManageHandle>;
         $createWorkPoolDistributionManageHandle: createFunction<WorkPoolDistributionManageHandle>;
+        $createWorkPoolCancelManageHandle: createFunction<WorkPoolCancelManageHandle>;
+        $createWorkReplyManageHandle: createFunction<WorkReplyManageHandle>;
         $createWxBindHandle: createFunction<WxBindHandle>;
         $createWxInfoHandle: createFunction<WxInfoHandle>;
     }

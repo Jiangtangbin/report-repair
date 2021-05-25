@@ -118,8 +118,9 @@ export default class OperationLog extends Columns {
         //             }).show();
         //         });
         //         break;
-        //     default:
+        //     default: {
         //         break;
+        //     }
         // }
     }
 }

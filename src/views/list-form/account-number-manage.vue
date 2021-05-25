@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Prop, Watch, Component } from 'vue-property-decorator';
 import BasicList from '@/components/common/list.vue';
-import { getUserList as get, forbiddenUser, unbundlingWx } from '@/config/api';
+import { getUserList as get, forbiddenUser, unbindUserWx } from '@/config/api';
 import { AccountColumns, PageAuth } from '@/base-class/list';
 import { accountNumberManageCondition as searchCondition } from '@/config/conditions';
 
@@ -103,7 +103,7 @@ export default class AccountNumberManage extends AccountColumns {
                 break;
             case 'unbindWx': {
                 this.loading = true;
-                const { type } = await unbundlingWx(data!.id);
+                const { type } = await unbindUserWx(data!.id);
                 this.loading = false;
                 type || this.refresh();
                 break;

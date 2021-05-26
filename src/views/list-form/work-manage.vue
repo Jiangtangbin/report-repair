@@ -137,6 +137,10 @@ export default class WorkManage extends WorkColumns {
                     }).show();
                 });
                 break;
+            case 'details': {
+                this.$router.push({ path: '/workDetails', query: { id: data!.id.toString() }});
+                break;
+            }
             default: {
                 break;
             }

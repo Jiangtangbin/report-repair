@@ -83,6 +83,16 @@ const dynamicRoutes: RouteConfig[] = [
             component: () => import(/* webpackChunkName: 'work-manage' */ '@/views/list-form/work-manage.vue'),
         },
         {
+            path: '/workDetails',
+            name: 'workDetails',
+            meta: {
+                title: '任务详情',
+                noAuth: true,
+            },
+            props: (route) => ({ id: Number(route.query.id) || undefined }),
+            component: () => import(/* webpackChunkName: 'work-details' */'@/views/list-form/work-details.vue'),
+        },
+        {
             path: '/map',
             name: 'map',
             meta: {

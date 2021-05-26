@@ -1,21 +1,29 @@
 <template>
     <div class="modify-wrapper">
         <Steps :current="current">
-            <Step title="获取图形验证码"></Step>
-            <Step title="发送短信验证码"></Step>
-            <Step title="新手机号码"></Step>
-            <Step title="完成"></Step>
+            <Step :title="$t('h.tips.getCode')"></Step>
+            <Step :title="$t('h.tips.getSmsCode') + $t('h.formLabel.newMobile')"></Step>
+            <Step :title="$t('h.formLabel.complete')"></Step>
         </Steps>
         <i-form :model="formInline" :rules="rules" class="form" ref="form">
-            <form-item v-if="current === 0" :label="`${$t('h.formLabel.graphicCode')}: `" prop="code">
+            <form-item v-show="current === 0" :label="`${$t('h.formLabel.graphicCode')}: `" prop="code">
                 <div class="col">
                     <i-input v-model="formInline.code" :readonly="!extra.code" :placeholder="$t('h.placeholder.pleaseEnter', { msg: $t('h.formLabel.graphicCode') })" />
                     <img :src="extra.code" class="code" />
-                    <my-button @click="getCode" class="k-w">{{extra.code ? $t('h.formLabel.update') : $t('h.formLabel.get')}}{{$t('h.formLabel.graphicCode')}}</my-button>
                 </div>
             </form-item>
+            <form-item v-show="current !== 0" :label="`${$t('h.formLabel.smsCode')}: `" :rules="current !== 0 ? undefined : {}" prop="verify">
+                <div class="col">
+                    <i-input v-model="formInline.verify" :readonly="!(extra.code && formInline.code)" :placeholder="formInline.code ? $t('h.placeholder.pleaseEnter', { msg: $t('h.formLabel.smsCode') }) : $t('h.placeholder.pleaseEnter', { msg: $t('h.formLabel.smsCode') })" />
+                    <my-button @click="sendSms" :disabled="!(formInline.code && extra.code) || extra.getSmsing" class="k-w" type="primary">{{extra.getSmsing ? `${60 - extra.timeNum}${$t('h.formLabel.reply')}` : $t('h.formLabel.send')}}</my-button>
+                </div>
+            </form-item>
+            <form-item v-show="current !== 0" :label="`${$t('h.formLabel.newMobile')}: `" :rules="current !== 0 ? undefined : {}" prop="new">
+                <i-input v-model="formInline.new" :readonly="!(extra.code && formInline.verify)" :placeholder="$t('h.placeholder.pleaseEnter', { msg: $t('h.formLabel.newMobile') })" />
+            </form-item>
+            <form-item v-show="current === 2" :label="`${$t('h.tips.againLogin')}`"></form-item>
         </i-form>
-        <my-button @click="next" class="next">下一步</my-button>
+        <my-button @click="next" class="next">{{ current !== 0 ? $t('h.formLabel.modify') : $t('h.formLabel.next')}}</my-button>
     </div>
 </template>
 
@@ -23,6 +31,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Steps, Step, Form as IForm, FormItem, Input as IInput } from 'view-design';
 import { mobileReg } from '@/utils/utils';
+import { signModule } from '@/store/modules/sign';
 import { getPrivateGraphicCode as get, privateSendSMSCode as send, updatePasswordMobile as set } from '@/config/api';
 
 @Component({
@@ -35,6 +44,10 @@ import { getPrivateGraphicCode as get, privateSendSMSCode as send, updatePasswor
     },
 })
 export default class Personal extends Vue {
+    $refs!: {
+        form: IForm;
+    }
+
     current = 0;
     formInline = {
         code: '',
@@ -67,14 +80,25 @@ export default class Personal extends Vue {
     }
 
     created() {
-
+        this.getCode();
     }
 
-    next () {
-        if (this.current == 3) {
-            this.current = 0;
-        } else {
-            this.current += 1;
+    async next() {
+        const { $refs: { form: { validate }}, formInline} = this;
+        const flag = await validate();
+        if (flag) {
+            if (this.current === 0) {
+                this.sendSms();
+            } else if (this.current === 1) {
+                const params = { ...formInline };
+                const { type } = await set(params);
+                if (!type) {
+                    this.current += 1;
+                    setTimeout(() => {
+                        this.logouts();
+                    }, 3000);
+                };
+            }
         }
     }
     /**
@@ -84,6 +108,40 @@ export default class Personal extends Vue {
         const { extra } = this as any;
         const { type, data } = await get();
         if (!type) extra.code = data;
+    }
+    /**
+     * @description: 发送短信验证码
+     */
+    async sendSms() {
+        const { formInline: { code }, startCountdown } = this as any;
+        const { type } = await send({ code });
+        if (!type) {
+            this.current += 1;
+            startCountdown();
+        }
+    }
+    /**
+     * @description: 开始倒计时
+     */
+    startCountdown() {
+        const { extra } = this as any;
+        extra.getSmsing = true;
+        clearInterval(extra.timer);
+        extra.timer = setInterval(() => {
+            if (extra.timeNum >= 60) {
+                clearInterval(extra.timer);
+                extra.timeNum = -1;
+                extra.getSmsing = false;
+            }
+            extra.timeNum++;
+        }, 1000);
+    }
+    // 退出登录
+    async logouts() {
+        const { type } = await signModule.logout();
+        if (!type) {
+            this.$router.push('/');
+        }
     }
 }
 </script>
@@ -108,7 +166,7 @@ export default class Personal extends Vue {
             }
         }
         .form {
-            padding: 100px;
+            padding: 100px 100px 10px 100px;
             @include utils-pierce(ivu-form-item) {
                 &-label {
                     color: $--white;

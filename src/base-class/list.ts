@@ -38,8 +38,8 @@ export type PageAuth = {
     'customer-manage': BaseAuth;
     'know-ledge-manage': BaseAuth;
     'notice-manage': BaseAuth;
-    'work-pool-manage': 'create' | 'send' | 'accept' | 'cancel';
-    'work-manage': 'create' | 'reply' | 'cancel';
+    'work-pool-manage': 'create' | 'send' | 'accept' | 'cancel' | 'details';
+    'work-manage': 'create' | 'reply' | 'cancel' | 'details';
     'operation-log': 'details';
 }
 

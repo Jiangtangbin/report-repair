@@ -132,6 +132,10 @@ export default class WorkPoolManage extends WorkPoolColumns {
                 this.loading = false;
                 type || this.refresh();
                 break;
+            case 'details': {
+                this.$router.push({ path: '/workDetails', query: { id: data!.id.toString() }});
+                break;
+            }
             default: {
                 break;
             }

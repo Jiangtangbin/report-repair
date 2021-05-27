@@ -99,6 +99,7 @@ export default class Personal extends Vue {
                     const { type } = await set(params);
                     if (!type) {
                         this.current += 1;
+                        this.$Message.success(this.$t('h.tips.againLogin'));
                         setTimeout(() => {
                             this.logouts();
                         }, 3000);
@@ -174,7 +175,7 @@ export default class Personal extends Vue {
             }
         }
         .form {
-            padding: 100px 100px 10px 100px;
+            padding: 60px 100px 10px 100px;
             @include utils-pierce(ivu-form-item) {
                 &-label {
                     color: $--white;

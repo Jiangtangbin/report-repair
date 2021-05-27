@@ -256,7 +256,7 @@ export default {
                 workType: 'work type',
                 workStatus: 'work status',
                 score: 'score',
-                workLevel: "sla level",
+                workLevel: "SLA level",
                 serviceType: "service/fault type",
                 contactMan: "contact man",
                 contactNumber: "contact number",
@@ -366,7 +366,7 @@ export default {
             },
             work: {
                 work_type: 'work type',
-                work_level: 'sla level',
+                work_level: 'SLA level',
                 service_type: 'service/breakdown type',
                 content: 'repair contents',
                 replyContent: 'reply content',
@@ -451,6 +451,7 @@ export default {
                 workDistribution: 'distribution work',
                 workCancel: 'cancel work',
                 wxInfo: 'wechat info',
+                workDetails: 'work details',
             },
         },
         map: {

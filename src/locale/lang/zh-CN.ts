@@ -366,7 +366,7 @@ export default {
             },
             work: {
                 work_type: '工单类型',
-                work_level: 'sla 级别',
+                work_level: 'SLA 级别',
                 service_type: '服务/故障类型',
                 content: '报修内容',
                 replyContent: '回单内容',
@@ -451,6 +451,7 @@ export default {
                 workDistribution: '派发工单',
                 workCancel: '取消工单',
                 wxInfo: '微信信息',
+                workDetails: '工单详情',
             },
         },
         map: {

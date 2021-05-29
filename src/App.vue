@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Watch, Component, Vue } from 'vue-property-decorator';
 import { deviceType } from '@/store/modules/app';
-import { appModule } from '@/store/index';
+import { appModule, socketModule } from '@/store/index';
 import { throttle } from 'lodash';
 import socket from '@/socket/index';
 import Layout from '@/views/layout/index'
@@ -48,6 +48,54 @@ export default class App extends Vue {
     }
     mounted() {
         window.addEventListener('resize', this.resizer);
+        // 模拟新工单通知
+        // socketModule.newMessage({
+        //     t: 'new_work',
+        //     p: {
+        //         id: 9,
+        //         step: 'evaluate',
+        //         work_code: 'W16221694891106',
+        //         org_name: '肖测试',
+        //         link_man: '肖测试客户',
+        //         link_mobile: '15874275356',
+        //         work_type_name: '维修',
+        //         service_type_name: '硬件维修',
+        //         work_level_name: '一级'
+        //     },
+        // });
+        // 模拟接单通知
+        // socketModule.newMessage({
+        //     t: 'accept_work',
+        //     p: {
+        //         id: 9,
+        //         step: 'recieve',
+        //         work_code: 'W16221694891106',
+        //         accepter_name: '肖测试',
+        //         accepter_mobile: '15874275356',
+        //     },
+        // });
+        // 模拟完工通知
+        // socketModule.newMessage({
+        //     t: 'finish_work',
+        //     p: {
+        //         id: 9,
+        //         step: 'reply',
+        //         work_code: 'W16221694891106',
+        //         accepter_name: '肖测试',
+        //         accepter_mobile: '15874275356',
+        //     },
+        // });
+        // 模拟pj_work,
+        // socketModule.newMessage({
+        //     t: 'pj_work',
+        //     p: {
+        //         id: 9,
+        //         step: 'evaluate',
+        //         work_code: 'W16221694891106',
+        //         score: '6',
+        //         pj: '的萨芬微软非常高'
+        //     },
+        // });
     }
     beforeDestroy() {
         window.removeEventListener('resize', this.resizer);
@@ -58,7 +106,7 @@ export default class App extends Vue {
         setTimeout(() => {
             const { $route: { query: { s }}} = this;
             // // 初始如果为 false，则不登录
-            s === '0' || this.setStatus('socket', val, false);
+            s === '0' || this.setStatus('socket', val, true);
         });
     }
     // 监听 socket

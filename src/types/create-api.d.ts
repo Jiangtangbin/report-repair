@@ -38,6 +38,7 @@ import WorkPoolDistributionManageHandle from '@/components/register-dynamic/work
 import WorkPoolCancelManageHandle from '@/components/register-dynamic/work-pool-cancel-manage.vue';
 import WorkReplyManageHandle from '@/components/register-dynamic/work-reply-manage.vue';
 import WorkDetailsHandle from '@/components/register-dynamic/work-details.vue';
+import WorkNewNoticeHandle from '@/components/register-dynamic/work-new-notice.vue';
 import WxBindHandle from '@/components/register-dynamic/wx-bind.vue';
 import WxInfoHandle from '@/components/register-dynamic/wx-info.vue';
 
@@ -81,6 +82,7 @@ declare module 'vue/types/vue' {
         $createWorkPoolCancelManageHandle: createFunction<WorkPoolCancelManageHandle>;
         $createWorkReplyManageHandle: createFunction<WorkReplyManageHandle>;
         $createWorkDetailsHandle: createFunction<WorkDetailsHandle>;
+        $createWorkNewNoticeHandle: createFunction<WorkNewNoticeHandle>;
         $createWxBindHandle: createFunction<WxBindHandle>;
         $createWxInfoHandle: createFunction<WxInfoHandle>;
     }

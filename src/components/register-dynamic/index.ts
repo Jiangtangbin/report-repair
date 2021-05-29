@@ -5,7 +5,7 @@ import dynamicImport, { IDynamicImportOptions } from '@/utils/component-dynamic-
 Vue.use(createAPI);
 
 type Path = 'request' | 'container' | 'sounds' | 'baseDataTree' | 'tableList'
-    | 'icon' | 'camera' | 'condition' | 'publicIframe' | 'menuManage' | 'packageManage' | 'roleManage' | 'accountNumberManage' | 'accountNumberAuth' | 'customerManage' | 'location' | 'deviceManage' | 'deviceGroupManage' | 'planManage' | 'usualAddressList' | 'usualAddress' | 'deviceGroupDevice' | 'fileManage' | 'configManage' | 'publicPlay' | 'configContent' | 'distributeContent' | 'distributeResult' | 'devicePreview' | 'deviceSetContent' | 'knowLedgeManage' | 'noticeManage' | 'workPoolManage' | 'workPoolDistributionManage' | 'workPoolCancelManage' | 'workReplyManage' | 'workDetails' | 'wxBind' | 'wxInfo';
+    | 'icon' | 'camera' | 'condition' | 'publicIframe' | 'menuManage' | 'packageManage' | 'roleManage' | 'accountNumberManage' | 'accountNumberAuth' | 'customerManage' | 'location' | 'deviceManage' | 'deviceGroupManage' | 'planManage' | 'usualAddressList' | 'usualAddress' | 'deviceGroupDevice' | 'fileManage' | 'configManage' | 'publicPlay' | 'configContent' | 'distributeContent' | 'distributeResult' | 'devicePreview' | 'deviceSetContent' | 'knowLedgeManage' | 'noticeManage' | 'workPoolManage' | 'workPoolDistributionManage' | 'workPoolCancelManage' | 'workReplyManage' | 'workDetails' | 'workNewNotice' | 'wxBind' | 'wxInfo';
 type Registered = {
     [index: string]: boolean;
 };
@@ -48,6 +48,7 @@ const dynamicComponentAlias: Record<Path, AsyncComponent> = {
     workPoolCancelManage: () => import('./work-pool-cancel-manage.vue'),
     workReplyManage: () => import('./work-reply-manage.vue'),
     workDetails: () => import('./work-details.vue'),
+    workNewNotice: () => import('./work-new-notice.vue'),
     wxBind: () => import('./wx-bind.vue'),
     wxInfo: () => import('./wx-info.vue'),
 };

@@ -4,6 +4,7 @@
 import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators';
 import { i18n } from '@/locale/index';
 import Vue from 'vue';
+import bus from '@/utils/bus';
 
 export interface ISocket {
     port: number;
@@ -67,15 +68,24 @@ class Socket extends VuexModule implements ISocket {
         // 用户大类
         switch (t) {
             case 'account_disable':
-                console.log('收到账号停用消息', t, p);
-                // 账号停用，收到该消息，提示您的账号已被停用，然后断开 socket，返回登录页面
-                break;
             case 'org_delete':
-                console.log('收到客户删除消息', t, p);
+            case 'password_modify':
+                // 账号停用，收到该消息，提示您的账号已被停用，然后断开 socket，返回登录页面
                 // 客户删除，收到该消息，提示您所属客户已被删除，然后断开 socket，返回登录页面
+                t === 'account_disable' && console.log('收到账号停用消息', t, p);
+                t === 'org_delete' && console.log('收到客户删除消息', t, p);
+                t === 'password_modify' && console.log('收到密码修改消息', t, p);
+                this.context.commit('app/alterState', { key: 'isLogin', value: false }, { root: true });
+                this.context.commit('user/alterState', { key: 'token', value: '' }, { root: true });
+                instance.$Modal.info({
+                    title: t === 'account_disable' ? i18n.t('h.tips.accountAlreadyStopusing') as string : t === 'password_modify' ? i18n.t('h.tips.accountPasswordModified') as string : i18n.t('h.tips.customersDelete') as string,
+                    onOk: () => this.context.dispatch('sign/resetState', '', { root: true }).then(() => window.location.reload()),
+                });
                 break;
             case 'bindwx_reply':
                 console.log('收到绑定微信结果消息', t, p);
+                const { openid } = p as GlobalSocket.Scan;
+                bus.$emit('on-bind-wx', openid);
                 // 绑定微信结果，这里做失败的提示
                 // p: {
                 //     status: true 或 false,
@@ -95,6 +105,15 @@ class Socket extends VuexModule implements ISocket {
                 break;
             case 'new_work':
                 console.log('收到新通知工单消息', t, p);
+                instance.$getDynamicComponent('workNewNotice', () => {
+                    (instance.$createWorkNewNoticeHandle({
+                        stepType: t,
+                        data: p,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }) as any).show();
+                });
                 // 新通知工单
                 // p: {
                 //     id: 工单 id,
@@ -110,6 +129,15 @@ class Socket extends VuexModule implements ISocket {
                 break;
             case 'accept_work':
                 console.log('收到接单通知消息', t, p);
+                instance.$getDynamicComponent('workNewNotice', () => {
+                    (instance.$createWorkNewNoticeHandle({
+                        stepType: t,
+                        data: p,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }) as any).show();
+                });
                 // 接单通知，发送给客户的，提示他，他的工单已经接单了
                 // p: {
                 //     id: 工单 id,
@@ -121,6 +149,15 @@ class Socket extends VuexModule implements ISocket {
                 break;
             case 'finish_work':
                 console.log('收到完工通知消息', t, p);
+                instance.$getDynamicComponent('workNewNotice', () => {
+                    (instance.$createWorkNewNoticeHandle({
+                        stepType: t,
+                        data: p,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }) as any).show();
+                });
                 // 完工通知，发送给客户的，提示他，他的工单已完成，请及时评价
                 // p: {
                 //     id: 工单 id,
@@ -132,6 +169,15 @@ class Socket extends VuexModule implements ISocket {
                 break;
             case 'pj_work':
                 console.log('收到评价通知消息', t, p);
+                instance.$getDynamicComponent('workNewNotice', () => {
+                    (instance.$createWorkNewNoticeHandle({
+                        stepType: t,
+                        data: p,
+                        $events: {
+                            success: 'refresh',
+                        },
+                    }) as any).show();
+                });
                 // 评价通知，发送给 yw 维修人员的，提示他，您的工单客户已评价
                 // p: {
                 //     id: 工单 id,

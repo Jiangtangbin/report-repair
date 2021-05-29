@@ -11,6 +11,8 @@ declare namespace GlobalSocket {
         SocketFormat<'account_disable', {}>
         // 客户删除
         | SocketFormat<'org_delete', {}>
+        // 修改密码
+        | SocketFormat<'password_modify', {}>
         // 绑定微信结果
         | SocketFormat<'bindwx_reply', BindWXReply>
         // 新通知公告

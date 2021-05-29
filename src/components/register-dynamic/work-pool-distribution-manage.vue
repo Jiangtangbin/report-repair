@@ -97,7 +97,6 @@ export default class WorkPoolDistributionManageHandle extends Popup<'Distributio
                 fromQuery: { role: 'yw' },
                 $events: {
                     success: (data: Dictionary<any>[]) => {
-                        console.log(data);
                         (formInline[type] as Dictionary<any>[]) = data;
                     },
                 },

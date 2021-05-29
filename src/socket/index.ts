@@ -85,7 +85,6 @@ class Socket {
         console.log('收到消息：', ev.data);
         try {
             const { t, p } = JSON.parse(ev.data);
-
             if (t !== 'binduid_return') {
                 socketModule.newMessage({
                     t,

@@ -106,7 +106,7 @@ export default class App extends Vue {
         setTimeout(() => {
             const { $route: { query: { s }}} = this;
             // // 初始如果为 false，则不登录
-            s === '0' || this.setStatus('socket', val, true);
+            s === '0' || this.setStatus('socket', val, false);
         });
     }
     // 监听 socket

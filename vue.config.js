@@ -22,7 +22,7 @@ const pages = {
 };
 
 module.exports = {
-    outputDir: `../../dist/dist_ggj/dist`,
+    outputDir: `../dist/dist_report-repair`,
     // 对 node-modules 里的文件做兼容处理
     transpileDependencies: [
         'vue-echarts',
